@@ -625,17 +625,19 @@
   },
   {
     "id": 40,
-    "type": "tf",
+    "type": "single",
     "topic": "PO Accountability",
-    "q": "The Product Owner must personally write every Product Backlog item.",
+    "q": "A Product Owner spends most Sprints writing detailed specifications. Developers rarely speak to stakeholders directly. What is the likely problem?",
     "options": [
-      "True",
-      "False"
+      "The Scrum Master should be writing the specifications instead",
+      "The Product Owner has slipped into being a requirements analyst rather than a value-maximizer",
+      "Nothing — this is how the Product Owner accountability is meant to work",
+      "The Developers should take over stakeholder communication from the Product Owner"
     ],
     "correct": [
       1
     ],
-    "why": "False. The PO may do the work themselves or have others do it. They remain accountable for what ends up in the Product Backlog and for its order."
+    "why": "The Product Owner is accountable for maximizing value, not for producing detailed specifications. When the PO becomes a spec-writing middle layer and Developers are disconnected from stakeholders, the team loses the direct collaboration empirical product management depends on."
   },
   {
     "id": 41,
@@ -893,18 +895,18 @@
   {
     "id": 57,
     "type": "single",
-    "topic": "Release & Increment",
-    "q": "Who decides when to release an Increment to customers?",
+    "topic": "Value & Stakeholders",
+    "q": "Which Evidence-Based Management measure best captures the value the product delivers to users today?",
     "options": [
-      "The Scrum Master",
-      "The Developers",
-      "The Product Owner",
-      "The customer"
+      "Velocity of the Scrum Team",
+      "Number of Product Backlog items completed per Sprint",
+      "Current Value — actual value being realized today",
+      "Number of releases shipped this quarter"
     ],
     "correct": [
       2
     ],
-    "why": "The PO decides when to release, balancing value, risk, and market considerations."
+    "why": "Current Value is the EBM Key Value Area that captures the value the product actually delivers to users right now. Velocity and item counts describe activity; release count describes throughput. Value is measured by outcomes for customers and the business."
   },
   {
     "id": 58,
@@ -973,18 +975,18 @@
   {
     "id": 62,
     "type": "single",
-    "topic": "Value & Stakeholders",
-    "q": "Two stakeholders have conflicting requests. The Product Owner should:",
+    "topic": "Product Backlog",
+    "q": "The top of the Product Backlog is full of large, vague items that Developers cannot plan against. What should happen?",
     "options": [
-      "Deliver both in the same Sprint to avoid offense",
-      "Escalate to their managers to decide",
-      "Use their judgment about value to order the Product Backlog and transparently communicate the rationale",
-      "Let the Scrum Master mediate"
+      "The Product Owner decides alone which items are ready and hands them to Developers",
+      "The Scrum Team collaboratively refines items so top-of-backlog items are small and clear",
+      "Developers refuse to plan until the Product Owner has written full specifications",
+      "Sprint Planning is skipped until the entire backlog is refined"
     ],
     "correct": [
-      2
+      1
     ],
-    "why": "Ordering is the PO's accountability. They gather input, then decide based on value, with transparency on why."
+    "why": "Product Backlog refinement is an ongoing collaborative activity. The Product Owner is accountable for the backlog, but refining items — breaking them down, adding detail, ordering — works best as a shared activity so Developers can surface questions and reach shared understanding."
   },
   {
     "id": 63,
@@ -1083,18 +1085,18 @@
   {
     "id": 69,
     "type": "single",
-    "topic": "Events",
-    "q": "Does the Product Owner attend the Sprint Retrospective?",
+    "topic": "Product Goal",
+    "q": "A Scrum Team has been pursuing a Product Goal for several months, and recent market evidence suggests the Goal no longer reflects what customers need. The Product Owner should:",
     "options": [
-      "No — it's only for Developers",
-      "No — it's only for the Scrum Master",
-      "Yes — the Retrospective is for the whole Scrum Team, including the PO",
-      "Only if explicitly invited"
+      "Keep working toward the original Goal to honor the commitment",
+      "Inspect whether the Goal is still valid and, if not, replace it with one that reflects current learning",
+      "Cancel the product and start a new one from scratch",
+      "Ask the Developers to work harder during the next few Sprints"
     ],
     "correct": [
-      2
+      1
     ],
-    "why": "The Retrospective is for the whole Scrum Team. The PO participates in identifying improvements to people, interactions, processes, tools, and the Definition of Done."
+    "why": "A Product Goal is a long-term commitment, but not an immovable one. When evidence shows the Goal is no longer valid, the Product Owner inspects and adapts — replacing it with a Goal that reflects what has been learned. Clinging to an invalid Goal violates empiricism."
   },
   {
     "id": 70,

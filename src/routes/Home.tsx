@@ -1,282 +1,150 @@
-import { useCallback, useEffect, useState } from 'react';
-import ExitModal from '../components/ExitModal';
-import QuizCard from '../components/QuizCard';
-import QuizHeader from '../components/QuizHeader';
-import Results, { type AnswerRecord } from '../components/Results';
-import Welcome from '../components/Welcome';
-import { ArrowLeft } from '../components/Icons';
-import type { Question } from '../lib/schema';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PageHeader from '../components/PageHeader';
+import PageShell from '../components/PageShell';
+import { Check, ChevronRight } from '../components/Icons';
+import { MODES } from '../lib/modes';
 import { TRACKS, type TrackId } from '../lib/tracks';
-import { arraysEqualAsSets, shuffle } from '../lib/utils';
-
-type Stage = 'welcome' | 'quiz' | 'results';
-
-function scrollTop(smooth = false) {
-  window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'instant' });
-}
 
 export default function Home() {
   const [trackId, setTrackId] = useState<TrackId>('PSM1');
-  const [stage, setStage] = useState<Stage>('welcome');
-  const [count, setCount] = useState(20);
-  const [pool, setPool] = useState<Question[]>([]);
-  const [idx, setIdx] = useState(0);
-  const [workingSelections, setWorkingSelections] = useState<Record<number, number[]>>({});
-  const [answers, setAnswers] = useState<Record<number, AnswerRecord>>({});
-  const [showExitConfirm, setShowExitConfirm] = useState(false);
-
+  const navigate = useNavigate();
   const track = TRACKS[trackId];
-  const current = pool[idx];
-  const submittedAnswer = answers[idx];
-  const locked = !!submittedAnswer;
-  const selected = locked
-    ? submittedAnswer!.selected
-    : workingSelections[idx] ?? [];
-
-  const answeredCount = Object.keys(answers).length;
-  const correctCount = Object.values(answers).filter((a) => a.correct).length;
-  const incorrectCount = answeredCount - correctCount;
-
-  const canSubmit = !locked && selected.length > 0;
-  const canGoPrev = idx > 0;
-  const canGoNext = locked;
-  const isLastQuestion = pool.length > 0 && idx === pool.length - 1;
-
-  const startQuiz = useCallback(
-    (n: number) => {
-      const shuffled = shuffle(track.questions).slice(0, n);
-      setPool(shuffled);
-      setIdx(0);
-      setWorkingSelections({});
-      setAnswers({});
-      setCount(n);
-      setStage('quiz');
-      scrollTop();
-    },
-    [track.questions]
-  );
-
-  const resetToWelcome = useCallback(() => {
-    setStage('welcome');
-    setAnswers({});
-    setWorkingSelections({});
-    setIdx(0);
-    setShowExitConfirm(false);
-    scrollTop();
-  }, []);
-
-  const toggleOption = useCallback(
-    (i: number) => {
-      if (locked || !current) return;
-      setWorkingSelections((prev) => {
-        const cur = prev[idx] ?? [];
-        const next =
-          current.type === 'multi'
-            ? cur.includes(i)
-              ? cur.filter((x) => x !== i)
-              : [...cur, i]
-            : [i];
-        return { ...prev, [idx]: next };
-      });
-    },
-    [idx, locked, current]
-  );
-
-  const submitAnswer = useCallback(() => {
-    if (!canSubmit || !current) return;
-    const isCorrect = arraysEqualAsSets(selected, current.correct);
-    setAnswers((prev) => ({
-      ...prev,
-      [idx]: { selected: [...selected], correct: isCorrect },
-    }));
-  }, [canSubmit, selected, current, idx]);
-
-  const goNext = useCallback(() => {
-    if (!locked) return;
-    if (isLastQuestion) {
-      setStage('results');
-      scrollTop();
-    } else {
-      setIdx(idx + 1);
-      scrollTop(true);
-    }
-  }, [locked, isLastQuestion, idx]);
-
-  const goPrev = useCallback(() => {
-    if (!canGoPrev) return;
-    setIdx(idx - 1);
-    scrollTop(true);
-  }, [canGoPrev, idx]);
-
-  const requestExit = useCallback(() => {
-    if (answeredCount > 0) {
-      setShowExitConfirm(true);
-    } else {
-      resetToWelcome();
-    }
-  }, [answeredCount, resetToWelcome]);
-
-  // Keyboard shortcuts
-  useEffect(() => {
-    if (stage !== 'quiz') return;
-    const handler = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return;
-      if (showExitConfirm) {
-        if (e.key === 'Escape') setShowExitConfirm(false);
-        return;
-      }
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        requestExit();
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        if (locked) goNext();
-        else if (canSubmit) submitAnswer();
-      } else if (e.key === 'ArrowLeft' && canGoPrev) {
-        e.preventDefault();
-        goPrev();
-      } else if (e.key === 'ArrowRight' && canGoNext) {
-        e.preventDefault();
-        goNext();
-      } else if (/^[1-9]$/.test(e.key)) {
-        const i = parseInt(e.key, 10) - 1;
-        if (current && i < current.options.length) {
-          e.preventDefault();
-          toggleOption(i);
-        }
-      }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [
-    stage,
-    idx,
-    locked,
-    canSubmit,
-    canGoPrev,
-    canGoNext,
-    current,
-    showExitConfirm,
-    requestExit,
-    goNext,
-    goPrev,
-    submitAnswer,
-    toggleOption,
-  ]);
 
   return (
-    <div className="app-bg w-full">
-      {showExitConfirm && (
-        <ExitModal
-          answered={answeredCount}
-          total={pool.length}
-          onCancel={() => setShowExitConfirm(false)}
-          onConfirm={resetToWelcome}
-        />
-      )}
+    <PageShell>
+      <PageHeader
+        eyebrow="Scrum.org · Practice"
+        title="The"
+        italic="practice"
+        tagline={track.tagline}
+      />
 
-      <div className="max-w-3xl mx-auto px-5 py-8 md:py-12">
-        {stage === 'welcome' && (
-          <header className="mb-10 md:mb-14">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="h-px w-10 bg-stone-700"></div>
-              <span className="text-xs tracking-[0.3em] uppercase text-stone-700 font-medium">
-                Scrum.org · Practice exam
-              </span>
-            </div>
-            <h1
-              className="serif text-5xl md:text-7xl text-stone-900 leading-[0.95] tracking-tight"
-              style={{ fontWeight: 500 }}
-            >
-              The <span style={{ fontStyle: 'italic', fontWeight: 400 }}>practice</span> exam.
-            </h1>
-            <p
-              className="serif text-xl md:text-2xl text-stone-600 mt-4 italic"
-              style={{ fontWeight: 400 }}
-            >
-              {track.tagline}
-            </p>
-          </header>
-        )}
-
-        {stage === 'quiz' && current && (
-          <QuizHeader
-            track={track}
-            idx={idx}
-            total={pool.length}
-            answeredCount={answeredCount}
-            correctCount={correctCount}
-            incorrectCount={incorrectCount}
-            onExit={requestExit}
-          />
-        )}
-
-        {stage === 'results' && (
-          <div className="mb-8 md:mb-10">
-            <button
-              onClick={resetToWelcome}
-              className="group flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-stone-600 hover:text-stone-900 transition-colors py-2 -ml-1 mb-5"
-            >
-              <ArrowLeft
-                className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"
-                strokeWidth={2}
-              />
-              Back to start
-            </button>
-            <div className="flex items-center gap-2">
-              <div className="h-px w-10 bg-stone-700"></div>
-              <span className="text-xs tracking-[0.3em] uppercase text-stone-700 font-medium">
-                Your results · {track.title}
-              </span>
-            </div>
+      <div className="space-y-10">
+        {/* Track picker */}
+        <div>
+          <p className="serif text-sm uppercase tracking-[0.25em] text-stone-600 mb-5">
+            Pick your certification
+          </p>
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
+            {Object.values(TRACKS).map((t) => {
+              const active = t.id === trackId;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => setTrackId(t.id)}
+                  aria-pressed={active}
+                  className={`text-left border p-5 md:p-6 transition-all duration-200 ${
+                    active
+                      ? 'border-stone-900 bg-stone-900 text-stone-50'
+                      : 'border-stone-400 bg-white/40 text-stone-800 hover:border-stone-900 hover:bg-white/70'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span
+                      className="serif text-2xl md:text-3xl leading-none"
+                      style={{ fontWeight: 500 }}
+                    >
+                      {t.title}
+                    </span>
+                    {active && <Check className="w-4 h-4" strokeWidth={2.5} />}
+                  </div>
+                  <div
+                    className={`serif italic text-sm md:text-base ${active ? 'text-stone-300' : 'text-stone-600'}`}
+                    style={{ fontWeight: 400 }}
+                  >
+                    {t.short}
+                  </div>
+                  <div
+                    className={`text-[10px] uppercase tracking-widest mt-3 ${active ? 'text-stone-400' : 'text-stone-500'}`}
+                  >
+                    {t.questions.length} questions
+                  </div>
+                </button>
+              );
+            })}
           </div>
-        )}
+        </div>
 
-        {stage === 'welcome' && (
-          <Welcome trackId={trackId} onSelectTrack={setTrackId} onStart={startQuiz} />
-        )}
+        {/* Mode picker */}
+        <div>
+          <p className="serif text-sm uppercase tracking-[0.25em] text-stone-600 mb-5">
+            Pick your mode
+          </p>
+          <div className="grid sm:grid-cols-2 gap-3 md:gap-4">
+            {MODES.map((m) => (
+              <button
+                key={m.id}
+                onClick={() => navigate(m.path(trackId))}
+                className="group text-left border border-stone-400 bg-white/50 hover:border-stone-900 hover:bg-white/80 transition-all duration-200 p-5 md:p-6"
+              >
+                <div className="flex items-start justify-between mb-3 gap-3">
+                  <div>
+                    <div
+                      className="serif text-2xl md:text-3xl leading-tight text-stone-900"
+                      style={{ fontWeight: 500 }}
+                    >
+                      {m.title}
+                    </div>
+                    <div
+                      className="serif italic text-sm md:text-base text-stone-600 mt-0.5"
+                      style={{ fontWeight: 400 }}
+                    >
+                      {m.italic}
+                    </div>
+                  </div>
+                  <ChevronRight
+                    className="w-4 h-4 text-stone-500 transition-transform group-hover:translate-x-1 mt-2"
+                    strokeWidth={2}
+                  />
+                </div>
+                <p className="text-sm text-stone-700 leading-relaxed">{m.desc}</p>
+              </button>
+            ))}
+          </div>
+        </div>
 
-        {stage === 'quiz' && current && (
-          <QuizCard
-            track={track}
-            question={current}
-            selected={selected}
-            locked={locked}
-            canGoPrev={canGoPrev}
-            canSubmit={canSubmit}
-            isLastQuestion={isLastQuestion}
-            onToggle={toggleOption}
-            onSubmit={submitAnswer}
-            onNext={goNext}
-            onPrev={goPrev}
-          />
-        )}
-
-        {stage === 'results' && (
-          <Results
-            track={track}
-            pool={pool}
-            answers={answers}
-            onRestart={resetToWelcome}
-            onRetrySame={() => startQuiz(count)}
-          />
-        )}
-
-        <footer className="mt-14 md:mt-16 pt-6 border-t border-stone-300">
-          {stage === 'quiz' ? (
-            <p className="hidden md:block text-[11px] text-stone-500 tracking-wide">
-              <kbd>1</kbd>–<kbd>9</kbd> select · <kbd>↵</kbd> submit / next · <kbd>←</kbd>{' '}
-              <kbd>→</kbd> navigate · <kbd>esc</kbd> exit
-            </p>
-          ) : (
-            <p className="text-xs text-stone-500 serif italic">
-              Real exam reference: 80 questions · 60 minutes · 85% to pass · based on the Scrum
-              Guide 2020.
-            </p>
-          )}
-        </footer>
+        {/* How it works */}
+        <div className="border-t border-stone-300 pt-8">
+          <p className="serif text-sm uppercase tracking-[0.25em] text-stone-600 mb-5">
+            How it works
+          </p>
+          <ol className="space-y-3 text-sm text-stone-700">
+            <li className="flex gap-4">
+              <span className="serif text-stone-400 italic">i.</span>
+              <span>
+                Questions mirror the three real exam formats: single-choice, multi-select, and
+                true/false.
+              </span>
+            </li>
+            <li className="flex gap-4">
+              <span className="serif text-stone-400 italic">ii.</span>
+              <span>
+                In <em>Practice</em>, <em>Drill</em>, and <em>Infinite</em> you get an explanation
+                after each answer — the <em>why</em> matters more than the score.
+              </span>
+            </li>
+            <li className="flex gap-4">
+              <span className="serif text-stone-400 italic">iii.</span>
+              <span>
+                <em>Mock exam</em> mirrors the real thing: timer, no feedback mid-exam, flag and
+                review before submitting.
+              </span>
+            </li>
+            <li className="flex gap-4">
+              <span className="serif text-stone-400 italic">iv.</span>
+              <span>Multi-select is scored all-or-nothing, same as Scrum.org.</span>
+            </li>
+            <li className="flex gap-4">
+              <span className="serif text-stone-400 italic">v.</span>
+              <span>
+                Keyboard shortcuts work on desktop. Results always show your weak topics so you
+                know where to re-read.
+              </span>
+            </li>
+          </ol>
+        </div>
       </div>
-    </div>
+    </PageShell>
   );
 }

@@ -613,7 +613,7 @@
     "correct": [
       3
     ],
-    "why": "Sprints are the heartbeat of Scrum — where ideas are turned into value. The goal is a usable, Done Increment that moves the team toward the Product Goal."
+    "why": "Sprints exist to create a Done Increment that delivers value — not to maximize activity, tick off planned items, or hit a fixed release date. The purpose is outcome-focused: usable working product that advances the Product Goal at a sustainable cadence."
   },
   {
     "id": 39,
@@ -1193,7 +1193,7 @@
   {
     "id": 75,
     "type": "single",
-    "topic": "Values & Empiricism",
+    "topic": "Events",
     "q": "Which of the following is NOT one of the five formal Scrum events?",
     "options": [
       "Sprint Planning",
