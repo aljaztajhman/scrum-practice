@@ -1,0 +1,1285 @@
+[
+  {
+    "id": 1,
+    "type": "single",
+    "topic": "Accountabilities",
+    "q": "Who is accountable for managing the Product Backlog?",
+    "options": [
+      "The Scrum Master",
+      "The Product Owner",
+      "The Developers",
+      "The Scrum Team collectively"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Product Owner is accountable for effective Product Backlog management — developing and communicating the Product Goal, creating and ordering Product Backlog items, and ensuring the backlog is transparent, visible, and understood."
+  },
+  {
+    "id": 2,
+    "type": "single",
+    "topic": "Accountabilities",
+    "q": "Who has the authority to cancel a Sprint?",
+    "options": [
+      "The Scrum Master",
+      "The Developers by consensus",
+      "Only the Product Owner",
+      "Management or stakeholders"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Only the Product Owner has the authority to cancel a Sprint. A Sprint would be cancelled if the Sprint Goal becomes obsolete."
+  },
+  {
+    "id": 3,
+    "type": "single",
+    "topic": "Accountabilities",
+    "q": "Who manages the Sprint Backlog?",
+    "options": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Developers",
+      "The Scrum Team collectively"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Sprint Backlog is a plan by and for the Developers. They manage it and update it throughout the Sprint as more is learned."
+  },
+  {
+    "id": 4,
+    "type": "tf",
+    "topic": "Accountabilities",
+    "q": "The Product Owner accountability can be shared among multiple people acting as a committee.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. The Product Owner is one person, not a committee. They may represent the needs of many stakeholders, but accountability cannot be divided."
+  },
+  {
+    "id": 5,
+    "type": "single",
+    "topic": "Accountabilities",
+    "q": "The Scrum Master is best described as:",
+    "options": [
+      "A project manager responsible for delivering the product on time",
+      "A true leader who serves the Scrum Team and the larger organization",
+      "The person who assigns tasks to Developers",
+      "A neutral facilitator with no accountability"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Scrum Master is a true leader who serves the Scrum Team, the Product Owner, and the organization. The Scrum Master is accountable for the Scrum Team's effectiveness — not a project manager, not a task-assigner."
+  },
+  {
+    "id": 6,
+    "type": "single",
+    "topic": "Accountabilities",
+    "q": "Who is responsible for monitoring progress toward the Sprint Goal?",
+    "options": [
+      "The Scrum Master",
+      "The Product Owner",
+      "The Developers",
+      "A delivery manager"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Developers inspect progress toward the Sprint Goal at least daily (typically in the Daily Scrum) and adjust the Sprint Backlog as needed."
+  },
+  {
+    "id": 7,
+    "type": "single",
+    "topic": "Events",
+    "q": "What is the maximum duration of a Sprint?",
+    "options": [
+      "One week",
+      "Two weeks",
+      "One month",
+      "Three months"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Sprints are fixed-length events of one month or less to create consistency. A new Sprint starts immediately after the previous one concludes."
+  },
+  {
+    "id": 8,
+    "type": "single",
+    "topic": "Events",
+    "q": "The Daily Scrum is time-boxed to:",
+    "options": [
+      "15 minutes",
+      "30 minutes",
+      "As long as the Developers need",
+      "1 hour"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "The Daily Scrum is a 15-minute event for the Developers. Holding it at the same time and place each day reduces complexity."
+  },
+  {
+    "id": 9,
+    "type": "single",
+    "topic": "Events",
+    "q": "For a one-month Sprint, Sprint Planning is time-boxed to a maximum of:",
+    "options": [
+      "2 hours",
+      "4 hours",
+      "8 hours",
+      "No explicit limit"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Sprint Planning is time-boxed to a maximum of eight hours for a one-month Sprint. For shorter Sprints, the event is usually shorter."
+  },
+  {
+    "id": 10,
+    "type": "single",
+    "topic": "Events",
+    "q": "For a one-month Sprint, the Sprint Review is time-boxed to a maximum of:",
+    "options": [
+      "2 hours",
+      "4 hours",
+      "6 hours",
+      "8 hours"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Sprint Review is time-boxed to a maximum of four hours for a one-month Sprint. Shorter Sprints have shorter Reviews."
+  },
+  {
+    "id": 11,
+    "type": "single",
+    "topic": "Events",
+    "q": "For a one-month Sprint, the Sprint Retrospective is time-boxed to a maximum of:",
+    "options": [
+      "1 hour",
+      "2 hours",
+      "3 hours",
+      "4 hours"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Sprint Retrospective is time-boxed to a maximum of three hours for a one-month Sprint."
+  },
+  {
+    "id": 12,
+    "type": "single",
+    "topic": "Events",
+    "q": "Who must attend the Daily Scrum?",
+    "options": [
+      "The entire Scrum Team plus stakeholders",
+      "The Developers. The Product Owner and Scrum Master attend if they are actively working on Sprint Backlog items",
+      "Only the Scrum Master and Developers",
+      "Only the Product Owner and Developers"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Daily Scrum is for the Developers. The Product Owner or Scrum Master participate as Developers only if they are actively working on items in the Sprint Backlog."
+  },
+  {
+    "id": 13,
+    "type": "tf",
+    "topic": "Events",
+    "q": "The Sprint Review is a status meeting where the Scrum Team reports progress to management.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. The Sprint Review is a working session to inspect the Increment and adapt the Product Backlog based on collaboration between the Scrum Team and stakeholders. It is not a status-report meeting."
+  },
+  {
+    "id": 14,
+    "type": "single",
+    "topic": "Events",
+    "q": "When does the next Sprint start?",
+    "options": [
+      "After the Product Owner formally approves the Increment",
+      "Immediately after the conclusion of the previous Sprint",
+      "After a release planning meeting",
+      "Whenever the Developers are ready"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "A new Sprint starts immediately after the conclusion of the previous Sprint. There is no gap."
+  },
+  {
+    "id": 15,
+    "type": "single",
+    "topic": "Events",
+    "q": "The primary purpose of the Sprint Retrospective is to:",
+    "options": [
+      "Demo the Increment to stakeholders",
+      "Plan the next Sprint's work",
+      "Inspect how the last Sprint went regarding people, interactions, processes, tools, and the Definition of Done — and identify improvements",
+      "Let the Scrum Master give feedback to individuals"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Sprint Retrospective plans ways to increase quality and effectiveness. The Scrum Team inspects how the last Sprint went regarding individuals, interactions, processes, tools, and the Definition of Done, then identifies high-priority improvements."
+  },
+  {
+    "id": 16,
+    "type": "multi",
+    "topic": "Events",
+    "q": "Which of the following are formal events in Scrum? (Select all that apply)",
+    "options": [
+      "The Sprint",
+      "Sprint Planning",
+      "Daily Scrum",
+      "Backlog Refinement",
+      "Sprint Review",
+      "Sprint Retrospective",
+      "Release Planning"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      4,
+      5
+    ],
+    "why": "There are exactly five events: the Sprint (a container for the others), Sprint Planning, Daily Scrum, Sprint Review, and Sprint Retrospective. Backlog Refinement is an ongoing activity, not a formal event. Release Planning is not part of Scrum."
+  },
+  {
+    "id": 17,
+    "type": "single",
+    "topic": "Artifacts",
+    "q": "When is a Product Backlog item considered 'Done'?",
+    "options": [
+      "When the Developers say it's done",
+      "When the Product Owner accepts it in the Sprint Review",
+      "When it meets the Definition of Done",
+      "When it is deployed to production"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "A Product Backlog item is Done when it meets the Definition of Done. The moment it meets DoD, it becomes part of the Increment."
+  },
+  {
+    "id": 18,
+    "type": "single",
+    "topic": "Commitments",
+    "q": "The Sprint Goal is:",
+    "options": [
+      "A list of all work selected for the Sprint",
+      "The single objective for the Sprint",
+      "A forecast of future Sprints",
+      "A contract with stakeholders"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Sprint Goal is the single objective for the Sprint. It is the commitment for the Sprint Backlog and creates coherence and focus for the Developers."
+  },
+  {
+    "id": 19,
+    "type": "single",
+    "topic": "Commitments",
+    "q": "The Product Goal is best described as:",
+    "options": [
+      "A deadline for delivery",
+      "The long-term objective for the Scrum Team — a future state of the product",
+      "The same thing as the Sprint Goal",
+      "A binding contract with customers"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Product Goal describes a future state of the product. It is the long-term objective for the Scrum Team and serves as the commitment for the Product Backlog."
+  },
+  {
+    "id": 20,
+    "type": "tf",
+    "topic": "Artifacts",
+    "q": "The Product Backlog is an ordered list.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. The Product Backlog is an emergent, ordered list of what is needed to improve the product. Ordering is a responsibility of the Product Owner."
+  },
+  {
+    "id": 21,
+    "type": "single",
+    "topic": "Artifacts",
+    "q": "An Increment is:",
+    "options": [
+      "The sum of all work completed during the Sprint, whether Done or not",
+      "A concrete stepping stone toward the Product Goal that is usable and meets the Definition of Done",
+      "A release to production",
+      "The set of user stories selected for the Sprint"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "An Increment is a concrete stepping stone toward the Product Goal. Each Increment is additive to all prior Increments and thoroughly verified. It must meet the Definition of Done to be presented at the Sprint Review."
+  },
+  {
+    "id": 22,
+    "type": "multi",
+    "topic": "Commitments",
+    "q": "Which artifact is paired with the correct commitment? (Select all that apply)",
+    "options": [
+      "Product Backlog → Product Goal",
+      "Sprint Backlog → Sprint Goal",
+      "Increment → Definition of Done",
+      "Product Backlog → Sprint Goal",
+      "Increment → Product Goal"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "why": "The three commitments are: Product Goal (for the Product Backlog), Sprint Goal (for the Sprint Backlog), and Definition of Done (for the Increment)."
+  },
+  {
+    "id": 23,
+    "type": "single",
+    "topic": "Artifacts",
+    "q": "Who creates the Definition of Done?",
+    "options": [
+      "The Product Owner",
+      "The Scrum Master",
+      "If the organization has a DoD standard, the Scrum Team follows it. If not, the Scrum Team creates a DoD appropriate for the product",
+      "The stakeholders"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "If the organization has a Definition of Done as a standard, all Scrum Teams must follow it as a minimum. If no organizational standard exists, the Scrum Team must create one appropriate for the product."
+  },
+  {
+    "id": 24,
+    "type": "single",
+    "topic": "Scrum Team",
+    "q": "According to the Scrum Guide, a Scrum Team is typically:",
+    "options": [
+      "7 ± 2 people",
+      "10 or fewer people",
+      "Exactly 9 people",
+      "As many as needed"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Scrum Guide says Scrum Teams are typically 10 or fewer people. Smaller teams communicate better and are more productive; if they get too large, they should consider reorganizing into multiple cohesive Scrum Teams."
+  },
+  {
+    "id": 25,
+    "type": "single",
+    "topic": "Scrum Team",
+    "q": "What does 'self-managing' mean for a Scrum Team?",
+    "options": [
+      "They have no manager and answer to nobody",
+      "They internally decide who does what, when, and how",
+      "They don't need a Scrum Master",
+      "Each member manages their own work in isolation"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Self-managing Scrum Teams internally decide who does what, when, and how. They are also cross-functional, meaning members have all the skills necessary to create value each Sprint."
+  },
+  {
+    "id": 26,
+    "type": "single",
+    "topic": "Scrum Team",
+    "q": "When multiple Scrum Teams work together on the same product, they share:",
+    "options": [
+      "The same Sprint Backlog",
+      "The same Scrum Master",
+      "The same Product Goal, Product Backlog, and Product Owner",
+      "The same Definition of Done and nothing else"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "If multiple Scrum Teams work together on a product, they share the same Product Goal, Product Backlog, and Product Owner — to maintain a single source of direction and value."
+  },
+  {
+    "id": 27,
+    "type": "multi",
+    "topic": "Values & Empiricism",
+    "q": "Which of the following are the five Scrum Values? (Select all that apply)",
+    "options": [
+      "Commitment",
+      "Focus",
+      "Trust",
+      "Openness",
+      "Respect",
+      "Accountability",
+      "Courage"
+    ],
+    "correct": [
+      0,
+      1,
+      3,
+      4,
+      6
+    ],
+    "why": "The five Scrum Values are Commitment, Focus, Openness, Respect, and Courage. Trust is a result of living the values, not one of them. Accountability is a concept in Scrum but not one of the five values."
+  },
+  {
+    "id": 28,
+    "type": "multi",
+    "topic": "Values & Empiricism",
+    "q": "Which are the three pillars of empiricism in Scrum? (Select all that apply)",
+    "options": [
+      "Transparency",
+      "Inspection",
+      "Adaptation",
+      "Commitment",
+      "Communication"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "why": "Empiricism rests on three pillars: Transparency (the process must be visible), Inspection (artifacts and progress are frequently inspected), and Adaptation (adjustments are made when deviations are detected)."
+  },
+  {
+    "id": 29,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "During the Sprint, the Developers realize they have selected more work than they can finish. What should they do?",
+    "options": [
+      "Extend the Sprint to finish the work",
+      "Work overtime to complete everything",
+      "Work with the Product Owner to renegotiate the scope of the Sprint Backlog within the Sprint Goal",
+      "Cancel the Sprint"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "As more is learned, scope may be clarified and renegotiated with the Product Owner — without compromising the Sprint Goal. Sprints are not extended; the Sprint Backlog is adjusted."
+  },
+  {
+    "id": 30,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "If the Sprint Goal becomes obsolete during the Sprint:",
+    "options": [
+      "The Developers continue with the original plan",
+      "The Scrum Master must extend the Sprint",
+      "The Product Owner may cancel the Sprint",
+      "The Scrum Team must escalate to management"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "If the Sprint Goal becomes obsolete, the Sprint may be cancelled. Only the Product Owner has the authority to cancel a Sprint."
+  },
+  {
+    "id": 31,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "Scrum requires which document for capturing product requirements?",
+    "options": [
+      "User stories",
+      "Use cases",
+      "A formal requirements specification",
+      "Scrum does not mandate any specific format"
+    ],
+    "correct": [
+      3
+    ],
+    "why": "Scrum does not prescribe a format for Product Backlog items. User stories are a common practice but are not required by Scrum."
+  },
+  {
+    "id": 32,
+    "type": "tf",
+    "topic": "Scenarios",
+    "q": "Product Backlog refinement is a formal Scrum event with a mandatory time-box.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. Refinement is an ongoing activity to add detail, estimates, and order to Product Backlog items. It is not one of the five formal events."
+  },
+  {
+    "id": 33,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "Who can change the Sprint Backlog during the Sprint?",
+    "options": [
+      "Only the Product Owner",
+      "Only the Scrum Master",
+      "The Developers",
+      "Any stakeholder with a legitimate need"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Sprint Backlog is owned by the Developers. They update it throughout the Sprint as they learn more and progress toward the Sprint Goal."
+  },
+  {
+    "id": 34,
+    "type": "tf",
+    "topic": "Scenarios",
+    "q": "A Scrum Master is essentially a renamed project manager.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. A Scrum Master is a true leader who serves the Scrum Team and organization. They do not manage people, assign tasks, or own delivery commitments the way a traditional project manager would."
+  },
+  {
+    "id": 35,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "A stakeholder asks the Developers to add a new feature mid-Sprint. What is the most appropriate response?",
+    "options": [
+      "The Developers add it immediately to be responsive",
+      "The Scrum Master adds it to the Sprint Backlog",
+      "The request is directed to the Product Owner, who may add it to the Product Backlog for consideration in a future Sprint",
+      "The Sprint is cancelled so the work can be replanned"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Product Owner is the single source of ordering for the Product Backlog. New requests go to the Product Owner. Only the Product Owner can renegotiate Sprint scope, and only in a way that doesn't endanger the Sprint Goal."
+  },
+  {
+    "id": 36,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "The Scrum Team is cross-functional. This primarily means:",
+    "options": [
+      "Every Developer can do every task",
+      "The team has all the skills needed to create value each Sprint, without depending on others outside the team",
+      "The team rotates roles every Sprint",
+      "The team reports to multiple functional managers"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Cross-functional means the Scrum Team collectively has all the skills required to create value each Sprint. It does not mean every individual has every skill."
+  },
+  {
+    "id": 37,
+    "type": "tf",
+    "topic": "Scenarios",
+    "q": "The Definition of Done can evolve over time as the Scrum Team matures and capabilities improve.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. The Scrum Guide 2020 states that as Scrum Teams mature, their Definitions of Done are expected to expand to include more stringent criteria for higher quality."
+  },
+  {
+    "id": 38,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "The purpose of a Sprint is to:",
+    "options": [
+      "Maximize Developer productivity",
+      "Complete all planned Product Backlog items",
+      "Meet a release deadline",
+      "Turn ideas into value through a Done Increment"
+    ],
+    "correct": [
+      3
+    ],
+    "why": "Sprints are the heartbeat of Scrum — where ideas are turned into value. The goal is a usable, Done Increment that moves the team toward the Product Goal."
+  },
+  {
+    "id": 39,
+    "type": "single",
+    "topic": "Accountabilities",
+    "q": "In what way does the Scrum Master serve the Product Owner?",
+    "options": [
+      "By managing the Product Backlog directly",
+      "By helping find techniques for effective Product Goal definition and Product Backlog management",
+      "By writing user stories on behalf of the PO",
+      "By deciding release dates"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Scrum Master helps the Scrum Team — including the PO — find effective practices: defining the Product Goal, managing the Product Backlog, and empirical planning in a complex environment."
+  },
+  {
+    "id": 40,
+    "type": "single",
+    "topic": "Accountabilities",
+    "q": "In what way does the Scrum Master serve the Developers?",
+    "options": [
+      "By assigning tasks to them",
+      "By reporting their progress to management",
+      "By coaching them in self-management and cross-functionality, and by removing impediments",
+      "By choosing which Product Backlog items they work on"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The SM coaches the Developers in self-management and cross-functionality, helps them focus on creating high-value Increments that meet the DoD, and removes impediments to their progress."
+  },
+  {
+    "id": 41,
+    "type": "single",
+    "topic": "Accountabilities",
+    "q": "How does the Scrum Master serve the organization?",
+    "options": [
+      "By tracking team velocity for executive dashboards",
+      "By leading, training, and coaching the organization in its Scrum adoption, and planning and advising Scrum implementations",
+      "By setting release dates with the business",
+      "By reporting risks and dependencies to project managers"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The SM serves the organization by leading, training, and coaching its Scrum adoption, planning and advising implementations, and helping employees and stakeholders understand an empirical approach."
+  },
+  {
+    "id": 42,
+    "type": "single",
+    "topic": "Accountabilities",
+    "q": "Who is accountable for establishing Scrum as defined in the Scrum Guide?",
+    "options": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Developers",
+      "The organization's leadership"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Scrum Master is accountable for establishing Scrum as defined in the Scrum Guide. They do this by helping everyone understand Scrum theory and practice."
+  },
+  {
+    "id": 43,
+    "type": "single",
+    "topic": "Events",
+    "q": "During Sprint Planning, who proposes how the product could increase its value in the upcoming Sprint?",
+    "options": [
+      "The Scrum Master",
+      "The Product Owner",
+      "The Developers",
+      "The stakeholders"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "In Sprint Planning Topic One ('Why is this Sprint valuable?'), the Product Owner proposes how the product could increase its value. The whole Scrum Team then collaborates to define a Sprint Goal."
+  },
+  {
+    "id": 44,
+    "type": "single",
+    "topic": "Events",
+    "q": "During Sprint Planning, who decides how many Product Backlog items to include in the Sprint?",
+    "options": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Developers, through discussion with the Product Owner",
+      "Stakeholders"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Developers forecast what they can accomplish during the Sprint. They discuss with the PO to make selections, but the capacity call belongs to the Developers."
+  },
+  {
+    "id": 45,
+    "type": "multi",
+    "topic": "Events",
+    "q": "Which of the following are true about the Sprint? (Select all that apply)",
+    "options": [
+      "A new Sprint starts immediately after the previous one concludes",
+      "A Sprint may be extended if the Developers need more time",
+      "All other Scrum events occur within the Sprint",
+      "Sprints are fixed length of one month or less",
+      "The Sprint can be cancelled if the Sprint Goal becomes obsolete"
+    ],
+    "correct": [
+      0,
+      2,
+      3,
+      4
+    ],
+    "why": "Sprints are fixed-length (one month max) and cannot be extended. They may be cancelled (only by the PO) if the Sprint Goal becomes obsolete. All other events happen within the Sprint."
+  },
+  {
+    "id": 46,
+    "type": "tf",
+    "topic": "Events",
+    "q": "The Daily Scrum improves communications, identifies impediments, and reduces the need for other meetings.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. Per the Scrum Guide, the Daily Scrum improves communications, identifies impediments, promotes quick decision-making, and consequently reduces the need for other meetings."
+  },
+  {
+    "id": 47,
+    "type": "single",
+    "topic": "Events",
+    "q": "The Sprint Retrospective is attended by:",
+    "options": [
+      "The Developers only",
+      "The Product Owner only",
+      "The entire Scrum Team",
+      "The Scrum Team and key stakeholders"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Sprint Retrospective is for the whole Scrum Team — Developers, Product Owner, and Scrum Master — to inspect itself and identify improvements."
+  },
+  {
+    "id": 48,
+    "type": "tf",
+    "topic": "Events",
+    "q": "For Sprints shorter than one month, the other Scrum events are usually proportionally shorter.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. Event time-boxes scale down for shorter Sprints. For example, Sprint Planning maxes at eight hours for a one-month Sprint and is usually shorter for shorter Sprints."
+  },
+  {
+    "id": 49,
+    "type": "single",
+    "topic": "Artifacts",
+    "q": "The Sprint Backlog is composed of:",
+    "options": [
+      "Only the Product Backlog items selected for the Sprint",
+      "The Sprint Goal (why), the Product Backlog items selected for the Sprint (what), and an actionable plan for delivering the Increment (how)",
+      "A list of daily tasks",
+      "A Gantt chart of the Sprint"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Sprint Backlog has three parts: Sprint Goal (why), selected PBIs (what), and an actionable plan for delivery (how). It makes visible the work needed to achieve the Sprint Goal."
+  },
+  {
+    "id": 50,
+    "type": "single",
+    "topic": "Artifacts",
+    "q": "What is the primary purpose of the Definition of Done?",
+    "options": [
+      "To list acceptance criteria for a specific Product Backlog item",
+      "To create transparency by providing a shared understanding of what it means for work to be complete as part of the Increment",
+      "To mark when the Sprint ends",
+      "To enforce coding standards"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Definition of Done creates transparency by giving everyone a shared understanding of what work was completed as part of the Increment. It's the commitment for the Increment."
+  },
+  {
+    "id": 51,
+    "type": "tf",
+    "topic": "Artifacts",
+    "q": "Multiple Increments can be created within a single Sprint.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. An Increment is created whenever a Product Backlog item meets the Definition of Done. Multiple Increments may be created within a Sprint, each usable as soon as Done."
+  },
+  {
+    "id": 52,
+    "type": "single",
+    "topic": "Commitments",
+    "q": "Which artifact-to-commitment pairing is correct?",
+    "options": [
+      "Product Backlog → Definition of Done",
+      "Sprint Backlog → Product Goal",
+      "Increment → Sprint Goal",
+      "Sprint Backlog → Sprint Goal"
+    ],
+    "correct": [
+      3
+    ],
+    "why": "The three pairings: Product Backlog → Product Goal, Sprint Backlog → Sprint Goal, Increment → Definition of Done."
+  },
+  {
+    "id": 53,
+    "type": "tf",
+    "topic": "Artifacts",
+    "q": "Product Backlog items should be broken down so they can be Done within a single Sprint.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. Items that can be Done by the Scrum Team within one Sprint are deemed ready for selection in Sprint Planning. Appropriate sizing is part of refinement."
+  },
+  {
+    "id": 54,
+    "type": "single",
+    "topic": "Scrum Team",
+    "q": "What are the Developers accountable for?",
+    "options": [
+      "Writing code only",
+      "Creating a plan for the Sprint (Sprint Backlog), instilling quality by adhering to the Definition of Done, adapting their plan daily toward the Sprint Goal, and holding each other accountable as professionals",
+      "Managing the Product Backlog",
+      "Leading the Scrum Master"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Scrum Guide 2020 lists these as the Developers' accountabilities. 'Developers' refers to anyone creating the Increment — not just programmers."
+  },
+  {
+    "id": 55,
+    "type": "tf",
+    "topic": "Scrum Team",
+    "q": "A single person can hold both the Scrum Master and the Developer accountabilities on the same team.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. The accountabilities are distinct but can be held by the same person. The Scrum Master participates as a Developer when actively working on Sprint Backlog items."
+  },
+  {
+    "id": 56,
+    "type": "single",
+    "topic": "Scrum Team",
+    "q": "What does 'cross-functional' mean for a Scrum Team?",
+    "options": [
+      "Every member has every skill",
+      "Members can rotate through departments",
+      "The team collectively has all skills needed to create value each Sprint — no dependency on others outside the team",
+      "The team reports to multiple functional managers"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Cross-functional means the team collectively possesses all the skills required to create value each Sprint. Individual specialization is fine; collective capability is what matters."
+  },
+  {
+    "id": 57,
+    "type": "multi",
+    "topic": "Values & Empiricism",
+    "q": "Which statements about empiricism in Scrum are true? (Select all that apply)",
+    "options": [
+      "Empiricism means making decisions based on what is observed",
+      "Empiricism requires detailed upfront planning",
+      "Empiricism rests on Transparency, Inspection, and Adaptation",
+      "Empiricism is optional in Scrum",
+      "Empiricism helps the Scrum Team deal with complexity and uncertainty"
+    ],
+    "correct": [
+      0,
+      2,
+      4
+    ],
+    "why": "Empiricism asserts that knowledge comes from experience and decisions are based on what is observed. Its three pillars are Transparency, Inspection, and Adaptation. It is foundational — not optional."
+  },
+  {
+    "id": 58,
+    "type": "single",
+    "topic": "Values & Empiricism",
+    "q": "If an artifact's transparency is incomplete, what is the risk?",
+    "options": [
+      "The team will be more efficient",
+      "Decisions made to control risk and optimize value may be flawed, because they are based on distorted information",
+      "The Sprint will automatically fail",
+      "There is no risk"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Without transparency, inspection is misleading and adaptation is misdirected. Decisions based on distorted artifacts can reduce value and increase risk."
+  },
+  {
+    "id": 59,
+    "type": "tf",
+    "topic": "Values & Empiricism",
+    "q": "The Scrum Values (Commitment, Focus, Openness, Respect, Courage) are optional guidelines.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. The Scrum Values are integral to Scrum. When embodied by the Scrum Team, the pillars of empiricism come to life and trust is built."
+  },
+  {
+    "id": 60,
+    "type": "single",
+    "topic": "Values & Empiricism",
+    "q": "When should a Scrum Team adapt?",
+    "options": [
+      "Only at the Sprint Retrospective",
+      "As soon as inspection detects that one or more aspects of a process deviate outside acceptable limits",
+      "Only when management approves",
+      "Never mid-Sprint"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Adaptation must be done as soon as possible to minimize further deviation. The Scrum Team does not wait for a formal event to adapt if inspection reveals a problem."
+  },
+  {
+    "id": 61,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "The Developers are frequently interrupted with urgent requests from outside the team. What should the Scrum Master do?",
+    "options": [
+      "Instruct the stakeholders to stop",
+      "Coach the team and organization to protect focus, help route requests through the Product Owner, and address systemic causes of interruption",
+      "Reassign the requests to other teams without discussion",
+      "Ignore it — it's not the SM's concern"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Scrum Master serves the team and the organization. Chronic interruptions are a systemic impediment. The SM coaches both sides and works on the underlying causes."
+  },
+  {
+    "id": 62,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "A Developer says the Sprint Goal cannot be achieved. What should the Scrum Master do?",
+    "options": [
+      "Extend the Sprint by a few days",
+      "Cancel the Sprint immediately",
+      "Facilitate a conversation between the Developers and the Product Owner to inspect the situation and adapt — renegotiating scope within the Sprint Goal if possible",
+      "Reassign the work to another Developer"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The SM facilitates empiricism: inspect, then adapt. Scope can be renegotiated with the PO. Cancellation is only if the Sprint Goal itself becomes obsolete, and only by the PO."
+  },
+  {
+    "id": 63,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "The organization asks the Scrum Team to skip the Sprint Retrospective to save time. The Scrum Master should:",
+    "options": [
+      "Skip it — time savings matter",
+      "Coach the organization on the value of inspection and adaptation; the Retrospective is a required event",
+      "Let the team vote",
+      "Shorten it to five minutes"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Events are not optional. Skipping the Retrospective removes the formal opportunity to inspect and adapt how the team works — undermining continuous improvement."
+  },
+  {
+    "id": 64,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "Developers disagree on how to implement a Product Backlog item. What should happen?",
+    "options": [
+      "The Scrum Master decides",
+      "The Product Owner decides",
+      "The Developers, as self-managing professionals, resolve the disagreement themselves",
+      "Escalate to a technical lead outside the team"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Self-managing teams decide who does what, when, and how. Internal technical disagreements are for the Developers to resolve together."
+  },
+  {
+    "id": 65,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "Management demands a fixed-scope, fixed-date commitment for the next six months. How should the Scrum Master respond?",
+    "options": [
+      "Make the commitment on behalf of the team",
+      "Refuse to engage with management",
+      "Help management understand empiricism — forecasts can be provided, but they evolve as more is learned",
+      "Tell the Developers to work overtime"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Complex product development is empirical. Forecasts based on evidence are honest; fixed long-term commitments across scope and date usually break under real-world complexity."
+  },
+  {
+    "id": 66,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "During the Daily Scrum, Developers give status reports rather than inspecting progress toward the Sprint Goal. The Scrum Master should:",
+    "options": [
+      "Run the Daily Scrum themselves",
+      "Cancel the Daily Scrum",
+      "Coach the Developers on the purpose of the event and help them refocus on progress toward the Sprint Goal",
+      "Require written reports instead"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Daily Scrum is for the Developers to inspect progress toward the Sprint Goal and adapt the Sprint Backlog. The SM coaches; they don't run it."
+  },
+  {
+    "id": 67,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "The Developers haven't updated the Sprint Backlog in several days. This primarily harms:",
+    "options": [
+      "The Scrum Master's workload",
+      "Transparency of progress toward the Sprint Goal",
+      "The Product Owner's holiday plans",
+      "Nothing — the Sprint Backlog is informal"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Sprint Backlog makes progress toward the Sprint Goal transparent. Without updates, inspection is compromised and decisions suffer."
+  },
+  {
+    "id": 68,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "A new Developer joins the team mid-Sprint. What is the most Scrum-aligned approach?",
+    "options": [
+      "They sit out until the next Sprint",
+      "The self-managing Developers decide how to integrate the new member, re-planning as needed",
+      "The Scrum Master assigns them specific tasks",
+      "Cancel the Sprint"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Self-managing Developers decide how to integrate changes in team composition. They adapt the plan as needed to pursue the Sprint Goal."
+  },
+  {
+    "id": 69,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "The Scrum Team consistently fails to meet the Definition of Done. The Scrum Master should first:",
+    "options": [
+      "Lower the Definition of Done",
+      "Replace team members",
+      "Coach the team to understand why the DoD isn't being met and facilitate improvements",
+      "Escalate to executive leadership"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The SM coaches the team to diagnose root causes — quality issues, unclear DoD, inadequate skills, environmental constraints — and facilitates improvement. Lowering the DoD creates technical debt."
+  },
+  {
+    "id": 70,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "A Scrum Team has used the same Definition of Done for a year without change. This suggests:",
+    "options": [
+      "A mature, stable team",
+      "A potential issue — as teams mature, Definitions of Done are expected to expand to include more stringent criteria",
+      "Nothing in particular",
+      "The team is violating Scrum"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "As Scrum Teams mature, their DoD is expected to expand to include more stringent criteria for higher quality. Stagnation may signal missed improvement opportunities."
+  },
+  {
+    "id": 71,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "During the Sprint Retrospective, the team identifies an important improvement. When should it be acted on?",
+    "options": [
+      "At the end of the next release cycle",
+      "As soon as possible — the most impactful improvement is often addressed in the next Sprint",
+      "Only if the Product Owner approves",
+      "Discussed but rarely acted on"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The most impactful improvement identified in the Retrospective is addressed as soon as possible — often in the upcoming Sprint's Sprint Backlog."
+  },
+  {
+    "id": 72,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "A team wants to adopt Scrum but senior leadership does not understand the framework. The Scrum Master should:",
+    "options": [
+      "Tell the team to abandon Scrum",
+      "Lead, train, and coach the organization in Scrum adoption; plan and advise implementations",
+      "Wait for a directive from executives",
+      "Quietly implement Scrum without leadership awareness"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Serving the organization includes leading and coaching Scrum adoption and helping stakeholders understand empirical product development."
+  },
+  {
+    "id": 73,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "What is the Scrum Master's role during Scrum events?",
+    "options": [
+      "To lead and direct discussions",
+      "To ensure that the events take place, are positive and productive, and kept within the time-box",
+      "To make decisions for the team",
+      "To take minutes"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Scrum Master ensures that all Scrum events take place and are positive, productive, and kept within the time-box. The SM facilitates; the team does the work."
+  },
+  {
+    "id": 74,
+    "type": "multi",
+    "topic": "Scrum Team",
+    "q": "Which are true about multiple Scrum Teams working on the same product? (Select all that apply)",
+    "options": [
+      "They share one Product Goal",
+      "They share one Product Backlog",
+      "They share one Product Owner",
+      "Each team has its own Product Backlog",
+      "They share a consistent Definition of Done for the integrated Increment"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      4
+    ],
+    "why": "Multiple teams on one product share: one Product Goal, one Product Backlog, one Product Owner, and a consistent Definition of Done (organizational standard or one created by the teams together)."
+  },
+  {
+    "id": 75,
+    "type": "single",
+    "topic": "Values & Empiricism",
+    "q": "Which of the following is NOT one of the five formal Scrum events?",
+    "options": [
+      "Sprint Planning",
+      "Daily Scrum",
+      "Product Backlog Refinement",
+      "Sprint Review"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The five events are Sprint, Sprint Planning, Daily Scrum, Sprint Review, and Sprint Retrospective. Product Backlog Refinement is an ongoing activity, not a formal event."
+  },
+  {
+    "id": 76,
+    "type": "tf",
+    "topic": "Values & Empiricism",
+    "q": "Scrum is founded on empiricism and lean thinking.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. The Scrum Guide 2020 explicitly states: 'Scrum is founded on empiricism and lean thinking.'"
+  },
+  {
+    "id": 77,
+    "type": "single",
+    "topic": "Scrum Team",
+    "q": "If the Product Owner is unavailable for Sprint Planning, what is the most appropriate outcome?",
+    "options": [
+      "Cancel the Sprint",
+      "The Scrum Master stands in as Product Owner",
+      "Sprint Planning cannot proceed effectively without the PO — the Scrum Master works to resolve the availability issue",
+      "The Developers select any items they want"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The PO is essential to Sprint Planning — proposing value, clarifying PBIs, and shaping the Sprint Goal. The SM addresses the systemic issue that the PO isn't engaged."
+  },
+  {
+    "id": 78,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "Two Developers routinely bypass the Definition of Done to deliver faster. The Scrum Master should:",
+    "options": [
+      "Praise them for the speed",
+      "Coach the Developers and the Scrum Team on quality, transparency, and the purpose of the DoD",
+      "Report them to management",
+      "Remove them from the team"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The SM coaches the team on the value of the DoD. Skipping it creates hidden technical debt and erodes long-term value. The team is accountable for instilling quality."
+  },
+  {
+    "id": 79,
+    "type": "tf",
+    "topic": "Scenarios",
+    "q": "Work that does not meet the Definition of Done can be released as long as the Product Owner approves.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. Work that does not meet the DoD cannot be released or considered part of the Increment. It is returned to the Product Backlog for future consideration."
+  },
+  {
+    "id": 80,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "A stakeholder complains directly to the Developers that the product is 'behind schedule.' The most Scrum-aligned response is:",
+    "options": [
+      "The Developers commit to working weekends to catch up",
+      "The Developers direct the stakeholder to the Product Owner, who is accountable for value and ordering; the Scrum Master coaches on empirical engagement",
+      "The Scrum Master shields the team by refusing to engage",
+      "The Developers change the Sprint Backlog to please the stakeholder"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Stakeholder engagement on value, scope, and timing goes through the Product Owner. The SM helps both sides understand empirical progress and stakeholder involvement at the Sprint Review."
+  }
+]

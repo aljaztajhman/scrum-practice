@@ -1,0 +1,1276 @@
+[
+  {
+    "id": 1,
+    "type": "single",
+    "topic": "PO Accountability",
+    "q": "Who is accountable for maximizing the value of the product resulting from the work of the Scrum Team?",
+    "options": [
+      "The Scrum Master",
+      "The Product Owner",
+      "The Developers",
+      "The stakeholders"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Product Owner is accountable for maximizing the value of the product. This is the central accountability of the role per the Scrum Guide 2020."
+  },
+  {
+    "id": 2,
+    "type": "single",
+    "topic": "PO Accountability",
+    "q": "The Product Owner is:",
+    "options": [
+      "A committee of business representatives",
+      "One person, not a committee",
+      "A role shared between a business owner and a tech lead",
+      "Any Developer who knows the business"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Product Owner is one person, not a committee. They may represent the needs of many stakeholders, but the accountability cannot be divided."
+  },
+  {
+    "id": 3,
+    "type": "tf",
+    "topic": "PO Accountability",
+    "q": "The Product Owner may delegate work related to the Product Backlog to others, but remains accountable.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. The Product Owner may do the work themselves or delegate it, but they remain accountable for the outcome."
+  },
+  {
+    "id": 4,
+    "type": "single",
+    "topic": "PO Accountability",
+    "q": "Who has final authority over the order of the Product Backlog?",
+    "options": [
+      "The Scrum Master",
+      "The most senior stakeholder",
+      "The Product Owner",
+      "The Developers by consensus"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Product Owner is accountable for ordering the Product Backlog. Others may influence or suggest order, but the decision rests with the Product Owner."
+  },
+  {
+    "id": 5,
+    "type": "single",
+    "topic": "PO Accountability",
+    "q": "Who has the authority to cancel a Sprint?",
+    "options": [
+      "The Scrum Master",
+      "The Developers",
+      "Only the Product Owner",
+      "Stakeholders or management"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Only the Product Owner can cancel a Sprint. This would typically happen if the Sprint Goal becomes obsolete."
+  },
+  {
+    "id": 6,
+    "type": "multi",
+    "topic": "PO Accountability",
+    "q": "Which of the following are characteristics of an effective Product Owner? (Select all that apply)",
+    "options": [
+      "Has the authority to make decisions about the product",
+      "Is available to the Scrum Team for collaboration",
+      "Has deep understanding of the customer and the domain",
+      "Personally writes every Product Backlog item",
+      "Makes all technical implementation decisions for the Developers",
+      "Orders the Product Backlog to maximize value"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      5
+    ],
+    "why": "An effective Product Owner has authority, is available, is domain-knowledgeable, and orders the backlog for maximum value. Writing every item personally isn't required — anyone can contribute items. Technical implementation decisions belong to the Developers."
+  },
+  {
+    "id": 7,
+    "type": "tf",
+    "topic": "PO Accountability",
+    "q": "For a Product Owner to succeed, the entire organization must respect their decisions.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. The Scrum Guide 2020 explicitly states that for Product Owners to succeed, the entire organization must respect their decisions."
+  },
+  {
+    "id": 8,
+    "type": "tf",
+    "topic": "PO Accountability",
+    "q": "The Product Owner must personally write every Product Backlog item.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. Anyone on the Scrum Team, or even stakeholders, can draft Product Backlog items. The Product Owner is accountable for the backlog as a whole, including what gets added, ordered, and refined."
+  },
+  {
+    "id": 9,
+    "type": "single",
+    "topic": "Product Backlog",
+    "q": "The Product Backlog is:",
+    "options": [
+      "A fixed scope document signed off at the start of the project",
+      "An emergent, ordered list of what is needed to improve the product",
+      "A list of technical tasks for the Developers",
+      "A prioritized feature roadmap owned by stakeholders"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Product Backlog is an emergent and ordered list of what is needed to improve the product. It is the single source of work undertaken by the Scrum Team."
+  },
+  {
+    "id": 10,
+    "type": "single",
+    "topic": "Product Backlog",
+    "q": "Product Backlog refinement is best described as:",
+    "options": [
+      "A formal Scrum event held weekly",
+      "A time-boxed meeting led by the Scrum Master",
+      "An ongoing activity to add detail, estimates, and order to Product Backlog items",
+      "An activity the Product Owner does alone"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Refinement is an ongoing activity — not a formal event. The Scrum Team collaboratively adds detail, estimates, and order to items. The Product Owner is accountable for the outcome."
+  },
+  {
+    "id": 11,
+    "type": "single",
+    "topic": "Product Backlog",
+    "q": "A Product Backlog item is considered 'Done' when:",
+    "options": [
+      "The Product Owner accepts it",
+      "It is deployed to production",
+      "It meets the Definition of Done",
+      "All acceptance criteria are ticked"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "An item is Done when it meets the Definition of Done. At that moment, it becomes part of the Increment."
+  },
+  {
+    "id": 12,
+    "type": "multi",
+    "topic": "Product Backlog",
+    "q": "Which attributes are commonly associated with Product Backlog items? (Select all that apply)",
+    "options": [
+      "Description",
+      "Order",
+      "Size (estimate)",
+      "Value",
+      "Name of the developer assigned to it",
+      "A firm delivery date"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "why": "Scrum Guide attributes of Product Backlog items are typically description, order, size, and value. Scrum does not assign items to specific developers, and does not require firm delivery dates on items."
+  },
+  {
+    "id": 13,
+    "type": "single",
+    "topic": "Product Backlog",
+    "q": "What should guide the Product Owner in ordering the Product Backlog?",
+    "options": [
+      "Strictly the estimated effort, lowest first",
+      "Stakeholder seniority",
+      "Value, risk, priority, dependencies, and what best achieves the product's goals",
+      "Development team velocity"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Product Owner orders the Product Backlog based on what best achieves the product's goals — weighing value, risk, priority, and dependencies. It is not a pure effort-sort or politics-sort."
+  },
+  {
+    "id": 14,
+    "type": "single",
+    "topic": "Product Backlog",
+    "q": "How much of the Product Backlog should be refined at any given time?",
+    "options": [
+      "The entire Product Backlog at all times",
+      "Enough that items selected for the next Sprint are 'ready' — understood well enough to be taken in",
+      "Only the top item",
+      "Exactly 10% of total effort, per the Scrum Guide"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Refinement is ongoing. Items near the top of the Product Backlog should be refined enough to be ready for Sprint Planning. The '10%' rule is not in the 2020 Scrum Guide."
+  },
+  {
+    "id": 15,
+    "type": "tf",
+    "topic": "Product Backlog",
+    "q": "Anyone can suggest items for the Product Backlog, but the Product Owner decides what is added and how it is ordered.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. Anyone can propose items. The Product Owner is accountable for what ends up in the Product Backlog and in what order."
+  },
+  {
+    "id": 16,
+    "type": "tf",
+    "topic": "Product Backlog",
+    "q": "Transparency of the Product Backlog is essential for empirical product management.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. Transparency is one of the three pillars of empiricism. Without a transparent Product Backlog, inspection and adaptation are compromised."
+  },
+  {
+    "id": 17,
+    "type": "single",
+    "topic": "Product Goal",
+    "q": "The Product Goal describes:",
+    "options": [
+      "A short-term delivery target for the next Sprint",
+      "A future state of the product — a long-term objective for the Scrum Team",
+      "A binding release commitment to customers",
+      "A list of features to be built this quarter"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Product Goal is the long-term objective for the Scrum Team — a future state of the product. It provides direction for the Scrum Team's work."
+  },
+  {
+    "id": 18,
+    "type": "single",
+    "topic": "Product Goal",
+    "q": "The Product Goal is the commitment for which artifact?",
+    "options": [
+      "The Sprint Backlog",
+      "The Increment",
+      "The Product Backlog",
+      "The Definition of Done"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The three commitments: Product Goal commits to the Product Backlog, Sprint Goal commits to the Sprint Backlog, Definition of Done commits to the Increment."
+  },
+  {
+    "id": 19,
+    "type": "single",
+    "topic": "Product Goal",
+    "q": "How many Product Goals can a Scrum Team pursue at the same time?",
+    "options": [
+      "As many as stakeholders request",
+      "One",
+      "One per Sprint",
+      "One per release"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "A Scrum Team focuses on one Product Goal at a time. They must fulfill (or abandon) the current Product Goal before taking on the next."
+  },
+  {
+    "id": 20,
+    "type": "single",
+    "topic": "Product Goal",
+    "q": "Who is accountable for developing and explicitly communicating the Product Goal?",
+    "options": [
+      "The Scrum Master",
+      "The Developers",
+      "The Product Owner",
+      "The stakeholders"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Product Owner is accountable for developing and explicitly communicating the Product Goal — a core responsibility listed in the Scrum Guide 2020."
+  },
+  {
+    "id": 21,
+    "type": "tf",
+    "topic": "Product Goal",
+    "q": "The Product Goal is contained in the Product Backlog.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. The Scrum Guide 2020 states: 'The Product Goal is in the Product Backlog. The rest of the Product Backlog emerges to define what will fulfill the Product Goal.'"
+  },
+  {
+    "id": 22,
+    "type": "single",
+    "topic": "Events",
+    "q": "What is the primary purpose of the Sprint Review?",
+    "options": [
+      "A formal acceptance meeting where stakeholders sign off on work",
+      "A status report to management",
+      "To inspect the Increment and adapt the Product Backlog through collaboration with stakeholders",
+      "To retrospect on the Sprint process"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Sprint Review is a working session to inspect the Increment and discuss what to do next. The Product Backlog may be adjusted based on new information. It is not a sign-off meeting or a status report."
+  },
+  {
+    "id": 23,
+    "type": "single",
+    "topic": "Events",
+    "q": "During Sprint Planning, who proposes how the product could increase its value in the current Sprint?",
+    "options": [
+      "The Scrum Master",
+      "The Product Owner",
+      "The Developers",
+      "Stakeholders"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "In Sprint Planning Topic One ('Why is this Sprint valuable?'), the Product Owner proposes how the product could increase its value. The whole Scrum Team then collaborates to define a Sprint Goal."
+  },
+  {
+    "id": 24,
+    "type": "single",
+    "topic": "Events",
+    "q": "Who must attend the Daily Scrum?",
+    "options": [
+      "The entire Scrum Team plus stakeholders",
+      "The Developers. The Product Owner attends only if actively working as a Developer on Sprint Backlog items",
+      "The Product Owner and Scrum Master only",
+      "The Scrum Master leads it and the others join as needed"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Daily Scrum is for the Developers. The Product Owner or Scrum Master participate only if actively working on Sprint Backlog items as Developers."
+  },
+  {
+    "id": 25,
+    "type": "tf",
+    "topic": "Events",
+    "q": "The Product Owner should attend the Sprint Retrospective.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. The Sprint Retrospective is for the whole Scrum Team, including the Product Owner. Its purpose is to identify improvements to people, interactions, processes, tools, and the Definition of Done."
+  },
+  {
+    "id": 26,
+    "type": "single",
+    "topic": "Events",
+    "q": "Who determines how many Product Backlog items are selected for a Sprint?",
+    "options": [
+      "The Product Owner, based on business priorities",
+      "The Scrum Master, based on past velocity",
+      "The Developers, forecasting what they can accomplish — in collaboration with the Product Owner",
+      "Stakeholders, during Sprint Planning"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Developers forecast what they can accomplish during the Sprint. They collaborate with the Product Owner on selection, but the capacity decision belongs to the Developers."
+  },
+  {
+    "id": 27,
+    "type": "tf",
+    "topic": "Release & Increment",
+    "q": "An Increment must be released to customers by the end of the Sprint.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. The Increment must meet the Definition of Done by the end of the Sprint, but release to customers is a separate decision made by the Product Owner."
+  },
+  {
+    "id": 28,
+    "type": "single",
+    "topic": "Release & Increment",
+    "q": "How often can Increments potentially be delivered to users?",
+    "options": [
+      "Only at the end of each Sprint",
+      "Once per release cycle",
+      "Multiple times per Sprint — any time an item meets the Definition of Done",
+      "Only after stakeholder approval at Sprint Review"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Multiple Increments may be created within a single Sprint. An Increment can be delivered to stakeholders as soon as it meets the Definition of Done — no need to wait for Sprint end or Review."
+  },
+  {
+    "id": 29,
+    "type": "tf",
+    "topic": "Release & Increment",
+    "q": "The Product Owner decides when to release an Increment to customers.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. The release decision rests with the Product Owner, who balances value, risk, and market considerations."
+  },
+  {
+    "id": 30,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "A stakeholder approaches the Developers mid-Sprint with an urgent request. What is the most appropriate response?",
+    "options": [
+      "The Developers add the request to the Sprint Backlog immediately",
+      "The Scrum Master pushes back and refuses the change",
+      "The request is directed to the Product Owner, who may adjust the Product Backlog or, without compromising the Sprint Goal, renegotiate Sprint scope with the Developers",
+      "The Sprint is cancelled so the work can be replanned"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Stakeholder requests go through the Product Owner. The PO decides whether the request enters the Product Backlog, and may renegotiate Sprint scope with the Developers — as long as the Sprint Goal is not compromised."
+  },
+  {
+    "id": 31,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "Two senior stakeholders disagree strongly on what should be prioritized next. What should the Product Owner do?",
+    "options": [
+      "Escalate the decision to executive leadership",
+      "Let the stakeholders vote",
+      "Use their own judgment to order the Product Backlog in the way that best maximizes product value, and communicate the rationale",
+      "Split the Sprint 50/50 between both stakeholders' requests"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Product Owner is the single accountable person for maximizing product value. They take input from stakeholders but make the ordering decision themselves, with clear rationale."
+  },
+  {
+    "id": 32,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "The Product Owner should measure product success primarily through:",
+    "options": [
+      "Developer velocity and story points completed",
+      "Number of features delivered per Sprint",
+      "Outcomes and value delivered to customers and the business",
+      "On-time, on-budget delivery against the original plan"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Scrum is empirical and value-driven. A Product Owner focuses on outcomes — did this increase customer or business value? — rather than output metrics like velocity or feature count."
+  },
+  {
+    "id": 33,
+    "type": "tf",
+    "topic": "Value & Stakeholders",
+    "q": "The Sprint Review is the only appropriate time for the Product Owner to engage stakeholders.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. The Sprint Review is one structured opportunity for stakeholder engagement, but the Product Owner may and should collaborate with stakeholders throughout the Sprint as needed."
+  },
+  {
+    "id": 34,
+    "type": "single",
+    "topic": "Scaling",
+    "q": "When multiple Scrum Teams work together on the same product, they share:",
+    "options": [
+      "One Scrum Master and one Sprint Backlog",
+      "One Product Goal, one Product Backlog, and one Product Owner",
+      "The same Sprint Goal across all teams",
+      "Different Product Owners per component"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Even at scale, a single product has one Product Goal, one Product Backlog, and one Product Owner. This preserves a single source of direction and value."
+  },
+  {
+    "id": 35,
+    "type": "multi",
+    "topic": "Scrum Theory",
+    "q": "Which are the three pillars of empiricism? (Select all that apply)",
+    "options": [
+      "Transparency",
+      "Inspection",
+      "Adaptation",
+      "Commitment",
+      "Focus"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "why": "Empiricism in Scrum rests on three pillars: Transparency, Inspection, and Adaptation. Commitment and Focus are Scrum Values, not pillars."
+  },
+  {
+    "id": 36,
+    "type": "multi",
+    "topic": "Scrum Theory",
+    "q": "Which are the five Scrum Values? (Select all that apply)",
+    "options": [
+      "Commitment",
+      "Focus",
+      "Openness",
+      "Respect",
+      "Courage",
+      "Trust",
+      "Transparency"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "why": "The five Scrum Values are Commitment, Focus, Openness, Respect, and Courage. Trust is a consequence of living the values. Transparency is a pillar of empiricism, not a value."
+  },
+  {
+    "id": 37,
+    "type": "single",
+    "topic": "Events",
+    "q": "The Sprint Goal is:",
+    "options": [
+      "A list of all work selected for the Sprint",
+      "The single objective for the Sprint and the commitment for the Sprint Backlog",
+      "A target release date",
+      "The Product Owner's forecast for the quarter"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Sprint Goal is the single objective for the Sprint. It is the commitment for the Sprint Backlog and is created collaboratively by the Scrum Team during Sprint Planning."
+  },
+  {
+    "id": 38,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "The Product Owner is asked to push a release date forward despite the Developers warning that quality would suffer. The Product Owner should:",
+    "options": [
+      "Override the Developers — release dates are the PO's authority",
+      "Collaborate with the Developers to understand the trade-offs, potentially reducing scope rather than quality, since shipping below the Definition of Done undermines long-term value",
+      "Cancel the Sprint and replan from scratch",
+      "Escalate to management and let them decide"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Product Owner maximizes product value — long-term as well as short-term. Shipping below the Definition of Done creates technical debt and erodes value. The healthy path is scope negotiation with the Developers, not quality compromise."
+  },
+  {
+    "id": 39,
+    "type": "single",
+    "topic": "PO Accountability",
+    "q": "Ordering the Product Backlog means:",
+    "options": [
+      "Sorting items alphabetically",
+      "Arranging items by what delivers the most value when done in that order",
+      "Letting the highest-paid stakeholder decide",
+      "Using only story points"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Ordering is about value. Many inputs feed the decision — value, risk, dependencies, learning — but the PO is accountable for the final order."
+  },
+  {
+    "id": 40,
+    "type": "tf",
+    "topic": "PO Accountability",
+    "q": "The Product Owner must personally write every Product Backlog item.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. The PO may do the work themselves or have others do it. They remain accountable for what ends up in the Product Backlog and for its order."
+  },
+  {
+    "id": 41,
+    "type": "single",
+    "topic": "PO Accountability",
+    "q": "For the Product Owner to succeed, the entire organization must:",
+    "options": [
+      "Micromanage the PO's decisions",
+      "Respect the Product Owner's decisions",
+      "Let Developers override the PO",
+      "Delegate all PO responsibilities to a committee"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Per the Scrum Guide 2020: 'For Product Owners to succeed, the entire organization must respect their decisions.' These decisions are visible in the Product Backlog and Increment."
+  },
+  {
+    "id": 42,
+    "type": "single",
+    "topic": "PO Accountability",
+    "q": "Stakeholder pressure is pushing the Product Owner to include low-value items in the next Sprint. The Product Owner should:",
+    "options": [
+      "Comply — stakeholders fund the product",
+      "Accept the input but make the ordering decision based on value, communicating rationale clearly",
+      "Defer the decision to the Scrum Master",
+      "Split the Sprint across unrelated fragments"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The PO is accountable for maximizing value. Stakeholders are input sources; ordering is the PO's decision. Transparency about rationale builds trust."
+  },
+  {
+    "id": 43,
+    "type": "single",
+    "topic": "Product Backlog",
+    "q": "Which Product Backlog item attributes are commonly used?",
+    "options": [
+      "Description, order, size, and sometimes a value estimate",
+      "Only story points",
+      "Assignee, due date, and priority label",
+      "Author, approver, and department"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "PBIs often have: description, order, size, and may include value. The PO is accountable for these. Size is the Developers' call; value is the PO's."
+  },
+  {
+    "id": 44,
+    "type": "tf",
+    "topic": "Product Backlog",
+    "q": "The Product Backlog is ever-changing as long as the product exists.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. The Product Backlog is dynamic and emerges as the product and its environment evolve. Refinement is an ongoing activity."
+  },
+  {
+    "id": 45,
+    "type": "single",
+    "topic": "Product Backlog",
+    "q": "A Product Backlog item is 'ready' for selection in Sprint Planning when:",
+    "options": [
+      "The PO has signed off on acceptance criteria",
+      "It is small enough to fit in a Sprint and sufficiently understood by the Developers",
+      "All edge cases are exhaustively documented",
+      "QA has reviewed it"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Scrum doesn't formalize 'ready', but PBIs selected into a Sprint should be sized and understood well enough that Developers can reasonably commit to delivering them."
+  },
+  {
+    "id": 46,
+    "type": "single",
+    "topic": "Product Backlog",
+    "q": "Product Backlog refinement typically involves:",
+    "options": [
+      "The Product Owner alone writing user stories",
+      "The Scrum Team collaborating to break down items, add detail, size them, and refine ordering",
+      "The Scrum Master assigning tasks",
+      "Stakeholders voting on items"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Refinement is a Scrum Team activity — the PO drives value and order, the Developers contribute sizing and technical insight, and the SM facilitates."
+  },
+  {
+    "id": 47,
+    "type": "tf",
+    "topic": "Product Backlog",
+    "q": "Estimating Product Backlog items is the Product Owner's accountability.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. The people performing the work — the Developers — are responsible for sizing. The PO may influence by helping them understand trade-offs."
+  },
+  {
+    "id": 48,
+    "type": "single",
+    "topic": "Product Backlog",
+    "q": "Who performs the estimation of Product Backlog items?",
+    "options": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Developers",
+      "Stakeholders"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Developers are accountable for sizing since they perform the work. They may seek input from the PO to understand business context."
+  },
+  {
+    "id": 49,
+    "type": "single",
+    "topic": "Product Goal",
+    "q": "When is a Product Goal abandoned?",
+    "options": [
+      "Never — it is fixed",
+      "When the Scrum Team decides the current Goal is obsolete, a new Product Goal replaces it",
+      "Only at the end of the fiscal quarter",
+      "When stakeholders vote to change it"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "A Scrum Team pursues one Product Goal at a time. It may be abandoned if it becomes obsolete; a new Product Goal then replaces it. The PO makes this call."
+  },
+  {
+    "id": 50,
+    "type": "single",
+    "topic": "Product Goal",
+    "q": "How does the Product Goal relate to the Product Backlog?",
+    "options": [
+      "They are unrelated",
+      "The Product Goal is the commitment for the Product Backlog; the Backlog emerges to fulfill the Goal",
+      "The Product Backlog replaces the Product Goal",
+      "The Product Goal is ordered within the Sprint Backlog"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Product Goal is the long-term objective and commitment for the Product Backlog. The Product Backlog emerges to define what will fulfill the Product Goal."
+  },
+  {
+    "id": 51,
+    "type": "tf",
+    "topic": "Product Goal",
+    "q": "A Scrum Team can pursue multiple Product Goals simultaneously.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. A Scrum Team pursues one Product Goal at a time. The current Goal must be fulfilled or abandoned before a new one is adopted."
+  },
+  {
+    "id": 52,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "Evidence-Based Management (EBM) helps organizations:",
+    "options": [
+      "Enforce uniform processes",
+      "Measure and improve the value they deliver through empirical evidence and experimentation",
+      "Replace Scrum Masters with dashboards",
+      "Track developer productivity per hour"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "EBM is a framework for improving value delivery through evidence — outcomes, goals, and measured experiments — rather than output or activity."
+  },
+  {
+    "id": 53,
+    "type": "multi",
+    "topic": "Value & Stakeholders",
+    "q": "Which of the following are Key Value Areas (KVAs) in Evidence-Based Management? (Select all that apply)",
+    "options": [
+      "Current Value",
+      "Unrealized Value",
+      "Velocity",
+      "Ability to Innovate",
+      "Time to Market",
+      "Cost Efficiency"
+    ],
+    "correct": [
+      0,
+      1,
+      3,
+      4
+    ],
+    "why": "EBM defines four Key Value Areas: Current Value (CV), Unrealized Value (UV), Ability to Innovate (A2I), and Time to Market (T2M). Velocity and cost efficiency are not KVAs."
+  },
+  {
+    "id": 54,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "Which of these is an outcome-based measure?",
+    "options": [
+      "Number of features released",
+      "Story points completed per Sprint",
+      "Customer satisfaction or retention",
+      "Lines of code produced"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Outcome measures reflect value delivered (satisfaction, retention, revenue, usage). Output measures (features, story points, LoC) are activity, not value."
+  },
+  {
+    "id": 55,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "Which approach best reflects empirical product management?",
+    "options": [
+      "Build the complete product to the initial plan",
+      "Release, measure, learn, adapt — iteratively based on real-world feedback",
+      "Defer all releases until the product is feature-complete",
+      "Spend a year on detailed requirements before building"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Empirical product management uses frequent releases and validated learning to decide what to build next. It embraces uncertainty rather than pretending plans are reliable."
+  },
+  {
+    "id": 56,
+    "type": "tf",
+    "topic": "Value & Stakeholders",
+    "q": "Velocity is a reliable measure of the value a product delivers.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. Velocity measures throughput, not value. A team can move fast and still build the wrong things. Value requires outcome measurement."
+  },
+  {
+    "id": 57,
+    "type": "single",
+    "topic": "Release & Increment",
+    "q": "Who decides when to release an Increment to customers?",
+    "options": [
+      "The Scrum Master",
+      "The Developers",
+      "The Product Owner",
+      "The customer"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The PO decides when to release, balancing value, risk, and market considerations."
+  },
+  {
+    "id": 58,
+    "type": "single",
+    "topic": "Release & Increment",
+    "q": "If an Increment meets the Definition of Done mid-Sprint, the Product Owner should:",
+    "options": [
+      "Wait for the Sprint Review to release it",
+      "Decide whether releasing immediately creates more value than waiting",
+      "Cancel the Sprint",
+      "Get stakeholder approval first"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "An Increment can be released any time it meets the DoD. The PO balances value, risk, and timing to make release decisions."
+  },
+  {
+    "id": 59,
+    "type": "single",
+    "topic": "Release & Increment",
+    "q": "A Minimum Viable Product (MVP) is:",
+    "options": [
+      "A buggy prototype released to meet deadlines",
+      "The smallest release that delivers enough value to validate learning from real users",
+      "The final polished version of the product",
+      "A demo shown only to internal stakeholders"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "MVP is a learning tool — the smallest release that enables validated learning from real users. It tests hypotheses about value, not corner-cuts quality."
+  },
+  {
+    "id": 60,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "When forecasting future delivery, the Product Owner should:",
+    "options": [
+      "Provide firm commitments with fixed scope and fixed dates",
+      "Provide forecasts based on empirical data, acknowledging they change as more is learned",
+      "Refuse to forecast at all",
+      "Delegate forecasting to the Scrum Master"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Empirical forecasting draws on actual throughput and outcomes. Forecasts are honest probabilistic statements, not binding long-range commitments."
+  },
+  {
+    "id": 61,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "How often should the Product Owner engage stakeholders?",
+    "options": [
+      "Only at the Sprint Review",
+      "Continuously — throughout the Sprint, whenever collaboration helps ordering, value, and transparency",
+      "Once per release cycle",
+      "Only through formal written reports"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Sprint Review is one structured checkpoint, but the PO engages stakeholders continuously. Frequent interaction protects against building the wrong thing."
+  },
+  {
+    "id": 62,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "Two stakeholders have conflicting requests. The Product Owner should:",
+    "options": [
+      "Deliver both in the same Sprint to avoid offense",
+      "Escalate to their managers to decide",
+      "Use their judgment about value to order the Product Backlog and transparently communicate the rationale",
+      "Let the Scrum Master mediate"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Ordering is the PO's accountability. They gather input, then decide based on value, with transparency on why."
+  },
+  {
+    "id": 63,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "The best indicator that a product is delivering value is:",
+    "options": [
+      "High team velocity",
+      "Low bug count",
+      "Measurable positive outcomes for customers and business (usage, satisfaction, revenue, etc.)",
+      "Number of features shipped"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Value is measured through outcomes, not output. Velocity, feature count, and bug counts can be misleading proxies."
+  },
+  {
+    "id": 64,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "'Time to Market' in Evidence-Based Management refers to:",
+    "options": [
+      "The length of Sprint Planning",
+      "The organization's ability to deliver new capabilities, services, or products quickly",
+      "The time from hiring to onboarding",
+      "The elapsed time between Sprint events"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Time to Market (T2M) measures an organization's capacity to deliver new value to customers quickly. Shorter T2M typically increases the rate of learning and value capture."
+  },
+  {
+    "id": 65,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "A Product Owner is unsure whether a proposed feature will deliver value. The best approach is to:",
+    "options": [
+      "Avoid building it",
+      "Build the complete feature to be safe",
+      "Build a small, testable version, release it, measure the outcome, and decide what to do next",
+      "Delegate the decision to stakeholders"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "When uncertainty is high, small experiments and validated learning outperform big upfront bets. This is empirical product management in action."
+  },
+  {
+    "id": 66,
+    "type": "tf",
+    "topic": "Value & Stakeholders",
+    "q": "The Product Owner is accountable for maximizing value — including long-term value, not only short-term delivery.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. The PO's accountability for value spans time horizons. Short-term wins that damage long-term value are a bad trade."
+  },
+  {
+    "id": 67,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "A product vision:",
+    "options": [
+      "Is a detailed list of every feature",
+      "Describes a future state and direction, aligning the Scrum Team and stakeholders",
+      "Is the same as the Product Goal",
+      "Is strictly mandated by the Scrum Guide"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "A product vision sets overarching direction. The Scrum Guide doesn't mandate it, but in practice it anchors the Product Goal and the PO's ordering decisions."
+  },
+  {
+    "id": 68,
+    "type": "single",
+    "topic": "Events",
+    "q": "During Sprint Planning, who is accountable for ensuring a Sprint Goal is defined?",
+    "options": [
+      "The Product Owner alone",
+      "The Developers alone",
+      "The entire Scrum Team collaborates; the Sprint Goal is crafted together",
+      "The Scrum Master writes it"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Sprint Goal is crafted collaboratively. The PO proposes value; the whole Scrum Team shapes the Goal. The Sprint Goal is the commitment for the Sprint Backlog."
+  },
+  {
+    "id": 69,
+    "type": "single",
+    "topic": "Events",
+    "q": "Does the Product Owner attend the Sprint Retrospective?",
+    "options": [
+      "No — it's only for Developers",
+      "No — it's only for the Scrum Master",
+      "Yes — the Retrospective is for the whole Scrum Team, including the PO",
+      "Only if explicitly invited"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Retrospective is for the whole Scrum Team. The PO participates in identifying improvements to people, interactions, processes, tools, and the Definition of Done."
+  },
+  {
+    "id": 70,
+    "type": "multi",
+    "topic": "Events",
+    "q": "Which of the following happen during a Sprint Review? (Select all that apply)",
+    "options": [
+      "The Scrum Team and stakeholders inspect the Increment",
+      "The Product Backlog may be adjusted based on new information",
+      "Stakeholders formally sign off on completed work",
+      "The Scrum Team gets approval to release",
+      "Progress toward the Product Goal is discussed"
+    ],
+    "correct": [
+      0,
+      1,
+      4
+    ],
+    "why": "Sprint Review is a working session: inspect the Increment, adapt the Product Backlog, discuss progress toward the Product Goal. It is not a sign-off or approval meeting."
+  },
+  {
+    "id": 71,
+    "type": "single",
+    "topic": "Events",
+    "q": "How does the Product Owner collaborate with Developers during the Sprint?",
+    "options": [
+      "Not at all — Developers work independently",
+      "Continuously — answering questions, clarifying Product Backlog items, and making trade-off decisions when needed",
+      "Only during Sprint Planning",
+      "Through written tickets only"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Ongoing collaboration is essential. Decisions about scope, clarity of items, and value trade-offs happen throughout the Sprint, not only at events."
+  },
+  {
+    "id": 72,
+    "type": "single",
+    "topic": "Scaling",
+    "q": "When scaling Scrum to multiple teams on the same product:",
+    "options": [
+      "Each team has its own Product Owner",
+      "There is still one Product Owner accountable for the product",
+      "Teams work on separate products",
+      "No Product Owner is needed"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Even at scale, a single product has one Product Goal, one Product Backlog, and one Product Owner — preserving a single source of value direction."
+  },
+  {
+    "id": 73,
+    "type": "single",
+    "topic": "Scrum Theory",
+    "q": "How does empiricism apply to product management?",
+    "options": [
+      "By avoiding experimentation",
+      "By using observation and experimentation to discover what delivers value",
+      "By strictly adhering to a long-term plan",
+      "By requiring signoff before every decision"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Empiricism says knowledge comes from experience and decisions are based on what's observed. In product management, that means measuring, learning, and adapting."
+  },
+  {
+    "id": 74,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "How should the Product Owner align product decisions with business strategy?",
+    "options": [
+      "They shouldn't — Scrum ignores business strategy",
+      "By ensuring the Product Goal and ordering reflect and advance the organization's strategic objectives",
+      "By deferring all decisions to executives",
+      "By maximizing feature count"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Product Goal translates strategy into a product direction. Ordering reflects what best advances that direction, given current evidence."
+  },
+  {
+    "id": 75,
+    "type": "single",
+    "topic": "PO Accountability",
+    "q": "Which of the following is MOST important for the Product Owner to focus on?",
+    "options": [
+      "Writing detailed specifications",
+      "Estimating work accurately",
+      "Maximizing product value through Product Goal, ordering, and stakeholder engagement",
+      "Managing Developer assignments"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The PO's core accountability is value maximization. Specifications and estimates serve that end but aren't the PO's core job."
+  },
+  {
+    "id": 76,
+    "type": "tf",
+    "topic": "Product Backlog",
+    "q": "Product Backlog items near the top should be more granular and better understood than items further down.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "why": "True. Refinement progressively decomposes and clarifies items as they move up in order. Items far down can be coarse; items near the top must be actionable soon."
+  },
+  {
+    "id": 77,
+    "type": "single",
+    "topic": "Product Backlog",
+    "q": "A Product Owner realizes a Product Backlog item is no longer needed. They should:",
+    "options": [
+      "Complete it anyway to avoid wasted work",
+      "Remove it or explicitly deprioritize it — obsolete items reduce transparency",
+      "Ask the Scrum Master to decide",
+      "Leave it for historical record"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Transparency of the Product Backlog matters. Obsolete items clutter ordering and mislead inspection. Remove or deprioritize them explicitly."
+  },
+  {
+    "id": 78,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "'Unrealized Value' in Evidence-Based Management refers to:",
+    "options": [
+      "Sunk costs",
+      "Potential future value that could be delivered if the product fully met all customer needs",
+      "Value lost to competitors",
+      "Value denominated only in revenue"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Unrealized Value (UV) is the opportunity — how much additional value could be created if the product better met customer needs. It informs investment decisions."
+  },
+  {
+    "id": 79,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "'Ability to Innovate' in Evidence-Based Management measures:",
+    "options": [
+      "Number of patents filed",
+      "Effectiveness of the product organization at delivering new capabilities that might better meet customer needs",
+      "R&D budget",
+      "Time spent brainstorming"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Ability to Innovate (A2I) captures how effectively an organization can deliver new capabilities. High technical debt, for example, degrades A2I."
+  },
+  {
+    "id": 80,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "A Product Owner must choose between a high-cost feature with uncertain payoff and a low-cost experiment to test the demand. The better empirical approach is:",
+    "options": [
+      "Commit to the big feature to be decisive",
+      "Run the cheap experiment first to reduce uncertainty, then decide based on evidence",
+      "Split the Sprint evenly across both",
+      "Defer the decision to the Developers"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Under uncertainty, small experiments that reduce the unknowns usually dominate large speculative commitments. This is empirical value management."
+  }
+]

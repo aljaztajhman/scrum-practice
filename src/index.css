@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  margin: 0;
+  background: #ede4d3;
+  font-family: 'Geist', 'Inter', system-ui, sans-serif;
+}
+
+.serif {
+  font-family: 'Fraunces', 'Times New Roman', serif;
+  font-optical-sizing: auto;
+}
+
+.paper {
+  background-image: radial-gradient(circle at 1px 1px, rgba(26, 35, 50, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.app-bg {
+  background: radial-gradient(ellipse at top, #f5efe4 0%, #ede4d3 100%);
+  min-height: 100vh;
+}
+
+kbd {
+  font-family: 'Geist', monospace;
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  border: 1px solid #a8a29e;
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  background: #fafaf9;
+  color: #57534e;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.slide-up {
+  animation: slideUp 0.25s ease-out;
+}
+
+*:focus-visible {
+  outline: 2px solid #1c1917;
+  outline-offset: 2px;
+}
