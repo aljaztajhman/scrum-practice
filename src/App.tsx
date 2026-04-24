@@ -4,6 +4,7 @@ import Practice from './routes/Practice';
 import Mock from './routes/Mock';
 import Drill from './routes/Drill';
 import Infinite from './routes/Infinite';
+import Hardcore from './routes/Hardcore';
 import NotFound from './routes/NotFound';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
       <Route path="/mock/:cert" element={<Mock />} />
       <Route path="/drill/:cert" element={<Drill />} />
       <Route path="/infinite/:cert" element={<Infinite />} />
+      <Route path="/hardcore/:cert" element={<Hardcore />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

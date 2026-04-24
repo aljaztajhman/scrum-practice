@@ -1,0 +1,166 @@
+[
+  {
+    "id": 1,
+    "type": "single",
+    "topic": "Accountabilities",
+    "q": "A Developer has missed every Sprint Goal for three Sprints in a row. They are technically skilled but frequently distracted. The team keeps replanning around them each Sprint and refuses to address it in the Retrospective. The Scrum Master should:",
+    "options": [
+      "Speak privately with the Developer and set performance expectations",
+      "Raise the pattern in the next Retrospective so the Scrum Team can inspect and address it together",
+      "Escalate to the Developer's line manager to take corrective action",
+      "Say nothing — self-management means the team alone decides if and how to respond"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Scrum Master is accountable for the Scrum Team's effectiveness and for the productivity of Scrum events. Surfacing a pattern the team has avoided is squarely in that remit — the SM doesn't prescribe the fix, but does make sure the team can inspect and adapt. Private performance conversations aren't the SM's role, escalating to a manager bypasses self-management, and doing nothing fails the Retrospective's purpose."
+  },
+  {
+    "id": 2,
+    "type": "multi",
+    "topic": "Values & Empiricism",
+    "q": "Leadership demands weekly per-Developer productivity reports as a condition for continuing Scrum. Which actions fit the Scrum Master accountability? (Select all that apply)",
+    "options": [
+      "Coach leadership on why individual productivity metrics undermine self-management and empiricism",
+      "Provide the reports to keep Scrum alive in the organization",
+      "Propose outcome-based measures (Increment value, customer impact) as an alternative",
+      "Refer leadership to the Product Owner for conversations about product progress",
+      "Quietly comply to avoid losing management support"
+    ],
+    "correct": [
+      0,
+      2,
+      3
+    ],
+    "why": "The Scrum Master serves the organization by leading and coaching Scrum adoption. Individual productivity metrics are not empirical measures of team progress or product value — they create false signals that distract from the actual artifact (the Increment) and from self-management. The principled move is to redirect the conversation toward outcome-based measures and route product progress through the Product Owner. Quiet compliance entrenches an anti-Scrum behavior under the badge of Scrum."
+  },
+  {
+    "id": 3,
+    "type": "single",
+    "topic": "Artifacts",
+    "q": "The organization has mandated a product-wide Definition of Done that the Scrum Team considers insufficient — it doesn't include meaningful testing or security review. What should the Scrum Team do?",
+    "options": [
+      "Follow the organizational DoD exactly, since it's mandated",
+      "Follow the organizational DoD as a minimum, and add stricter criteria where the team sees fit",
+      "Ignore the organizational DoD and create their own",
+      "Refuse to start the next Sprint until the organization updates the DoD"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "When an organization defines a DoD, the Scrum Team follows it as a minimum — and is free to raise the bar with stricter criteria. This preserves product-wide transparency across teams while honoring the Scrum Team's professional judgment on quality. Ignoring the org DoD fragments transparency; refusing to start blocks value delivery over a solvable problem."
+  },
+  {
+    "id": 4,
+    "type": "single",
+    "topic": "Scenarios",
+    "q": "An executive proposes that one Scrum Master serve four Scrum Teams to reduce cost. The Scrum Master should:",
+    "options": [
+      "Decline outright — one SM cannot effectively serve four teams",
+      "Accept without comment, since Scrum doesn't specify an SM-to-team ratio",
+      "Propose a trial while coaching the executive on what effectiveness requires, and let empirical evidence inform the decision",
+      "Appoint a \"lead Developer\" on each team to act as SM proxy"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Scrum Guide is silent on Scrum-Master-to-team ratios, so the SM cannot refuse outright on a rule basis, and silent acceptance abandons the SM's coaching accountability. What the Guide does say is that the SM serves the team, the Product Owner, and the organization — so a principled response coaches the decision-maker on what effectiveness should be measured by, proposes a trial, and lets observed evidence guide the choice. An SM proxy is not a Scrum role."
+  },
+  {
+    "id": 5,
+    "type": "tf",
+    "topic": "Events",
+    "q": "A major technical discovery mid-Sprint makes the original plan impossible. The Developers and Product Owner renegotiate the Sprint Backlog, land on revised work that still advances the Sprint Goal, and carry on. This is a violation of Scrum because the Sprint Backlog cannot change mid-Sprint.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "False. The Sprint Backlog is a plan by and for the Developers and is expected to adapt daily as more is learned. Renegotiating scope with the Product Owner while preserving the Sprint Goal is exactly how the Sprint handles emergent reality. The Sprint Goal itself is the commitment; the specific items and plan are not."
+  },
+  {
+    "id": 6,
+    "type": "single",
+    "topic": "Events",
+    "q": "After six months of Sprints, the Developers insist at every Retrospective: 'we have nothing new to discuss.' The Scrum Master should:",
+    "options": [
+      "Cancel Retrospectives until the team has concerns to raise",
+      "Continue facilitating and accept short, surface-level sessions",
+      "Shift the Retrospective focus to inspect a specific dimension (e.g., the Definition of Done, stakeholder engagement, flow) and prompt deeper reflection",
+      "Combine the Retrospective with the Sprint Review to save time"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Retrospective inspects people, interactions, processes, tools, and the Definition of Done. 'Nothing to discuss' is almost always a signal that the format has gone stale, not that improvement is exhausted. Rotating the lens and prompting deeper inquiry is a core SM facilitation skill. Cancelling or merging events isn't Scrum."
+  },
+  {
+    "id": 7,
+    "type": "single",
+    "topic": "Events",
+    "q": "Every Sprint Review in the organization is a one-way product demo with little stakeholder discussion. What should change first?",
+    "options": [
+      "Invite more stakeholders so more voices are in the room",
+      "Shorten the Review to reduce boredom",
+      "Restructure the Review as a working session: inspect the Increment together and adapt the Product Backlog based on the collaboration",
+      "Replace the live demo with a polished slide deck summarizing progress"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "The Sprint Review is a working session, not a status broadcast. Its purpose is to inspect the Increment and adapt the Product Backlog through genuine collaboration. The structural fix isn't more attendees, less time, or prettier slides — it's changing what actually happens in the event."
+  },
+  {
+    "id": 8,
+    "type": "multi",
+    "topic": "Scrum Team",
+    "q": "A Scrum Team lacks a specialized skill (e.g., security engineering) and depends on an external specialist every Sprint. Which actions align with Scrum? (Select all that apply)",
+    "options": [
+      "Accept the dependency as permanent — Scrum doesn't require all skills to be in-team",
+      "Work to bring the missing skill into the team over time",
+      "Cross-train existing Developers to reduce the dependency",
+      "Hand all security-related work to the external specialist and treat it as outside the Sprint",
+      "Make the dependency visible in Scrum events so the organization can address it"
+    ],
+    "correct": [
+      1,
+      2,
+      4
+    ],
+    "why": "Cross-functional means the team has all the skills needed to create value each Sprint. Permanent external dependencies fragment accountability for the Increment. The Scrum response is to surface the gap transparently, build skill in-team, and cross-train — not to accept or hide the dependency."
+  },
+  {
+    "id": 9,
+    "type": "single",
+    "topic": "Events",
+    "q": "A senior Developer proposes skipping Sprint Planning for one Sprint because 'we already know what to do.' The Scrum Master should:",
+    "options": [
+      "Agree — self-management means the team decides which events to run",
+      "Facilitate Sprint Planning anyway and coach the team on why the event still matters",
+      "Escalate to management so the team doesn't skip Scrum events",
+      "Run an abbreviated 15-minute Sprint Planning instead"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Sprint Planning is one of the five formal Scrum events and establishes the Sprint Goal — the Sprint's commitment. Its purpose is to create shared understanding of what valuable work the Sprint will produce and how, not just to generate a task list. A Developer feeling personal certainty about 'what to do' is not equivalent to the Scrum Team having a shared Sprint Goal and plan. The Scrum Master's role is to facilitate the event and coach the team on why it exists."
+  },
+  {
+    "id": 10,
+    "type": "single",
+    "topic": "Commitments",
+    "q": "A Product Owner tells the Scrum Team that a key customer deadline requires shipping work that hasn't met the Definition of Done. The Developers should:",
+    "options": [
+      "Ship the work to meet the deadline — the PO has final say on releases",
+      "Refuse to ship and raise the issue publicly in the Sprint Review",
+      "Ship the work without updating the Increment to mark it Done",
+      "Complete only the parts meeting DoD; the PO decides whether to release that reduced Increment"
+    ],
+    "correct": [
+      3
+    ],
+    "why": "The Definition of Done creates transparency about what is truly complete. Work not meeting DoD cannot be part of the Increment and cannot be released as Done. The PO's release authority applies to Done work; it does not extend to releasing sub-DoD output as if it were Done. The right response preserves DoD integrity and hands the PO a real decision about the reduced Increment."
+  }
+]

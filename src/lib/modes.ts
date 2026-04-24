@@ -1,6 +1,6 @@
 import type { TrackId } from './tracks';
 
-export type ModeId = 'practice' | 'mock' | 'drill' | 'infinite';
+export type ModeId = 'practice' | 'mock' | 'drill' | 'infinite' | 'hardcore';
 
 export interface ModeDef {
   id: ModeId;
@@ -38,6 +38,13 @@ export const MODES: ModeDef[] = [
     italic: 'until you stop',
     desc: 'Endless shuffled stream. Running accuracy counter. Walk away whenever you want.',
     path: (t) => `/infinite/${t}`,
+  },
+  {
+    id: 'hardcore',
+    title: 'Hardcore',
+    italic: 'ten questions that hurt',
+    desc: 'Ten scenario-heavy questions where three of four options sound right. Tests judgment under competing Scrum principles, not memorization. For when you think you really know it.',
+    path: (t) => `/hardcore/${t}`,
   },
 ];
 

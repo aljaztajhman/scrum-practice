@@ -1,0 +1,163 @@
+[
+  {
+    "id": 1,
+    "type": "single",
+    "topic": "PO Accountability",
+    "q": "The CEO tells the Product Owner that feature X must be at the top of the Product Backlog for the next release, overriding the PO's value ordering. The Product Owner should:",
+    "options": [
+      "Comply — the CEO has ultimate authority over product decisions",
+      "Move X to the top and quietly deprioritize it later",
+      "Discuss with the CEO: present the value reasoning behind the current ordering, incorporate the CEO's perspective, and decide based on value",
+      "Ask the Scrum Master to mediate the disagreement"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "For the PO to succeed, the organization must respect the PO's decisions — but respect is earned through transparent reasoning, not stubbornness. The PO remains accountable for ordering by value, incorporates new perspectives into that reasoning, and decides. Quiet resistance violates transparency. The Scrum Master does not mediate PO ordering decisions."
+  },
+  {
+    "id": 2,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "Velocity has been high for six Sprints. Customer satisfaction and product usage metrics are flat or declining. The Product Owner should:",
+    "options": [
+      "Celebrate the high velocity — the team is clearly productive",
+      "Ask the Developers to ship even more items per Sprint",
+      "Refocus the team and organization on outcome measures (customer impact, usage, value) rather than output",
+      "Pause releases until value rebounds"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Velocity measures throughput, not value. A product shipping lots of features while customer outcomes decline is a feature factory — maximizing output at the expense of value. The PO is accountable for value. The fix is reorienting what the team and organization measure and discuss, not cutting throughput or pushing more output."
+  },
+  {
+    "id": 3,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "A feature has been in development for three Sprints. Recent customer interviews reveal users don't actually want it. The Product Owner has spent significant political capital getting it prioritized. What should the PO do?",
+    "options": [
+      "Complete the feature to protect the PO's credibility",
+      "Complete it so the investment isn't fully wasted",
+      "Stop work, remove it from the backlog, and transparently communicate the reasoning to stakeholders",
+      "Scope it down so at least some version ships"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Under empiricism, new evidence changes decisions. Sunk cost isn't a reason to continue delivering work that new evidence shows won't create value. Transparent pivots — with the reasoning — build long-term credibility far better than shipping a feature the PO privately knows won't help users. Scoping down still invests effort in the wrong direction."
+  },
+  {
+    "id": 4,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "An executive demands the Product Owner commit to a fixed release date six months out. Empirical data shows high variability in team output and significant remaining product uncertainty. The PO should:",
+    "options": [
+      "Commit to the date so the organization can plan around it",
+      "Refuse — the PO cannot commit to any date because Scrum doesn't allow it",
+      "Share an empirical forecast with its confidence range and update it as learning occurs",
+      "Pad the forecast with a 50% buffer and commit to that date"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Empirical forecasting under uncertainty produces ranges, not dates. Treating a forecast as a fixed commitment hides variability and manufactures false certainty. The PO shares the forecast honestly, updates as data evolves, and works with stakeholders to make decisions as learning accrues. Padded commitments still fail when variance exceeds the pad, and the pad itself hides information."
+  },
+  {
+    "id": 5,
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": "A competitor ships a feature your product lacks. Leadership demands you copy it immediately. How should an evidence-based Product Owner respond?",
+    "options": [
+      "Prioritize copying the feature to stay competitive",
+      "Ignore the competitor and stay focused on the current Product Goal",
+      "Investigate whether the feature would deliver value for your users; decide based on evidence, not reaction",
+      "Run a small experiment to release a version of it quickly, then measure outcomes"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "A competitor's move is a signal, not a decision. An evidence-based PO evaluates whether copying fits *your* users and Product Goal before acting. Reactive copying often ships features that don't fit. Option 3 skips the evaluation and jumps to delivery; option 1 is purely reactive; option 2 uses the signal as one input to a value-driven decision."
+  },
+  {
+    "id": 6,
+    "type": "multi",
+    "topic": "Scaling",
+    "q": "An organization is adding three new Scrum Teams to a product that currently has one team. Which of the following are consistent with Scrum? (Select all that apply)",
+    "options": [
+      "Each team has its own Product Owner",
+      "All teams share one Product Owner",
+      "All teams share one Product Backlog",
+      "All teams share one Product Goal",
+      "Each team maintains its own Definition of Done, independent of the others"
+    ],
+    "correct": [
+      1,
+      2,
+      3
+    ],
+    "why": "At scale, Scrum preserves single accountability on the product: one Product Owner, one Product Backlog, one Product Goal. Teams contributing to the same product must share a consistent Definition of Done so Increments integrate. Multiple POs fragment value ordering; independent DoDs break Increment transparency at the product level."
+  },
+  {
+    "id": 7,
+    "type": "single",
+    "topic": "Events",
+    "q": "Mid-Sprint, a major customer signals a shift that makes the current Sprint Goal obsolete. What is within the Product Owner's accountability?",
+    "options": [
+      "Direct the Developers to immediately switch to new work",
+      "Cancel the Sprint and start a new one aligned to the new direction",
+      "Renegotiate the Sprint Backlog with the Developers to reshape the Sprint mid-flight",
+      "Wait for the Sprint Review to adapt the Product Backlog"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "Only the Product Owner has authority to cancel a Sprint, and an obsolete Sprint Goal is exactly the case where cancellation is right — it stops further waste on irrelevant work. Directing Developers ignores self-management; renegotiating scope is for changes within the Sprint Goal, not when the Goal itself is obsolete; waiting until Sprint Review extends the waste by days or weeks."
+  },
+  {
+    "id": 8,
+    "type": "tf",
+    "topic": "Product Backlog",
+    "q": "The Product Owner chooses to hide certain Product Backlog items from stakeholders to reduce noisy feedback and political pressure.",
+    "options": [
+      "True — this is within the PO's discretion",
+      "False — this breaks the Product Backlog's transparency"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The Product Backlog must be transparent to enable empirical decisions across the Scrum Team and stakeholders. Hiding items to manage stakeholder reactions trades short-term peace for long-term erosion of trust and empirical validity. If certain conversations are noisy, the fix is how the PO structures the engagement — not opacity."
+  },
+  {
+    "id": 9,
+    "type": "single",
+    "topic": "Product Backlog",
+    "q": "The Developers want to invest a Sprint in reducing technical debt. Stakeholders want new features. The Product Owner should:",
+    "options": [
+      "Side with stakeholders — new features are visible value",
+      "Side with the Developers — technical health matters",
+      "Treat debt reduction as part of the same value conversation: weigh reduced Ability to Innovate against near-term value and order accordingly",
+      "Alternate Sprints — one of features, one of debt"
+    ],
+    "correct": [
+      2
+    ],
+    "why": "Technical debt erodes the organization's Ability to Innovate — an EBM Key Value Area — but not every piece of debt reduction is the highest-value option. The PO evaluates whether *this* debt work outranks *these* alternative items. Alternating Sprints ignores the actual trade-offs; reflexively siding with either group abdicates the PO's value-ordering accountability."
+  },
+  {
+    "id": 10,
+    "type": "single",
+    "topic": "PO Accountability",
+    "q": "The Product Owner has spent months personally writing every Product Backlog item, while Developers have no direct contact with stakeholders. The Scrum Master could help by:",
+    "options": [
+      "Taking over backlog item writing to reduce the PO's burden",
+      "Coaching the PO and Developers on direct stakeholder collaboration, and the organization on why it matters",
+      "Letting the arrangement continue — it's within the PO's discretion",
+      "Appointing a business analyst to handle stakeholder communication"
+    ],
+    "correct": [
+      1
+    ],
+    "why": "The PO's accountability is maximizing value, not producing specifications. Direct collaboration between Developers and stakeholders is foundational to empiricism. The SM serves the Scrum Team and the organization by coaching this change. Taking over specification writing perpetuates the anti-pattern; a business analyst introduces a non-Scrum role; doing nothing ignores a clear dysfunction."
+  }
+]
