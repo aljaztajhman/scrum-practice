@@ -19,7 +19,6 @@ const STYLE_LABELS: Record<string, string> = {
   'find-the-flaw': 'Find the flaw',
   'steel-manning': 'Steel-manning',
   counterfactual: 'Counterfactual',
-  'cross-framework': 'Cross-framework',
   'devils-advocate': "Devil's advocate",
 };
 
@@ -28,7 +27,6 @@ const STYLE_BLURBS: Record<string, string> = {
   'find-the-flaw': 'Spot what is broken in this scenario.',
   'steel-manning': "Engage the argument's strongest form.",
   counterfactual: 'Imagine the rule absent. What degrades?',
-  'cross-framework': 'Map a Scrum concept onto another framework.',
   'devils-advocate': 'Where the apparent exception is not actually one.',
 };
 

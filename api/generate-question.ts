@@ -6,7 +6,6 @@ const STYLES = [
   'find-the-flaw',
   'steel-manning',
   'counterfactual',
-  'cross-framework',
   'devils-advocate',
 ] as const;
 
@@ -21,8 +20,6 @@ const STYLE_INSTRUCTIONS: Record<Style, string> = {
     'Present a contrarian Scrum take in its strongest 1-sentence form (≤25 words quoted). Ask which counterargument best engages the concern without dismissing it. Distractors are dogmatic or beside-the-point.',
   counterfactual:
     'Ask "if X did not exist in Scrum, what would degrade?" — X is a rule, accountability, event, or commitment. Tests why the rule matters by imagining its absence.',
-  'cross-framework':
-    'Ask the learner to map a Scrum concept onto a non-Scrum framework (scientific method, OODA loop, Kanban WIP, lean, PDCA) and identify the structurally tightest mapping.',
   'devils-advocate':
     'Construct a brief scenario where it seems acceptable to violate a Scrum rule. Ask why the apparent exception is not actually valid.',
 };
