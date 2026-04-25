@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, Navigate } from 'react-router-dom';
 import { ArrowLeft, Check, X, RotateCcw } from '../components/Icons';
 import PageShell from '../components/PageShell';
@@ -26,11 +26,13 @@ const STYLE_LABELS: Record<string, string> = {
 const STYLE_BLURBS: Record<string, string> = {
   'first-principles': 'Derive the rule from underlying goals.',
   'find-the-flaw': 'Spot what is broken in this scenario.',
-  'steel-manning': "Engage with the argument's strongest form.",
+  'steel-manning': "Engage the argument's strongest form.",
   counterfactual: 'Imagine the rule absent. What degrades?',
   'cross-framework': 'Map a Scrum concept onto another framework.',
   'devils-advocate': 'Where the apparent exception is not actually one.',
 };
+
+const BUFFER_TARGET = 3; // 1 displayed + 2 prefetched
 
 export default function Ai() {
   const { cert } = useParams<{ cert: string }>();
@@ -42,19 +44,30 @@ export default function Ai() {
 
 function AiSession({ track }: { track: Track }) {
   const navigate = useNavigate();
-  const [question, setQuestion] = useState<AiQuestion | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [queue, setQueue] = useState<AiQuestion[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<number[]>([]);
   const [locked, setLocked] = useState(false);
   const [stats, setStats] = useState({ answered: 0, correct: 0 });
 
-  const fetchQuestion = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    setSelected([]);
-    setLocked(false);
-    setQuestion(null);
+  const queueRef = useRef<AiQuestion[]>([]);
+  const inFlight = useRef(0);
+  const consecutiveErrors = useRef(0);
+  const isMounted = useRef(true);
+
+  // Keep queueRef in sync with state
+  useEffect(() => {
+    queueRef.current = queue;
+  }, [queue]);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  const fetchOne = useCallback(async () => {
+    inFlight.current++;
     try {
       const res = await fetch(`/api/generate-question?cert=${track.id}`);
       if (!res.ok) {
@@ -62,8 +75,9 @@ function AiSession({ track }: { track: Track }) {
         throw new Error(body.error || `Server returned ${res.status}`);
       }
       const data = await res.json();
-      setQuestion({
-        id: Date.now(),
+      if (!isMounted.current) return;
+      const q: AiQuestion = {
+        id: Math.floor(Math.random() * 1e9),
         type: data.type,
         topic: data.topic,
         q: data.q,
@@ -74,22 +88,52 @@ function AiSession({ track }: { track: Track }) {
         scrumGuideSection: data.scrumGuideSection,
         selfCritique: data.selfCritique,
         confidence: data.confidence,
-      });
+      };
+      setQueue((prev) => [...prev, q]);
+      consecutiveErrors.current = 0;
+      setError(null);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Generation failed');
+      consecutiveErrors.current++;
+      if (
+        consecutiveErrors.current >= 3 &&
+        queueRef.current.length === 0 &&
+        isMounted.current
+      ) {
+        setError(e instanceof Error ? e.message : 'Generation failed');
+      }
     } finally {
-      setLoading(false);
+      inFlight.current--;
+      // Recursive top-up to keep buffer full
+      if (isMounted.current && !error) {
+        topUp();
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [track.id]);
 
+  const topUp = useCallback(() => {
+    if (error) return;
+    const need =
+      BUFFER_TARGET - queueRef.current.length - inFlight.current;
+    for (let i = 0; i < need; i++) {
+      void fetchOne();
+    }
+  }, [error, fetchOne]);
+
+  // Initial load + when error clears
   useEffect(() => {
-    fetchQuestion();
-  }, [fetchQuestion]);
+    if (!error) topUp();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
+
+  const current = queue[0] ?? null;
+  const isLoadingFirst = !current && !error;
+  const isPrefetching = queue.length > 1; // at least one buffered
 
   const onToggle = (i: number) => {
-    if (locked || !question) return;
+    if (locked || !current) return;
     setSelected((prev) =>
-      question.type === 'multi'
+      current.type === 'multi'
         ? prev.includes(i)
           ? prev.filter((x) => x !== i)
           : [...prev, i]
@@ -98,14 +142,27 @@ function AiSession({ track }: { track: Track }) {
   };
 
   const onSubmit = () => {
-    if (!question || selected.length === 0 || locked) return;
-    const isCorrect = arraysEqualAsSets(selected, question.correct);
+    if (!current || selected.length === 0 || locked) return;
+    const isCorrect = arraysEqualAsSets(selected, current.correct);
     setLocked(true);
-    setStats((s) => ({ answered: s.answered + 1, correct: s.correct + (isCorrect ? 1 : 0) }));
+    setStats((s) => ({
+      answered: s.answered + 1,
+      correct: s.correct + (isCorrect ? 1 : 0),
+    }));
   };
 
   const onNext = () => {
-    void fetchQuestion();
+    setQueue((prev) => prev.slice(1));
+    setSelected([]);
+    setLocked(false);
+    // top-up will trigger via useEffect on queue change... actually it won't because no deps; trigger manually
+    setTimeout(topUp, 0);
+  };
+
+  const onTryAgain = () => {
+    consecutiveErrors.current = 0;
+    setError(null);
+    // useEffect on [error] will trigger topUp
   };
 
   const incorrect = stats.answered - stats.correct;
@@ -149,11 +206,19 @@ function AiSession({ track }: { track: Track }) {
               <span className="serif text-stone-900">{stats.answered}</span>
               <span className="text-stone-400"> answered</span>
             </span>
+            {isPrefetching && (
+              <>
+                <span className="text-stone-400">·</span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-emerald-700 tabular-nums">
+                  +{queue.length - 1} ready
+                </span>
+              </>
+            )}
           </div>
         </div>
       </div>
 
-      {loading && (
+      {isLoadingFirst && (
         <div className="bg-white/70 backdrop-blur-sm border border-stone-300 p-12 md:p-16 paper text-center">
           <p
             className="serif italic text-2xl md:text-3xl text-stone-700 mb-3"
@@ -167,14 +232,14 @@ function AiSession({ track }: { track: Track }) {
         </div>
       )}
 
-      {error && !loading && (
+      {error && (
         <div className="border border-rose-300 bg-rose-50/60 p-8 md:p-10">
           <p className="serif italic text-xl text-rose-900 mb-3" style={{ fontWeight: 400 }}>
             That one did not land.
           </p>
           <p className="text-sm text-stone-700 leading-relaxed mb-6">{error}</p>
           <button
-            onClick={onNext}
+            onClick={onTryAgain}
             className="inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-6 py-3 text-xs uppercase tracking-widest hover:bg-amber-700 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" strokeWidth={2} /> Try again
@@ -182,7 +247,7 @@ function AiSession({ track }: { track: Track }) {
         </div>
       )}
 
-      {question && !loading && !error && (
+      {current && !error && (
         <>
           <div className="mb-3 flex items-baseline justify-between gap-3">
             <div>
@@ -193,16 +258,16 @@ function AiSession({ track }: { track: Track }) {
                 className="serif italic text-base md:text-lg text-stone-800"
                 style={{ fontWeight: 500 }}
               >
-                {STYLE_LABELS[question.style] || question.style}
+                {STYLE_LABELS[current.style] || current.style}
               </span>
             </div>
             <span className="text-xs text-stone-500 italic hidden sm:inline">
-              {STYLE_BLURBS[question.style]}
+              {STYLE_BLURBS[current.style]}
             </span>
           </div>
           <QuizCard
             track={track}
-            question={question}
+            question={current}
             selected={selected}
             locked={locked}
             canGoPrev={false}
@@ -220,10 +285,10 @@ function AiSession({ track }: { track: Track }) {
                 Self-critique · the strongest argument against the marked answer
               </p>
               <p className="text-sm text-stone-700 leading-relaxed serif italic">
-                {question.selfCritique}
+                {current.selfCritique}
               </p>
               <p className="mt-3 text-[10px] uppercase tracking-[0.25em] text-stone-500">
-                Grounded in · {question.scrumGuideSection}
+                Grounded in · {current.scrumGuideSection}
               </p>
             </div>
           )}

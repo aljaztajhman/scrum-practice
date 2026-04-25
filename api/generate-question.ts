@@ -14,22 +14,22 @@ type Style = (typeof STYLES)[number];
 
 const STYLE_INSTRUCTIONS: Record<Style, string> = {
   'first-principles':
-    'Ask the learner to derive a Scrum rule from underlying principles, not recall it. Example shape: "If you had to pick a maximum length for Sprint Planning from scratch, what factors would push you toward 8 hours rather than 2 or 16?" The correct answer reasons from goals (e.g. enough time to forge a Sprint Goal, short enough to avoid waste). Distractors reflect surface-level reasoning.',
+    'Ask the learner to derive a Scrum rule from underlying goals, not recall it. The correct answer reasons from first principles; distractors reflect surface-level reasoning.',
   'find-the-flaw':
-    'Describe a 2–3 sentence team scenario containing one or more violations of Scrum principles. Ask which violation is most consequential, OR which are present (multi-select). Distractors are reasonable team practices that are NOT violations, mixed with the real ones.',
+    'Describe a 1-2 sentence team scenario containing one Scrum violation. Ask what is wrong (single) or which violations are present (multi). Distractors are reasonable practices that are NOT violations.',
   'steel-manning':
-    'Present a take that contradicts a Scrum principle, but in its strongest form (e.g. "the Daily Scrum is wasteful because Slack already keeps the team aligned"). Ask which counterargument most substantively engages the concern without dismissing it. Weak distractors include dogmatic responses and ones that miss the legitimate point.',
+    'Present a contrarian Scrum take in its strongest 1-sentence form (≤25 words quoted). Ask which counterargument best engages the concern without dismissing it. Distractors are dogmatic or beside-the-point.',
   counterfactual:
-    'Ask "if X did not exist in Scrum, what would specifically degrade?" where X is a rule, accountability, event, or commitment. Tests why the rule matters by imagining its absence. Distractors offer surface or wrong consequences.',
+    'Ask "if X did not exist in Scrum, what would degrade?" — X is a rule, accountability, event, or commitment. Tests why the rule matters by imagining its absence.',
   'cross-framework':
-    'Ask the learner to map a Scrum concept onto a non-Scrum framework (scientific method, OODA loop, Kanban WIP limits, lean manufacturing, PDCA, etc.) and identify which mapping is structurally tightest. Tests grasp through analogy.',
+    'Ask the learner to map a Scrum concept onto a non-Scrum framework (scientific method, OODA loop, Kanban WIP, lean, PDCA) and identify the structurally tightest mapping.',
   'devils-advocate':
-    'Construct a scenario where it would seem acceptable to violate a Scrum rule. Ask the learner to identify why the apparent exception is not actually valid OR what subtle factor distinguishes a legitimate edge case from this one. Tests judgment under principle-tension.',
+    'Construct a brief scenario where it seems acceptable to violate a Scrum rule. Ask why the apparent exception is not actually valid.',
 };
 
 const CERT_DESCRIPTIONS = {
-  PSM1: 'Professional Scrum Master I — Scrum framework, three accountabilities (Scrum Master, Product Owner, Developers), five events, three artifacts and their commitments, the Scrum Values, empiricism (transparency / inspection / adaptation), self-management.',
-  PSPO1: 'Professional Scrum Product Owner I — Product Owner accountability, Product Goal, Product Backlog ordering and refinement, value maximization, stakeholder collaboration, Evidence-Based Management (Current Value, Unrealized Value, Time-to-Market, Ability to Innovate).',
+  PSM1: 'Professional Scrum Master I — Scrum framework, three accountabilities (SM, PO, Developers), five events, three artifacts and commitments, the Scrum Values, empiricism (transparency / inspection / adaptation), self-management.',
+  PSPO1: 'Professional Scrum Product Owner I — PO accountability, Product Goal, Product Backlog ordering and refinement, value maximization, stakeholder collaboration, Evidence-Based Management (Current Value, Unrealized Value, Time-to-Market, Ability to Innovate).',
 } as const;
 
 type CertId = keyof typeof CERT_DESCRIPTIONS;
@@ -52,36 +52,39 @@ function pickStyle(): Style {
 }
 
 function buildPrompt(cert: CertId, style: Style): string {
-  return `Generate ONE original practice question for the ${cert} certification (${CERT_DESCRIPTIONS[cert]}).
+  return `Generate ONE original practice question for ${cert} (${CERT_DESCRIPTIONS[cert]}).
 
-The learner has already practiced 340 standard exam-mirror questions. Your goal is to give them a DIFFERENT perspective that hardens their understanding — not another recognition-style question. Style: ${style}.
+Goal: a different angle from the standard exam. Style: ${style}.
 
-Style guide:
-${STYLE_INSTRUCTIONS[style]}
+Style guide: ${STYLE_INSTRUCTIONS[style]}
+
+LENGTH BUDGETS (hard limits — count words):
+- Question text: ≤ 30 words for direct styles (first-principles, counterfactual, cross-framework). ≤ 60 words for scenario styles (find-the-flaw, steel-manning, devils-advocate).
+- Each option: ≤ 18 words. No padding, no parentheticals unless essential.
+- "why": ≤ 50 words.
+- "selfCritique": ≤ 40 words.
+
+Brevity discipline: cut every word that does not add information. No throat-clearing, no "this question tests…", no restating the question in options.
 
 Hard rules:
-- The marked-correct answer MUST be defensible per the Scrum Guide 2020 (and the EBM Guide if relevant for PSPO I). Cite the exact section.
-- Self-critique: state the strongest argument against your marked-correct answer, even if you ultimately stand by it.
-- After self-critique, rate your confidence 1–5 that the marked-correct answer is right. If confidence < 4, output {"reject": true, "reason": "..."} — do not generate a question you are not confident about.
-- All distractors must be plausible to a half-trained learner. No strawmen, no obvious nonsense.
-- Length-balance: the correct option must NOT be conspicuously the longest or shortest. Aim for similar lengths across options.
-- Type rules:
-  - "single": exactly 4 options, exactly 1 correct index.
-  - "tf": exactly 2 options ["True","False"], exactly 1 correct index.
-  - "multi": 5–7 options, 2–4 correct indices.
+- Marked-correct answer must align with Scrum Guide 2020 (and EBM Guide for PSPO1 if relevant). Cite the section.
+- Self-critique: state the strongest argument against your marked answer.
+- After self-critique, rate confidence 1–5. If < 4, output {"reject": true, "reason": "..."} — do not generate a question you are unsure about.
+- All distractors plausible. No strawmen.
+- Length-balance: correct option must NOT be conspicuously longest or shortest. All options similar in length.
+- Type rules: "single" = exactly 4 options + 1 correct. "tf" = exactly 2 options ["True","False"] + 1 correct. "multi" = 5–7 options + 2–4 correct.
 
-Output strict JSON only — no markdown fences, no commentary:
-
+Output strict JSON only — no markdown, no commentary:
 {
   "style": "${style}",
-  "topic": "<short topic label, e.g. 'Sprint Goal' or 'Empiricism'>",
-  "scrumGuideSection": "<specific section name from the Scrum Guide 2020 grounding the answer>",
+  "topic": "<short label, e.g. 'Sprint Goal'>",
+  "scrumGuideSection": "<specific Scrum Guide 2020 section>",
   "type": "single" | "multi" | "tf",
   "q": "<question text>",
   "options": ["..."],
-  "correct": [<0-indexed integer indices>],
-  "why": "<explanation citing Scrum Guide reasoning>",
-  "selfCritique": "<strongest counterargument to the marked-correct answer>",
+  "correct": [<0-indexed integers>],
+  "why": "<≤50 words explanation grounded in the Guide>",
+  "selfCritique": "<≤40 words counter-argument>",
   "confidence": <integer 1-5>
 }`;
 }
@@ -107,11 +110,22 @@ function validate(parsed: unknown): GeneratedQuestion | null {
     return null;
   if (typeof p.why !== 'string' || p.why.length < 20) return null;
   if (typeof p.selfCritique !== 'string' || p.selfCritique.length < 20) return null;
-  // Type-specific
   if (p.type === 'single' && (p.options.length !== 4 || p.correct.length !== 1)) return null;
   if (p.type === 'tf' && (p.options.length !== 2 || p.correct.length !== 1)) return null;
   if (p.type === 'multi' && (p.options.length < 5 || p.options.length > 7)) return null;
   if (p.type === 'multi' && (p.correct.length < 2 || p.correct.length > 4)) return null;
+
+  // Word-count check on length budgets
+  const wc = (s: string) => s.trim().split(/\s+/).length;
+  const isScenario = ['find-the-flaw', 'steel-manning', 'devils-advocate'].includes(p.style as string);
+  const qLimit = isScenario ? 70 : 35;
+  if (wc(p.q as string) > qLimit) return null;
+  for (const opt of p.options as string[]) {
+    if (wc(opt) > 22) return null;
+  }
+  if (wc(p.why as string) > 65) return null;
+  if (wc(p.selfCritique as string) > 50) return null;
+
   return p as unknown as GeneratedQuestion;
 }
 
@@ -122,7 +136,7 @@ async function generateOnce(
 ): Promise<GeneratedQuestion | null> {
   const response = await client.messages.create({
     model: 'claude-sonnet-4-6',
-    max_tokens: 2000,
+    max_tokens: 1200,
     messages: [{ role: 'user', content: buildPrompt(cert, style) }],
   });
   const block = response.content[0];
@@ -144,20 +158,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
-
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     res.status(500).json({ error: 'Server not configured: missing ANTHROPIC_API_KEY' });
     return;
   }
-
   const certParam = (req.query.cert as string | undefined)?.toUpperCase();
   if (certParam !== 'PSM1' && certParam !== 'PSPO1') {
     res.status(400).json({ error: 'Invalid cert. Use PSM1 or PSPO1.' });
     return;
   }
   const cert = certParam as CertId;
-
   const styleParam = req.query.style as string | undefined;
   const style: Style =
     styleParam && (STYLES as readonly string[]).includes(styleParam)
@@ -166,7 +177,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const client = new Anthropic({ apiKey });
 
-  // Up to 3 attempts; if the first style keeps rejecting, vary it
   let lastError: string | null = null;
   for (let attempt = 0; attempt < 3; attempt++) {
     const tryStyle = attempt === 0 ? style : pickStyle();
@@ -176,13 +186,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         res.status(200).json(result);
         return;
       }
-      lastError = 'Validation failed (low confidence or malformed output)';
+      lastError = 'Validation failed (length, confidence, or shape)';
     } catch (e) {
       lastError = e instanceof Error ? e.message : String(e);
       console.error(`AI gen attempt ${attempt} failed:`, lastError);
     }
   }
-
   res.status(502).json({
     error: 'Could not generate a valid question after 3 attempts',
     detail: lastError,
