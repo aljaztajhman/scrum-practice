@@ -1,4 +1,4 @@
-import { QuestionBankSchema, type LocalizedString, type Question } from './schema';
+import { QuestionBankSchema, type Question } from './schema';
 import psm1Raw from '../content/psm1.json';
 import pspo1Raw from '../content/pspo1.json';
 import psm1HardcoreRaw from '../content/psm1-hardcore.json';
@@ -8,8 +8,8 @@ export interface Track {
   id: TrackId;
   title: string;
   subtitle: string;
-  short: LocalizedString;
-  tagline: LocalizedString;
+  short: string;
+  tagline: string;
   questions: Question[];
   hardcoreQuestions: Question[];
   topicAccent: Record<string, string>;
@@ -27,11 +27,8 @@ export const TRACKS: Record<TrackId, Track> = {
     id: 'PSM1',
     title: 'PSM I',
     subtitle: 'Professional Scrum Master I',
-    short: { en: 'Scrum Master', sl: 'Scrum Master' },
-    tagline: {
-      en: 'Built from the Scrum Guide 2020. Calibrated to how the real test reads.',
-      sl: 'Zgrajeno iz Scrum vodnika 2020. Usklajeno z besedilom pravega izpita.',
-    },
+    short: 'Scrum Master',
+    tagline: 'Built from the Scrum Guide 2020. Calibrated to how the real test reads.',
     questions: PSM1_QUESTIONS,
     hardcoreQuestions: PSM1_HARDCORE,
     topicAccent: {
@@ -48,11 +45,8 @@ export const TRACKS: Record<TrackId, Track> = {
     id: 'PSPO1',
     title: 'PSPO I',
     subtitle: 'Professional Scrum Product Owner I',
-    short: { en: 'Product Owner', sl: 'Lastnik produkta' },
-    tagline: {
-      en: 'Built from the Scrum Guide 2020. Focused on the Product Owner accountability.',
-      sl: 'Zgrajeno iz Scrum vodnika 2020. Osredotočeno na odgovornost lastnika produkta.',
-    },
+    short: 'Product Owner',
+    tagline: 'Built from the Scrum Guide 2020. Focused on the Product Owner accountability.',
     questions: PSPO1_QUESTIONS,
     hardcoreQuestions: PSPO1_HARDCORE,
     topicAccent: {
