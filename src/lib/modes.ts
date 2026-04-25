@@ -1,6 +1,6 @@
 import type { TrackId } from './tracks';
 
-export type ModeId = 'practice' | 'mock' | 'drill' | 'infinite' | 'hardcore';
+export type ModeId = 'practice' | 'mock' | 'drill' | 'infinite' | 'hardcore' | 'ai';
 
 export interface ModeDef {
   id: ModeId;
@@ -45,6 +45,13 @@ export const MODES: ModeDef[] = [
     italic: 'ten questions that hurt',
     desc: 'Ten scenario-heavy questions where three of four options sound right. Tests judgment under competing Scrum principles, not memorization. For when you think you really know it.',
     path: (t) => `/hardcore/${t}`,
+  },
+  {
+    id: 'ai',
+    title: 'AI mode',
+    italic: 'a different angle',
+    desc: 'Live-generated questions that flip the test on its head — first-principles, find-the-flaw, steel-manning, counterfactuals. Not exam-style. Designed to harden understanding by attacking it from angles practice never does.',
+    path: (t) => `/ai/${t}`,
   },
 ];
 
