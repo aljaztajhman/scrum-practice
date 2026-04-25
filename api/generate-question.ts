@@ -44,16 +44,92 @@ interface GeneratedQuestion {
   confidence: number;
 }
 
+
+const TOPIC_SEEDS: Record<CertId, string[]> = {
+  PSM1: [
+    'Sprint Goal as the Sprint commitment',
+    'Definition of Done',
+    'Product Goal as the Product Backlog commitment',
+    'Sprint timebox (1 month maximum)',
+    'Sprint Planning structure and timebox',
+    'Daily Scrum purpose and 15-minute timebox',
+    'Sprint Review as a working session, not a status meeting',
+    'Sprint Retrospective and continuous improvement',
+    'Increment integrity and the Definition of Done',
+    'Product Backlog as an emergent ordered list',
+    'Sprint Backlog as a plan by and for the Developers',
+    'Scrum Master as a true leader who serves',
+    'Scrum Master vs project manager',
+    'Product Owner as one person, not a committee',
+    'Developers as cross-functional and self-managing',
+    'Empiricism: transparency',
+    'Empiricism: inspection',
+    'Empiricism: adaptation',
+    'Scrum Values (commitment, focus, openness, respect, courage)',
+    'Self-management within the Scrum Team',
+    'Cross-functionality and missing skills',
+    'Stakeholder participation in the Sprint Review',
+    'Sprint cancellation (only the Product Owner can cancel)',
+    'Sprint Backlog renegotiation within the Sprint Goal',
+    'Product Backlog refinement as an ongoing activity',
+    'Organisational vs team Definition of Done',
+    'Multiple Scrum Teams on one product (one PO, one Backlog, one Goal)',
+    'Why Sprints are fixed-length',
+    'Why work that does not meet DoD cannot be in the Increment',
+    'Daily Scrum as for the Developers',
+  ],
+  PSPO1: [
+    'Product Owner as a single accountable person',
+    'Maximizing the value of the product',
+    'Product Goal: long-term objective',
+    'Product Backlog ordering by value',
+    'Product Backlog refinement',
+    'Releasing Increments — the Product Owner decides timing',
+    'Multiple Increments may be created within a Sprint',
+    'Stakeholder collaboration outside the Sprint Review',
+    'Value vs output measurement',
+    'EBM Current Value (CV)',
+    'EBM Unrealized Value (UV)',
+    'EBM Time-to-Market (T2M)',
+    'EBM Ability to Innovate (A2I)',
+    'MVP as a learning instrument, not a small product',
+    'Empirical forecasting under uncertainty',
+    'Sprint Goal — Product Owner proposes value',
+    'Sprint cancellation — only the PO',
+    'One PO at scale on one product',
+    'For the PO to succeed, the organization must respect their decisions',
+    'Communicating the Product Goal',
+    'Why velocity is not value',
+    'Splitting large items into value-delivering slices',
+    'Refining items so they are ready for Sprint Planning',
+    'Decisions about the Product Backlog rest with the Product Owner',
+    'Anyone may propose items, but the PO orders',
+    'When to abandon a Product Goal',
+    'Stakeholder pressure on backlog ordering',
+    'The PO may delegate work but remains accountable',
+    'Why fixed scope-and-date commitments mislead under empiricism',
+    'Sunk cost and pivoting based on evidence',
+  ],
+};
+
+function pickTopic(cert: CertId): string {
+  const list = TOPIC_SEEDS[cert];
+  return list[Math.floor(Math.random() * list.length)] as string;
+}
+
 function pickStyle(): Style {
   return STYLES[Math.floor(Math.random() * STYLES.length)] as Style;
 }
 
-function buildPrompt(cert: CertId, style: Style): string {
+function buildPrompt(cert: CertId, style: Style, topicSeed: string): string {
   return `Generate ONE original practice question for ${cert} (${CERT_DESCRIPTIONS[cert]}).
 
 Goal: a different angle from the standard exam. Style: ${style}.
 
 Style guide: ${STYLE_INSTRUCTIONS[style]}
+
+FOCUS THIS QUESTION ON: ${topicSeed}.
+Make this the actual subject — not a generic question. If the style does not naturally fit this topic, pick a related angle on it rather than drifting to a more comfortable topic.
 
 LENGTH BUDGETS (hard limits — count words):
 - Question text: ≤ 30 words for direct styles (first-principles, counterfactual, cross-framework). ≤ 60 words for scenario styles (find-the-flaw, steel-manning, devils-advocate).
@@ -148,12 +224,13 @@ function shuffleOptions(q: GeneratedQuestion): GeneratedQuestion {
 async function generateOnce(
   client: Anthropic,
   cert: CertId,
-  style: Style
+  style: Style,
+  topicSeed: string
 ): Promise<GeneratedQuestion | null> {
   const response = await client.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 1200,
-    messages: [{ role: 'user', content: buildPrompt(cert, style) }],
+    messages: [{ role: 'user', content: buildPrompt(cert, style, topicSeed) }],
   });
   const block = response.content[0];
   if (!block || block.type !== 'text') return null;
@@ -199,7 +276,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   for (let attempt = 0; attempt < 3; attempt++) {
     const tryStyle = attempt === 0 ? style : pickStyle();
     try {
-      const result = await generateOnce(client, cert, tryStyle);
+      const tryTopic = pickTopic(cert);
+      const result = await generateOnce(client, cert, tryStyle, tryTopic);
       if (result) {
         res.status(200).json(result);
         return;
