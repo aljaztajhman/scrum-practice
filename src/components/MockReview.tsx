@@ -1,4 +1,5 @@
-import type { Question } from '../lib/schema';
+import { tr, type Question } from '../lib/schema';
+import { useLanguage } from '../i18n/LanguageContext';
 import { ChevronRight } from './Icons';
 
 interface Props {
@@ -110,6 +111,7 @@ interface ReviewSectionProps {
 }
 
 function ReviewSection({ title, accent, indices, pool, onJumpTo }: ReviewSectionProps) {
+  const { lang } = useLanguage();
   return (
     <div>
       <p className="serif text-sm uppercase tracking-[0.25em] text-stone-600 mb-4">{title}</p>
@@ -123,7 +125,7 @@ function ReviewSection({ title, accent, indices, pool, onJumpTo }: ReviewSection
             <span className="text-xs uppercase tracking-widest text-stone-500 tabular-nums shrink-0 w-10">
               Q{i + 1}
             </span>
-            <span className="text-sm text-stone-800 truncate flex-1">{pool[i]!.q}</span>
+            <span className="text-sm text-stone-800 truncate flex-1">{tr(pool[i]!.q, lang)}</span>
             <ChevronRight className="w-4 h-4 text-stone-400 shrink-0" strokeWidth={2} />
           </button>
         ))}

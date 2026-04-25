@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import type { Question } from '../lib/schema';
+import { tr, type Question } from '../lib/schema';
 import type { Track } from '../lib/tracks';
+import { useLanguage } from '../i18n/LanguageContext';
 import { Check, X, RotateCcw } from './Icons';
 
 export interface AnswerRecord {
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export default function Results({ track, pool, answers, onRestart, onRetrySame }: Props) {
+  const { lang } = useLanguage();
   const [viewMode, setViewMode] = useState<'missed' | 'all'>('missed');
 
   const results = pool.map((q, i) => ({
@@ -180,7 +182,7 @@ export default function Results({ track, pool, answers, onRestart, onRetrySame }
                   className="serif text-stone-900 mt-1 mb-3 text-base md:text-lg"
                   style={{ fontWeight: 500 }}
                 >
-                  {r.question.q}
+                  {tr(r.question.q, lang)}
                 </p>
                 {!r.correct && (
                   <>
@@ -189,13 +191,13 @@ export default function Results({ track, pool, answers, onRestart, onRetrySame }
                     </p>
                     <ul className="text-sm text-stone-800 mb-3 space-y-0.5">
                       {r.question.correct.map((ci) => (
-                        <li key={ci}>· {r.question.options[ci]}</li>
+                        <li key={ci}>· {tr(r.question.options[ci]!, lang)}</li>
                       ))}
                     </ul>
                   </>
                 )}
                 <p className="text-sm text-stone-700 leading-relaxed italic serif">
-                  {r.question.why}
+                  {tr(r.question.why, lang)}
                 </p>
               </div>
             ))}

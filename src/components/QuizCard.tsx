@@ -1,6 +1,7 @@
-import type { Question } from '../lib/schema';
+import { tr, type Question } from '../lib/schema';
 import type { Track } from '../lib/tracks';
 import { arraysEqualAsSets } from '../lib/utils';
+import { useLanguage } from '../i18n/LanguageContext';
 import { Check, X, ChevronLeft, ChevronRight } from './Icons';
 
 interface Props {
@@ -30,6 +31,7 @@ export default function QuizCard({
   onNext,
   onPrev,
 }: Props) {
+  const { lang } = useLanguage();
   const isCorrect = locked && arraysEqualAsSets(selected, question.correct);
 
   return (
@@ -56,7 +58,7 @@ export default function QuizCard({
           className="serif text-2xl md:text-3xl text-stone-900 leading-snug mb-8"
           style={{ fontWeight: 500 }}
         >
-          {question.q}
+          {tr(question.q, lang)}
         </h2>
 
         <div className="space-y-2.5" role="group" aria-label="Answer options">
@@ -101,7 +103,7 @@ export default function QuizCard({
                     <Check className="w-3.5 h-3.5" strokeWidth={3} />
                   ) : null}
                 </span>
-                <span className="text-stone-800 text-sm md:text-base leading-relaxed">{opt}</span>
+                <span className="text-stone-800 text-sm md:text-base leading-relaxed">{tr(opt, lang)}</span>
               </button>
             );
           })}
@@ -128,7 +130,7 @@ export default function QuizCard({
                 </>
               )}
             </div>
-            <p className="text-sm text-stone-800 leading-relaxed">{question.why}</p>
+            <p className="text-sm text-stone-800 leading-relaxed">{tr(question.why, lang)}</p>
           </div>
         )}
       </div>

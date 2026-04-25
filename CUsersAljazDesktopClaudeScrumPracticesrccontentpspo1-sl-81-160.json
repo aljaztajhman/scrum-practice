@@ -1,0 +1,882 @@
+[
+  {
+    "id": 81,
+    "q_sl": "Scrim tim se trudi razumeti poslovno utemeljitev za prioritete svojega Produktnega seznama. Kaj bi naj počel Product Owner, da bi jim pomagal razumeti vrednost?",
+    "options_sl": [
+      "Delo hitrejše od Razvijalcev",
+      "Sporočanje Cilja izdelka in urejenosti seznama",
+      "Udeležba na vseh Dnevnih Scrumih",
+      "Pisanje Definicije Končanega"
+    ],
+    "why_sl": "Product Owner komunicira Cilj izdelka in urejenost. To pomaga Razvijalcem razumeti vrednost in prioritete. Druge možnosti niso odgovornost PO za razumevanje vrednosti."
+  },
+  {
+    "id": 82,
+    "q_sl": "Kaj je primarni namen Pregleda Sprinta?",
+    "options_sl": [
+      "Predlagati spremembe za naslednji Sprint",
+      "Pregledati in sprejeti ali zavrniti končano delo",
+      "Pregledati napredek v primerjavi s ciljem Sprinta",
+      "Oceniti storilnost Scrum tima"
+    ],
+    "why_sl": "Pregled Sprinta je namenjen pregledavanju inkrementov in prilagoditvi pristopa. To vključuje sprejemanje ali zavračanje končanega dela in zbiranje povratnih informacij."
+  },
+  {
+    "id": 83,
+    "q_sl": "Kaj bi Scrum Master storiti, če je Razvijalec nenehno preusmerjavan s strani deležnikov?",
+    "options_sl": [
+      "Oceniti Razvijalca kot neproduktivnega",
+      "Samodejno zavrniti vse zahteve deležnikov",
+      "Zaustaviti Razvijalca, da se osredotoči na delo Sprinta",
+      "Ohraniti fokus Scrum tima in odstraniti to oviro"
+    ],
+    "why_sl": "Scrum Master je odgovoren za odstranjevanje ovir in zaščito Scrum tima. Omogoči osredotočenost na delo Sprinta in odstrani preusmeritve."
+  },
+  {
+    "id": 84,
+    "q_sl": "Kaj pomeni, da je Scrum tim \"samoupravljajoč\"?",
+    "options_sl": [
+      "Razvijalci si izbirajo, katere Scrume sploh uporabljati",
+      "Razvijalci se sami odločijo, kako delo opraviti, da dosežejo cilj Sprinta",
+      "Product Owner ne potrebuje biti prisoten med Sprintom",
+      "Ne potrebuje se noben Scrum Master"
+    ],
+    "why_sl": "Samoupravljajoč tim se sam odloči, kako delo opraviti in ga organizira. To ne pomeni izbire Scruma kot procesa, niti da vloge niso potrebne."
+  },
+  {
+    "id": 85,
+    "q_sl": "Med Sprintom se pojavi nepopravljiva tehnična težava v obstoječem kodu. Kaj bi moral Scrum Master storiti?",
+    "options_sl": [
+      "Naročiti Razvijalcem, da prekličejo to nalogo",
+      "Samodejno podaljšati Sprint",
+      "Pomočati Scrum timu, da preusmeri delo in ponovno oceni cilj Sprinta",
+      "Počakati do naslednjega Sprinta"
+    ],
+    "why_sl": "Scrum Master pomaga timu nagovoriti nepričakovane situacije. Če obstaja vprašanje o cilju Sprinta, ga je treba ponovno premisliti in prilagoditi delo."
+  },
+  {
+    "id": 86,
+    "q_sl": "Kaj je najpomembnejše, da Product Owner naredi pri pripravi Produktnega seznama na Načrtovanje Sprinta?",
+    "options_sl": [
+      "Zagotoviti popolne navedke in ocene veljavnosti",
+      "Zagotoviti, da je seznam uskladen s Ciljem izdelka in primerno uređen",
+      "Pisati vse navedke z enim stavkom",
+      "Dodeliti velike ocene velike stvari"
+    ],
+    "why_sl": "Product Owner zagotavlja, da je Produktni seznam jasen, uređen (prioritiziran) in uskladen s Ciljem izdelka. To je bistvenega pomena za uspešno Načrtovanje."
+  },
+  {
+    "id": 87,
+    "q_sl": "Kaj je kritičnega pomena za Razvijalce, da razumejo med Načrtovanjem Sprinta?",
+    "options_sl": [
+      "Kako bo Product Owner sam ocenjeval njihovo delo",
+      "Cilj Sprinta in kaj se smatra za Končano",
+      "Imena vseh deležnikov in njihove preference",
+      "Popolno seznam kode, ki jo morajo napisati"
+    ],
+    "why_sl": "Razvijalci morajo razumeti cilj Sprinta in Definicijo Končanega. To vodiči njihovo delo in samoupravičijo njihove odločitve."
+  },
+  {
+    "id": 88,
+    "q_sl": "Kaj je glavna prednost empiričnega pristopa v Scrum-u?",
+    "options_sl": [
+      "Odpravi potrebo po planiranju",
+      "Omogoča timu, da se sučasno nauči in prilagodi na podlagi resničnih podatkov",
+      "Zagotavlja vsem članom enako moto",
+      "Preprečuje vso negotovost"
+    ],
+    "why_sl": "Empiričnost pomeni, da se odločitvi naslanjamo na izkušnjo in opazovanje, ne na špekulacije. Scrum tim se nauči in se prilagodi na podlagi resničnih rezultatov."
+  },
+  {
+    "id": 89,
+    "q_sl": "Kaj se zgodi z nezavršenim delom na koncu Sprinta?",
+    "options_sl": [
+      "Samodejno gre v naslednji Sprint",
+      "Gre nazaj v Produktni seznam za ponovno ocenjevanje",
+      "Je izgubljeno in ga je treba znova napisati",
+      "Mora biti dokončano do konca tega tedna"
+    ],
+    "why_sl": "Nezavršeno delo se vrne v Produktni seznam kot del inkrementalne dostave. Ponovno se ga oceni in prioritizira za naslednje Sprinte."
+  },
+  {
+    "id": 90,
+    "q_sl": "Kaj je najpomembnejša odgovornost Product Ownerja glede vrednosti?",
+    "options_sl": [
+      "Odločiti se, kako hitro bodo Razvijalci delali",
+      "Maksimalizirati vrednost Produktnega inkrementov, ki jih dostavi Scrum tim",
+      "Kupiti najboljšo programsko opremo za Razvijalce",
+      "Spremeniti vse odločitve Razvijalcev"
+    ],
+    "why_sl": "Product Owner je odgovoren za maksimaliziranje vrednosti Inkrementov. To je temeljna odgovornost vloge, kot je opredeljeno v Scrum Vodiču."
+  },
+  {
+    "id": 91,
+    "q_sl": "Kaj je primarni namen Retrospektive Sprinta?",
+    "options_sl": [
+      "Oceniti delovanje vsakega člana tima",
+      "Odkriti, kaj je šlo dobro, kaj slabo in kako se izboljšati",
+      "Obvestiti vodstveni nadzor napredka",
+      "Odločiti, kaj bo v naslednjem Sprintu"
+    ],
+    "why_sl": "Retrospektiva Sprinta je možnost za tim, da si ogleda svoj proces in se nauči izboljšanja. Fokus je na procesnih izboljšavah, ne na osebnih ocenah."
+  },
+  {
+    "id": 92,
+    "q_sl": "Kaj je Cilj produkta v Scrum-u?",
+    "options_sl": [
+      "Kaj se dogaja v naslednjem Sprintu",
+      "Dolgoročna vizija, ki vodi razvoj produkta",
+      "Zadržan seznam vseh zahtev",
+      "Ena samostalka, ki opisuje proizvod"
+    ],
+    "why_sl": "Cilj produkta je dolgoročna vizija, ki vodi ali pripravljanje Produktnega seznama. Različno je od cilja Sprinta in služi kot kompas za razvoj."
+  },
+  {
+    "id": 93,
+    "q_sl": "Kako Product Owner najbolje komunicira vrednost stvari na Produktnem seznamu?",
+    "options_sl": [
+      "Z uporabo točke za vse",
+      "Z jasnim razloženjem, kako vsaka reč prinaša vrednost",
+      "Prepusti tem, da jo razumejo",
+      "Z izdajo naraščajočih seznamov"
+    ],
+    "why_sl": "Product Owner mora jasno sporočiti vrednost in prioritete. To pomaga Razvijalcem razumeti, zakaj jo morajo narediti in kako se osredotočiti na najpomembnejše delo."
+  },
+  {
+    "id": 94,
+    "q_sl": "Kaj je pogostost Dnevnega Scruma?",
+    "options_sl": [
+      "Enkrat na teden",
+      "Vsak dan",
+      "Le ko se pojavi problem",
+      "Dvakrat dnevno"
+    ],
+    "why_sl": "Dnevni Scrum je dogodek, ki se zgodi vsak delovni dan Sprinta. Ima časovni okvir do 15 minut."
+  },
+  {
+    "id": 95,
+    "q_sl": "Kaj je odgovornost Razvijalcev pri Dnevnem Scrumu?",
+    "options_sl": [
+      "Poročilo svojemu direktorju",
+      "Načrtovanje kako bodo ljudje delali",
+      "Organizacija lastnega dela za dosego cilja Sprinta",
+      "Odobravanje prioritet Product Ownerja"
+    ],
+    "why_sl": "Razvijalci se pri Dnevnem Scrumu osredotočijo na kako bodo skupaj delali, da dosežejo cilj Sprinta. To je samoupravičena koordinacijska prireditev, ne poročanje."
+  },
+  {
+    "id": 96,
+    "q_sl": "Kaj je najpomembnejše za Scrum Mastera, da uradi v prvem tednu s Scrum timom?",
+    "options_sl": [
+      "Dodeliti vse naslednje Sprinte",
+      "Spodbujati razumevanje in adherence k Scrum okviru",
+      "Rešiti vse tehnične probleme",
+      "Spremeniti vse procese tima"
+    ],
+    "why_sl": "Scrum Master je coach. V prvem tednu je ključno, da predstavi Scrum okvir in pogoje za uspeh, ter spodbudi razumevanje."
+  },
+  {
+    "id": 97,
+    "q_sl": "Kaj je najslabši razlog, da Scrum tim ne dosega svojega cilja Sprinta?",
+    "options_sl": [
+      "Nezadostni viri ali trenutno nepredvidene ovire",
+      "Razvijalci so preveč počasni",
+      "Product Owner sprinja predolgo",
+      "Preveč Dnevnih Scrumov"
+    ],
+    "why_sl": "Čeprav je lahko nezadostnih virov razlog, je to redko samo razlog. Pravi razlogi so pogosto nepredvideni dogodki in ovire. Druge možnosti ne bistveno vplivajo na dosego."
+  },
+  {
+    "id": 98,
+    "q_sl": "Kaj pomeni, da je Inkreement \"Končan\"?",
+    "options_sl": [
+      "Ko je razvoj zaključen, vendar testiranje ostane",
+      "Ko izpolnjuje Definicijo Končanega",
+      "Ko ga Product Owner odobri",
+      "Ko ga Scrum Master preveri"
+    ],
+    "why_sl": "Inkreement je Končan le, če izpolnjuje Definicijo Končanega. To je objektivna priporočila, ne subjektivna odobritev."
+  },
+  {
+    "id": 99,
+    "q_sl": "Kaj je vloga Scrum Masterja do Scrum tima?",
+    "options_sl": [
+      "Vodja, ki daje ukaze",
+      "Coach, ki spodbuja samoorganizirano in Cross-Functional skupino",
+      "Administrator, ki vodi sestanke",
+      "Programer, ki piše kodo"
+    ],
+    "why_sl": "Scrum Master je coach in facilitator. Njihova vloga je olajšati samoupravničeni razvoj in odstraniti ovire, ne pa dajati ukazov."
+  },
+  {
+    "id": 100,
+    "q_sl": "Kaj je skupna napaka pri voditvi Retrospektive Sprinta?",
+    "options_sl": [
+      "Premalo časa za razgovor",
+      "Prepustiti jo samo negativnim stvarem",
+      "Poudarjanje osebnih ovir namesto procesnih izboljšav",
+      "Vključitev deležnikov"
+    ],
+    "why_sl": "Retrospektiva mora biti varno mesto za razgovor o procesih. Navadno je napaka fokusirati se na osebne kritike ali zanemariti pozitivne točke."
+  },
+  {
+    "id": 101,
+    "q_sl": "Kaj je bistvene vloge Product Ownerja med Sprintom?",
+    "options_sl": [
+      "Pisanje kode z Razvijalci",
+      "Dostopnost za vprašanja in jasnost navedkov",
+      "Vodenje sestankov",
+      "Testiranje produkta"
+    ],
+    "why_sl": "Product Owner je odgovoren za razpoložljivost in razjasnjuje navedke, ko so potrebna. To zagotavlja, da Razvijalci lahko delajo brez blokad."
+  },
+  {
+    "id": 102,
+    "q_sl": "Kaj je Inkreement v Scrum-u?",
+    "options_sl": [
+      "Seznam stvari za naslednji Sprint",
+      "Vsota vseh končanega produktnega dela do sedaj, ki je Končana in potencialno učinkuje",
+      "Dodatka za vsakega člana tima",
+      "Predlog za spremembe"
+    ],
+    "why_sl": "Inkreement je skupno delo vseh Sprintov do sedaj, ki je Končano in potencialno učinkuje. To je grajeno, oprijemljivo stvar, ne pa seznam."
+  },
+  {
+    "id": 103,
+    "q_sl": "Kaj je najpomembnejše za Product Ownerja, da počne pri ureditvi Produktnega seznama?",
+    "options_sl": [
+      "Dodeliti točke za vse stvari",
+      "Zagotoviti, da je seznam prioritiziran glede na vrednost in Cilj produkta",
+      "Napisati podrobne navedke za vsako stvar",
+      "Spremeniti stvari na podlagi najnovejše povratne informacije"
+    ],
+    "why_sl": "Uređenost Produktnega seznama je ključna odgovornost Product Ownerja. Prioritete se temeljijo na vrednosti in strateški viziji, ne pa na drugih dejavnikih."
+  },
+  {
+    "id": 104,
+    "q_sl": "Kaj je vloga Razvijalcev pri Načrtovanju Sprinta?",
+    "options_sl": [
+      "Odobriti prioritete Product Ownerja",
+      "Oceniti, kaj bi moglo biti opravljeno v Sprintu in kako ga opraviti",
+      "Pisati vse navedke",
+      "Spremeniti cilje Product Ownerja"
+    ],
+    "why_sl": "Razvijalci igrajo bistveno vlogo z ocenjevanjem dela in dogovorom o tem, kaj je mogoče narediti. To ruši, da je cilj Sprinta dosegljiv in realen."
+  },
+  {
+    "id": 105,
+    "q_sl": "Kaj se zgodi, če Product Owner ni dostopen med Sprintom?",
+    "options_sl": [
+      "Razvijalci morajo počakati, da se vrne",
+      "Razvijalci morajo sami odločati o razpoložljivih stvareh",
+      "Scrum Master mora prevzeti vlogo Product Ownerja",
+      "Sprint je samodejno prekličemo"
+    ],
+    "why_sl": "Product Owner bi moral biti dostopen. Če ni, je to blokada. Razvijalci ne bi smeli čakati; potrebna je rešitev, da se prepreči blokada."
+  },
+  {
+    "id": 106,
+    "q_sl": "Kaj je skupna napaka pri ocenjevanju dela v Scrum-u?",
+    "options_sl": [
+      "Oceniti v minutah, ne v točkah",
+      "Oceniti skupini namesto posameznikov",
+      "Oceniti samo Razvijalci brez vhodov Product Ownerja",
+      "Oceniti premalo stvari"
+    ],
+    "why_sl": "Ocena je skupni proces. Razvijalci zagotovijo stroške, Product Owner pa vrednost. Ocenjevanje posameznikov je tudi protismerno samoupravljanju."
+  },
+  {
+    "id": 107,
+    "q_sl": "Kaj je cilj Načrtovanja Sprinta?",
+    "options_sl": [
+      "Narediti seznam vse stvari, ki bi moglo biti storjena",
+      "Vzpostaviti cilj Sprinta in dogovoriti se, kaj bo to dosegljivo",
+      "Zagotoviti Product Ownerju več dela",
+      "Testirati novo kodo"
+    ],
+    "why_sl": "Načrtovanje Sprinta ima za cilj ustvariti cilj Sprinta in dogovoriti se o tem, kaj bi moglo biti naredljivo za dosego tega cilja."
+  },
+  {
+    "id": 108,
+    "q_sl": "Kaj je najpomembnejše delo Scrum Masterja s Product Ownerjem?",
+    "options_sl": [
+      "Codiranje skupaj",
+      "Pomagati Product Ownerju, da razume Scrum okvir in načela",
+      "Pisanje Retrospektivnih poročil",
+      "Priprava testnih primerov"
+    ],
+    "why_sl": "Scrum Master je coach za Product Ownerja. Pomaga mu razumeti svoje vloge in odgovornosti ter kako delati z Razvijalci."
+  },
+  {
+    "id": 109,
+    "q_sl": "Kaj je izjava Definicije Končanega?",
+    "options_sl": [
+      "Kaj Razvijalci naredijo na koncu dneva",
+      "Skupna seznam, ki jo mora izpolniti inkreement, da je sprejemljiv",
+      "Kako se vsi Razvijalci počutijo ob koncu Sprinta",
+      "Pravila, ki jih Product Owner daje"
+    ],
+    "why_sl": "Definicija Končanega je skupna seznama standardov, ki jih mora vsak inkreement izpolniti. To je skupen dogovor, ne pa Product Owner prevesti."
+  },
+  {
+    "id": 110,
+    "q_sl": "Kaj je najpomembnejši rezultat Dnevnega Scruma?",
+    "options_sl": [
+      "Dokončno poročilo za upravo",
+      "Načrt za ostanek dneva, da se dosege cilj Sprinta",
+      "Pregled ločenih statusov",
+      "Odobravanje vseh zahtev"
+    ],
+    "why_sl": "Dnevni Scrum je za samoupravičevanje in planiranje dneva. Cilj je da tim skupaj razume, kako napreduje k cilju Sprinta."
+  },
+  {
+    "id": 111,
+    "q_sl": "Kaj je naloga Scrum Masterja, če Razvijalec nasprotuje cilju Sprinta?",
+    "options_sl": [
+      "Naročiti Razvijalcu, da ga sprejme",
+      "Spremeniti cilj",
+      "Olajšati razgovor med Razvijalcem in Product Ownerjem, da se razume in poujema",
+      "Ignomorirati Razvijalca"
+    ],
+    "why_sl": "Scrum Master je facilitator. Pomagati mora pri razgovoru in zagotoviti, da je cilj Sprinta razumljiv in dogovorjen."
+  },
+  {
+    "id": 112,
+    "q_sl": "Kaj je koncept \"kontinuiranega izboljšanja\" v Scrum-u?",
+    "options_sl": [
+      "Vedno delati več ur",
+      "Osredotočiti se samo na tehnične izboljšave",
+      "Redni pregledi in prilagoditve procesov in praks",
+      "Zamenjati člane tima"
+    ],
+    "why_sl": "Kontinuirana izboljšanja je jedro Scrum-a. Skozi Retrospektivo in prilagoditve, se tim nenehno učijo in izboljšajo."
+  },
+  {
+    "id": 113,
+    "q_sl": "Kaj je najpomembnejši razlog, da Scrum tim potrebuje Scrum Mastera?",
+    "options_sl": [
+      "Da daje naročila",
+      "Da olajša Scrum proces in pomaga timu biti samoupravljajoč",
+      "Da testira kodo",
+      "Da piše dokumentacijo"
+    ],
+    "why_sl": "Scrum Master je coach, ki pomaga timu razumeti in uporabljati Scrum. Niso vodja s pogoji, temveč facilitator."
+  },
+  {
+    "id": 114,
+    "q_sl": "Kaj se zgodi, če Scrum tim ne more doseči svojega cilja Sprinta med razvoj?",
+    "options_sl": [
+      "Sprint se nadaljuje brez sprememb",
+      "Product Owner mora spremeniti Produktni seznam",
+      "Scrum Master in tim pregledajo razloge in prilagodijo prihodnje Sprinte",
+      "Javnost je prekinjena"
+    ],
+    "why_sl": "Če cilj Sprinta ni dosegljiv, je to povratna informacija. Tim se nauči razlogov in prilagodi svoje pristope za naslednje Sprinte."
+  },
+  {
+    "id": 115,
+    "q_sl": "Kaj je najpomembnejše značenje \"preglednosti\" v Scrum-u?",
+    "options_sl": [
+      "Vsi vidijo kodo",
+      "Ključni pogoji so vidni deležnikom in se razume njihov pomen",
+      "Vsi sestanki so javni",
+      "Nobenih tajnih e-poštnih sporočil"
+    ],
+    "why_sl": "Preglednost v Scrum-u pomeni, da so ključni aspekti (Produktni seznam, cilj Sprinta, Inkreement) jasni vsem. To omogoči dobro odločitve."
+  },
+  {
+    "id": 116,
+    "q_sl": "Kaj je vloga deležnikov v Scrum-u?",
+    "options_sl": [
+      "Dajati dnevne naročila Razvijalcem",
+      "Zagotavljati povratne informacije na Pregledu Sprinta",
+      "Voditi Retrospektivo",
+      "Pisati kodo"
+    ],
+    "why_sl": "Deležniki so povabljeni na Pregled Sprinta, da dajejo povratne informacije in vidijo delo. Niso del Scrum tima, imajo pa vlogo v povratnih informacijah."
+  },
+  {
+    "id": 117,
+    "q_sl": "Kaj je najpomembnejši izhodna točka Pregleda Sprinta?",
+    "options_sl": [
+      "Listi oblik",
+      "Preusmerjene stvari in povratne informacije za Produktni seznam",
+      "Navedke za kodo",
+      "Testna poročila"
+    ],
+    "why_sl": "Pregled Sprinta je namenjena zberu povratnih informacij in prilagoditi Produktni seznam. To je povratna kroga, ki vodi prihodnje razvoje."
+  },
+  {
+    "id": 118,
+    "q_sl": "Kaj je najpomembnejši del navedka za Razvijalce?",
+    "options_sl": [
+      "Tehnični detajli kode",
+      "Jasni kriteriji sprejemanja, ki jih razumejo Razvijalci",
+      "Podatke o tem, kdo je napisal navedek",
+      "Imena vseh zainteresiranih strank"
+    ],
+    "why_sl": "Razvijalci morajo jasno razumeti kaj je treba storiti (kriterije sprejemanja). To je bistveno za popolnjene delo."
+  },
+  {
+    "id": 119,
+    "q_sl": "Kaj je bistvena karakteristika samoupravljajočega Scrum tima?",
+    "options_sl": [
+      "Ne potrebuje Scrum Mastera",
+      "Brez vodstva je",
+      "Sami odločajo, kako delo opraviti in ga organizirati",
+      "Ignomorira Product Ownerja"
+    ],
+    "why_sl": "Samoupravljajoč tim sam odloči kako delo opraviti. To ne pomeni, da ni vloge ali vodstva, temveč, da je tim vključen v odločitve."
+  },
+  {
+    "id": 120,
+    "q_sl": "Kaj je najpomembnejše za Product Ownerja pri komuniciranju s Razvijalci?",
+    "options_sl": [
+      "Biti smešen",
+      "Jasno razjasniti vrednost in prednosti stvari",
+      "Samo naročiti kaj delati",
+      "Biti vedno dostopen"
+    ],
+    "why_sl": "Product Owner mora jasno sporočiti kaj in zakaj. To pomaga Razvijalcem razumeti vrednost in biti motivirani."
+  },
+  {
+    "id": 121,
+    "q_sl": "Kaj je skupna napaka pri načrtovanju Sprinta?",
+    "options_sl": [
+      "Preveč časa porabljenega",
+      "Premalo navedkov",
+      "Planiranje premalo ali preveč dela, vendar ne prilagajanje cilju Sprinta",
+      "Nepripravljen Product Owner"
+    ],
+    "why_sl": "Pogosta napaka je planiranje premalo (Razvijalci so podcenjeni) ali preveč (cilj je nerealen). Dobar Načrt je vožljiv in dosegljiv."
+  },
+  {
+    "id": 122,
+    "q_sl": "Kaj je vloga Razvijalcev pri zagotavljanju kakovosti?",
+    "options_sl": [
+      "Kakovost je odgovornost samo testera",
+      "Razvijalci so odgovorni za kakovost svojega dela",
+      "Kakovost je odgovornost Product Ownerja",
+      "Kakovost ni del Scrum-a"
+    ],
+    "why_sl": "Razvijalci so odgovorni za kakovost svojega dela. Definicija Končanega vključuje standarde kakovosti, ki jih morajo dosegti."
+  },
+  {
+    "id": 123,
+    "q_sl": "Kaj je najpomembnejša prednost rabe Scrum-a v primerjavi z drugim pristopom?",
+    "options_sl": [
+      "Hitrejši razvoj",
+      "Zmožnost prilagajanja na spremembe in nudenja vrednosti pogosto",
+      "Manj sestankov",
+      "Brez potrebe po planiranju"
+    ],
+    "why_sl": "Scrum omogoča ekipam hitro prilagajati in dostaviti vrednost redno. To je ključna prednost v negotovem okolju."
+  },
+  {
+    "id": 124,
+    "q_sl": "Kaj je Produktni seznam na začetku razvoja?",
+    "options_sl": [
+      "Prazna lista",
+      "Polna list vseh stvari, ki bi moglo biti naredljivo",
+      "Živa lista stvari, ki jih je treba narediti, preusmerjene glede na vrednost",
+      "Fiksna lista, ki se ne spremeni"
+    ],
+    "why_sl": "Produktni seznam začne z ideami in prioritetami. Živa je lista, ki se postavi prilagajanja, popravilne in spremembe med razvojem."
+  },
+  {
+    "id": 125,
+    "q_sl": "Kaj je najpomembnejši korak v Retrospektivi Sprinta?",
+    "options_sl": [
+      "Oceniti delovanje vsake osebe",
+      "Prebuditi kaj se je naučilo in kako se izboljšati",
+      "Napisati nepredvidljiv poročilo",
+      "Spremeniti vse Razvijalce"
+    ],
+    "why_sl": "Retrospektiva je namenjena učenju in izboljšanju. Fokus je na procesnih izboljšavah in pravednih razgovorih o tem, kaj je dobro in kaj ne."
+  },
+  {
+    "id": 126,
+    "q_sl": "Kaj je vloga Scrum Masterja pri rešavanju konfliktov v timu?",
+    "options_sl": [
+      "Odločiti se, kdo je prav",
+      "Olajšati razgovor in pomagati timu rešiti konflikt",
+      "Ignomorirati konflikt",
+      "Predlagati zamenjave članov"
+    ],
+    "why_sl": "Scrum Master je facilitator. Pomaga timu komunicirati in reševati konflikte na zdrav način, ne pa njihova naročila."
+  },
+  {
+    "id": 127,
+    "q_sl": "Kaj se zgodi, če Razvijalci ne strinjajo s prioritetami Product Ownerja?",
+    "options_sl": [
+      "Product Owner ima vedno prav",
+      "Razvijalci ignorirajo Product Ownerja",
+      "Razgovor in razumevanje vrednosti je potrebna",
+      "Scrum Master odloči"
+    ],
+    "why_sl": "Razgovor je ključen. Razvijalci bi morali razumeti vrednost prioritet. Če obstajajo tehnični izzivi, je tudi treba jih objaviti."
+  },
+  {
+    "id": 128,
+    "q_sl": "Kaj je najpomembnejši podatek za Scrum Mastera, da zbira med Sprintom?",
+    "options_sl": [
+      "Kako hitro vsaka oseba dela",
+      "Kaj je prikazujem in kaj blokira cilj Sprinta",
+      "Kako je bila vsaka oseba produktivna",
+      "Katere stvari so biggest"
+    ],
+    "why_sl": "Scrum Master se osredotoči na napredek in blokade. Pomaga timu razumeti kaj je na pravi poti in kaj nega izzive."
+  },
+  {
+    "id": 129,
+    "q_sl": "Kaj je najpomembnejša akcija, ki je Product Owner lahko sprejem za povečanje vrednosti?",
+    "options_sl": [
+      "Zahtevati hitrejši razvoj",
+      "Prioritizira Produktni seznam glede na vrednost in poslovno vplivom",
+      "Napisati bolj tehnične navedke",
+      "Pogosteje imeti sestanke"
+    ],
+    "why_sl": "Product Owner je odgovoren za maksimaliziranje vrednosti. To počne skozi prioritizacijo. Vrednost je odločujoča, ne hitrost."
+  },
+  {
+    "id": 130,
+    "q_sl": "Kaj je najpomembnejši vidik Pregleda Sprinta?",
+    "options_sl": [
+      "Skupini morajo biti fascinantni",
+      "Inkreement se prikaže in se zbere povratne informacije",
+      "Vsak razvijalec poroča svoje delo",
+      "Novi Produktni seznam je napravljen"
+    ],
+    "why_sl": "Pregled Sprinta se osredotoči na vidne rezultate (Inkreement) in povratne informacije. To je pravi cilj srečanja."
+  },
+  {
+    "id": 131,
+    "q_sl": "Kaj je vloga deležnikov pri Načrtovanju Sprinta?",
+    "options_sl": [
+      "Dajati zahteve",
+      "Biti dostopni za vprašanja o vrednosti in prioritetah",
+      "Pisati navedke",
+      "Glasovati za prioritete"
+    ],
+    "why_sl": "Deležniki ordinary niso prisotni na Načrtovanju Sprinta. Njihova vloga je biti dostopni za povratne informacije prek Product Ownerja."
+  },
+  {
+    "id": 132,
+    "q_sl": "Kaj je najpomembnejši čas za Product Ownerja, da je dostopen timu?",
+    "options_sl": [
+      "Samo na Pregledu Sprinta",
+      "Samo med Načrtovanjem Sprinta",
+      "Redno in po potrebi med Sprintom",
+      "Le konec Sprinta"
+    ],
+    "why_sl": "Product Owner bi moral biti dostopen vse čas med Sprintom. To omogoči hitro razjasnitev in preprečuje blokade."
+  },
+  {
+    "id": 133,
+    "q_sl": "Kaj je najpomembnejše razumevanje Razvijalcev o Cilja Sprinta?",
+    "options_sl": [
+      "To je samo estetski cilj",
+      "To je fleksibilen vodnik, ki ga spremljajo, vendar se spremeni",
+      "To je fiksna lista stvari, ki jih je treba narediti",
+      "To je ne bistveno za delo"
+    ],
+    "why_sl": "Cilj Sprinta je fleksibilen, vendar je osrednja zaveza Scrum tima. Vodi delo in akvizicije, a se lahko prilagodi, če se stvari spremene."
+  },
+  {
+    "id": 134,
+    "q_sl": "Kaj je vloga Scrum Masterja pri upravljanju tveganja?",
+    "options_sl": [
+      "Zavrniti vse tveganja",
+      "Ignorirati tveganja",
+      "Pomagati timu prepoznati in upravljati tveganja",
+      "Ročno tveganja v službi"
+    ],
+    "why_sl": "Scrum Master pomaga timu prepoznati tveganja in jih upravljati. Scrum sam je strateškim okvir za upravljanje negotovosti."
+  },
+  {
+    "id": 135,
+    "q_sl": "Kaj je najpomembnejše delo Razvijalcev med Sprintom?",
+    "options_sl": [
+      "Poklapiti Product Ownerja z novimi ideami",
+      "Osredotočiti se na delo, ki je dogovorjeno v Načrtovanju Sprinta",
+      "Odkriti nove tehnologije",
+      "Testirati vse stvari sami"
+    ],
+    "why_sl": "Razvijalci bi se morali osredotočiti na dogovorjeno delo in dosego cilja Sprinta. To je temeljna odgovornost."
+  },
+  {
+    "id": 136,
+    "q_sl": "Kaj je bistveni del Definicije Končanega?",
+    "options_sl": [
+      "Kaj Razvijalci čutijo, da je dobro",
+      "Skupni dogovor o standardih za kvaliteto in polnost",
+      "Kaj Product Owner odloči",
+      "Kaj Scrum Master načrtuje"
+    ],
+    "why_sl": "Definicija Končanega je skupen dogovor. Vse je vključeno: testiranje, dokumentacijo, verzioniranje in drugo, kar je potrebno za Končanega."
+  },
+  {
+    "id": 137,
+    "q_sl": "Kaj se zgodi, če Inkreement ne izpolnjuje Definicije Končanega?",
+    "options_sl": [
+      "Je še vedno bil dostavljen",
+      "Se vrne Razvijalcem za dodatno delo",
+      "Se vrne Produktnemu seznamu",
+      "Je zavrnjen in se šteje kot izguba"
+    ],
+    "why_sl": "Inkreement, ki ne izpolnjuje Definicije Končanega, ni pomožen za uporabo. Vrne se kot delo za opravljanje, ne pa kot končano."
+  },
+  {
+    "id": 138,
+    "q_sl": "Kaj je najpomembnejši rezultat Dnevnega Scruma za Scrum Mastera?",
+    "options_sl": [
+      "Status poročilo za upravo",
+      "Razumevanje, kakšne blokade obstajajo in kako jih rešiti",
+      "Dokaz, da je Scrum Master bil prisoten",
+      "Kaj je vsaka oseba naredila"
+    ],
+    "why_sl": "Scrum Master se osredotoči na blokade in kako pomagati. To je ključna vloga - odstraniti ovire za napredek."
+  },
+  {
+    "id": 139,
+    "q_sl": "Kaj je najpomembnejša karakteristika učinkovite Retrospektive?",
+    "options_sl": [
+      "Dolgo in podrobno",
+      "Varno mest za resnično razgovor in izboljšave",
+      "Fomalne in direktive",
+      "Osredotočena samo na slabe stvari"
+    ],
+    "why_sl": "Uspešna Retrospektiva je varno mest, kjer se lahko ljudje izražajo brez strahu. To je bistveno za realne pogovore in izboljšave."
+  },
+  {
+    "id": 140,
+    "q_sl": "Kaj je bistvena odgovornost Product Ownerja glede povratne informacije deležnikov?",
+    "options_sl": [
+      "Zavrniti vse povratne informacije",
+      "Sprejeti vse povratne informacije brez sprememb",
+      "Zbrati povratne informacije in jo vključiti v Produktni seznam",
+      "Ohraniti povratne informacije tajno"
+    ],
+    "why_sl": "Product Owner zbira povratne informacije deležnikov in jo vključi v prioritizacijo. To je bistveno za vrednost in zadovoljstvo."
+  },
+  {
+    "id": 141,
+    "q_sl": "Kaj je najpomembnejše besedilo za Razvijalce, da razumejo od Product Ownerja?",
+    "options_sl": [
+      "Kako voditi",
+      "Kaj je vrednost in zakaj je ta prioriteta",
+      "Kako testirati",
+      "Kako voditi procese"
+    ],
+    "why_sl": "Razvijalci morajo razumeti vrednost in kontekst. To jih osredotoči in motivira k dosegu cilja."
+  },
+  {
+    "id": 142,
+    "q_sl": "Kaj je najpomembnejši indikator zdravega Scrum tima?",
+    "options_sl": [
+      "Hitri razvoj",
+      "Nenehna izboljšava in samoupravničeni proces",
+      "Nima konflikta",
+      "Nema Scrum Mastera potrebnega"
+    ],
+    "why_sl": "Zdrav Scrum tim se nenehno uči in izboljšuje. Samoorganizirajici so in sposobni upravljanja svojih procesov."
+  },
+  {
+    "id": 143,
+    "q_sl": "Kaj je najpomembnejši fokus Pregleda Sprinta za Product Ownerja?",
+    "options_sl": [
+      "Oceniti Razvijalce",
+      "Zbrati povratne informacije na Inkrementom in prilagoditi Produktni seznam",
+      "Predstaviti novi Produktni seznam",
+      "Nagraditi najboljšega člana"
+    ],
+    "why_sl": "Product Owner se osredotoči na povratne informacije in prilagoditve. To je ključna povratna kroga za Produktni seznam."
+  },
+  {
+    "id": 144,
+    "q_sl": "Kaj je najpomembnejši vidik Scrum okvira?",
+    "options_sl": [
+      "Kompleksna pravila",
+      "Preprosta struktura, ki spodbuja empiričnost in kontinuirano izboljšanje",
+      "Fleksibilnost brez strukture",
+      "Stroga hierarhija"
+    ],
+    "why_sl": "Scrum je preprost okvir, vendar je temeljil na empiričnosti. Omogoča prilagajanje, medtem ko ohranja strukturo."
+  },
+  {
+    "id": 145,
+    "q_sl": "Kaj je bistvena vloga Scrum Masterja s Produktnim Ownerjem?",
+    "options_sl": [
+      "Codiranje skupaj",
+      "Pomagati mu razumeti vloge in odgovornosti",
+      "Pisanje navedkov",
+      "Testiranje produkta"
+    ],
+    "why_sl": "Scrum Master je coach za Product Ownerja. Pomaga mu razumeti in izvajati svojo vlogo učinkovito."
+  },
+  {
+    "id": 146,
+    "q_sl": "Kaj je najpomembnejši rezultat Načrtovanja Sprinta?",
+    "options_sl": [
+      "Dolg seznam navedkov",
+      "Dogovorjen cilj Sprinta in seznam dela",
+      "Popolna dokumentacija",
+      "Testni primeri"
+    ],
+    "why_sl": "Rezultat je jasno definiran cilj Sprinta in seznam dela, ki ga je Scrum tim dogovoril, da ga bo dosegel."
+  },
+  {
+    "id": 147,
+    "q_sl": "Kaj je najpomembnejši razlog za rabo Iterativnega pristopa v Scrum-u?",
+    "options_sl": [
+      "Manjša dela",
+      "Zmožnost učenja in prilagajanja na podlagi resničnih rezultatov",
+      "Manj sestankov",
+      "Brez napovedovanja"
+    ],
+    "why_sl": "Iterativni pristop omogoča ekipam da se naučijo in prilagodijo. To je jedro empiričnosti v Scrum-u."
+  },
+  {
+    "id": 148,
+    "q_sl": "Kaj je najpomembnejši vidik transparentnosti v Scrum-u?",
+    "options_sl": [
+      "Javne datoteke",
+      "Jasno vidljivo stanje dela in prioritete",
+      "Vse podatke vidne vsem",
+      "Nobeni tajni"
+    ],
+    "why_sl": "Transparentnost pomeni, da ključni pogoji (delo, prioritete, cilje) jasno vidljivi vsem. To omogoči boljše odločitve."
+  },
+  {
+    "id": 149,
+    "q_sl": "Kaj je najpomembnejše delo Razvijalcev pri samoorganizirovanju?",
+    "options_sl": [
+      "Počakati na naročila",
+      "Skupaj se dogovoriti kako delo opraviti",
+      "Samo posamezni nadzor",
+      "Ignomorirati mnenje drugih"
+    ],
+    "why_sl": "Samoupravničeni Razvijalci skupaj se dogovorijo kako delo organizirati in opraviti. To je bistvena karakteristika efektivnega tima."
+  },
+  {
+    "id": 150,
+    "q_sl": "Kaj je najpomembnejši razlog, da Product Owner mora biti \"One person, not a committee\"?",
+    "options_sl": [
+      "Hitrejše odločitve",
+      "Jasna odgovornost in avtoriteta za prioritizacijo",
+      "Manj sestankov",
+      "Manj stroškov"
+    ],
+    "why_sl": "Ena oseba pomeni jasno odgovornost in avtoriteto. To preprečuje zmešnjavo in omogoči hitre, jasne odločitve."
+  },
+  {
+    "id": 151,
+    "q_sl": "Kaj je najpomembnejši vidik Cilja Sprinta?",
+    "options_sl": [
+      "Biti čim bolj ambiciozen",
+      "Biti dosegljiv in voden od Razvijalci",
+      "Biti fiksni ne glede na spremembe",
+      "Biti skrivno"
+    ],
+    "why_sl": "Cilj Sprinta je dosegljiv in dogovorjen s Scrum timom. To daje osredotočenost in jasnost za delo."
+  },
+  {
+    "id": 152,
+    "q_sl": "Kaj je najpomembnejši rezultat Retrospektive Sprinta?",
+    "options_sl": [
+      "Poročilo za upravo",
+      "Konkretne izboljšave za naslednji Sprint",
+      "Kritike oseb",
+      "Dolg seznam problemov"
+    ],
+    "why_sl": "Retrospektiva bi morala voditi do konkretnih, izvedljivih izboljšav. To je cilj - ne samo preident, temveč dejanja."
+  },
+  {
+    "id": 153,
+    "q_sl": "Kaj je najpomembnejši vidik Inkrementov v Scrum-u?",
+    "options_sl": [
+      "Biti čim bolj realen",
+      "Biti potentialno učinkuje in grajena temeljem Definicije Končanega",
+      "Biti dovoljšen Razvijalci",
+      "Biti skrivno"
+    ],
+    "why_sl": "Inkreement je potentialno učinkuje in mora izpolnjeti Definicijo Končanega. To je bistveno za vrednost."
+  },
+  {
+    "id": 154,
+    "q_sl": "Kaj je najpomembnejši vidik Dnevnega Scruma?",
+    "options_sl": [
+      "Biti dolgo",
+      "Biti osredotočen na kako dosegti cilja Sprinta in kaj blokira",
+      "Biti fomalen",
+      "Biti dolžnost"
+    ],
+    "why_sl": "Dnevni Scrum je za osredotočenost in sinhronizacijo. Fokus je na napredka in blokadah, ne pa na poročanju."
+  },
+  {
+    "id": 155,
+    "q_sl": "Kaj je najpomembnejši vidik Produktnega seznama?",
+    "options_sl": [
+      "Biti kar največ dolg",
+      "Biti živabna in prioritizirana glede na vrednost",
+      "Biti dovoljšen Product Ownerju",
+      "Biti fiksni"
+    ],
+    "why_sl": "Produktni seznam je živa lista, prioritizirana glede na vrednost. To ga dela učinkovitim orodjem za upravljanje dela."
+  },
+  {
+    "id": 156,
+    "q_sl": "Kaj je najpomembnejši vidik Scrum Master vloge?",
+    "options_sl": [
+      "Vodja s pogoji",
+      "Coach in facilitator za tim in organization",
+      "Administrator",
+      "Vodja tehnične arhitekture"
+    ],
+    "why_sl": "Scrum Master je coach in facilitator. Njihova vloga je olajšati Scrum okvir in pomagati timu biti efektivni."
+  },
+  {
+    "id": 157,
+    "q_sl": "Kaj je najpomembnejši vidik Product Owner vloge?",
+    "options_sl": [
+      "Pisanje kode",
+      "Maksimaliziranje vrednosti produkta in upravljanje Produktnega seznama",
+      "Testiranje",
+      "Upravljanje tima"
+    ],
+    "why_sl": "Product Owner je odgovoren za vrednost. To počne skozi upravljanje Produktnega seznama in prioritizacijo."
+  },
+  {
+    "id": 158,
+    "q_sl": "Kaj je najpomembnejši vidik Razvojne vloge?",
+    "options_sl": [
+      "Samo pisanje kode",
+      "Samoupravničevanje in dostava Inkrementov, ki izpolnjujejo Definicijo Končanega",
+      "Samo testiranje",
+      "Samo projektiranje"
+    ],
+    "why_sl": "Razvijalci so odgovorni za dostavo Inkrementov. To je skupna odgovornost vseh v timu."
+  },
+  {
+    "id": 159,
+    "q_sl": "Kaj je najpomembnejši vidik Scrum procesa?",
+    "options_sl": [
+      "Biti čvrst",
+      "Biti empiričan in prilagojljiv",
+      "Biti fleksibilen brez strukture",
+      "Biti nespremenljiv"
+    ],
+    "why_sl": "Scrum je empiričan okvir, ki se prilagaja. Ima strukturo, vendar je fleksibilen glede na potrebe organizacije."
+  },
+  {
+    "id": 160,
+    "q_sl": "Kaj je najpomembnejši rezultat Scrum-a?",
+    "options_sl": [
+      "Hitri razvoj",
+      "Dostava vrednosti in učenje",
+      "Nema problemov",
+      "Popolne avtomatizacije"
+    ],
+    "why_sl": "Scrum je namenjena dostavi vrednosti in kontinuiranemu učenju. To je bistveni cilj okvira."
+  }
+]

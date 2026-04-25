@@ -2,165 +2,347 @@
   {
     "id": 1,
     "type": "single",
-    "topic": "Accountabilities",
-    "q": "A Developer has missed every Sprint Goal for three Sprints in a row. They are technically skilled but frequently distracted. The team keeps replanning around them each Sprint and refuses to address it in the Retrospective. The Scrum Master should:",
+    "topic": "Artifacts",
+    "q": {
+      "en": "An organization mandates a baseline Definition of Done. The Scrum Team has agreed internally to apply stricter criteria. A new Developer joins and starts shipping work that meets the org DoD but not the team's stricter criteria. The Scrum Master should:",
+      "sl": "Organizacija je določila bazno Definicijo Končanega. Scrum tim je interno sogodil za doslej bolj stroge kriterije. Nov razvijalec se pridruži in začne pošiljati delo, ki izpolnjuje organizacijsko Definicijo Končanega, ne pa tudi strožjih kriterijev tima. Scrum Master bi moral:"
+    },
     "options": [
-      "Speak privately with the Developer and set performance expectations",
-      "Raise the pattern in the next Retrospective so the Scrum Team can inspect and address it together",
-      "Escalate to the Developer's line manager to take corrective action",
-      "Say nothing \u2014 self-management means the team alone decides if and how to respond"
+      {
+        "en": "Coach the new Developer that the team's stricter DoD applies and is non-negotiable",
+        "sl": "Coachati novega razvijalca, da je strožja Definicija Končanega tima zavezujoča in ni predmet pogajanj"
+      },
+      {
+        "en": "Facilitate the team revisiting their stricter DoD with the new Developer as a full participant in the conversation",
+        "sl": "Olajšati timski pregled strože Definicije Končanega z novim razvijalcem kot polnopravnim udeležencem v pogovoru"
+      },
+      {
+        "en": "Allow the new Developer to follow only the org DoD; the stricter criteria are aspirational",
+        "sl": "Dovoliti novemu razvijalcu, da sledi le organizacijski Definiciji Končanega; strožji kriteriji so zaželeni, vendar ne zavezujoči"
+      },
+      {
+        "en": "Ask the Product Owner to enforce the team's DoD on the new Developer",
+        "sl": "Prositi lastnika produkta, da uveljavi timsko Definicijo Končanega pri novem razvijalcu"
+      }
     ],
     "correct": [
       1
     ],
-    "why": "The Scrum Master is accountable for the Scrum Team's effectiveness and for the productivity of Scrum events. Surfacing a pattern the team has avoided is squarely in that remit \u2014 the SM doesn't prescribe the fix, but does make sure the team can inspect and adapt. Private performance conversations aren't the SM's role, escalating to a manager bypasses self-management, and doing nothing fails the Retrospective's purpose."
+    "why": {
+      "en": "The team's DoD belongs to the Developers as a whole, including its newest member. Treating it as a fixed rule the new Developer must accept undermines self-management; allowing it to be ignored undermines transparency. The Scrum Master facilitates a fresh conversation so the team can confirm or evolve the stricter criteria with all current members. The PO does not enforce DoD.",
+      "sl": "Definicija Končanega tima pripada razvijalcem kot skupini, vključno z njegovim najnovejšim članom. Obravnava kot fiksno pravilo, ki jo mora novi razvijalec sprejeti, podkopava samoupravljanje; toleriranje njene kršitve podkopava preglednost. Scrum Master olajšča svež pogovor, tako da tim lahko s vsemi trenutnimi člani potrdi ali razvije strože kriterije."
+    }
   },
   {
     "id": 2,
-    "type": "multi",
-    "topic": "Values & Empiricism",
-    "q": "Leadership demands weekly per-Developer productivity reports as a condition for continuing Scrum. Which actions fit the Scrum Master accountability? (Select all that apply)",
+    "type": "single",
+    "topic": "Events",
+    "q": {
+      "en": "Two weeks into a one-month Sprint, the Developers find that the chosen technical approach is unworkable. The Sprint Goal is still feasible, but it now requires fundamentally different work than what is in the Sprint Backlog. The Scrum Master should:",
+      "sl": "Dve tedna v mesečni Sprint je razvijalcem jasno, da izbrani tehnični pristop ni izvedljiv. Cilj Sprinta je še vedno dosegljiv, vendar zahteva temeljito drugačno delo kot to v seznamu dela Sprinta. Scrum Master bi moral:"
+    },
     "options": [
-      "Coach leadership on why individual productivity metrics undermine self-management and empiricism",
-      "Provide the reports to keep Scrum alive in the organization",
-      "Propose outcome-based measures (Increment value, customer impact) as an alternative",
-      "Refer leadership to the Product Owner for conversations about product progress",
-      "Quietly comply to avoid losing management support"
+      {
+        "en": "Recommend the Product Owner cancel the Sprint and start a fresh one",
+        "sl": "Priporočiti lastniku produkta, da prekliče Sprint in začne novega"
+      },
+      {
+        "en": "Coach the Developers to renegotiate the Sprint Backlog with the PO while preserving the Sprint Goal",
+        "sl": "Coachati razvijalce, da pogajajo seznam dela Sprinta z lastnikom produkta in pri tem ohranijo cilj Sprinta"
+      },
+      {
+        "en": "Direct the Developers to pivot to the new technical approach immediately",
+        "sl": "Naročiti razvijalcem, da se takoj obrnejo na novi tehnični pristop"
+      },
+      {
+        "en": "Note the issue and inspect it at the Sprint Retrospective",
+        "sl": "Zabeležiti problemo in jo pregledati na Retrospektivi Sprinta"
+      }
     ],
     "correct": [
-      0,
-      2,
-      3
+      1
     ],
-    "why": "The Scrum Master serves the organization by leading and coaching Scrum adoption. Individual productivity metrics are not empirical measures of team progress or product value \u2014 they create false signals that distract from the actual artifact (the Increment) and from self-management. The principled move is to redirect the conversation toward outcome-based measures and route product progress through the Product Owner. Quiet compliance entrenches an anti-Scrum behavior under the badge of Scrum."
+    "why": {
+      "en": "The Sprint Backlog is expected to adapt during the Sprint as more is learned. The Sprint Goal is the commitment, not the plan. Cancelling is for when the Sprint Goal becomes obsolete, which is not the case here. Directing violates self-management. Waiting for the Retrospective delays adaptation that the Sprint itself supports.",
+      "sl": "Seznam dela Sprinta se pričakuje, da se prilagaja med Sprintom, ko se spozna več. Cilj Sprinta je zaveza, ne načrt. Preklic je namenjen, ko cilj Sprinta postane zastarel, kar tu ni primer. Naročanje krši samoupravljanje. Čakanje do retrospektive odlaga prilagoditev, ki jo sam Sprint omogoča."
+    }
   },
   {
     "id": 3,
     "type": "single",
-    "topic": "Artifacts",
-    "q": "The organization has mandated a product-wide Definition of Done that the Scrum Team considers insufficient \u2014 it doesn't include meaningful testing or security review. What should the Scrum Team do?",
+    "topic": "Events",
+    "q": {
+      "en": "A senior stakeholder asks to attend the Daily Scrum to \"stay informed about Sprint progress.\" The Scrum Master should:",
+      "sl": "Visoki deležnik se želi udeležiti Dnevnega Scruma, da bi ostal \"informiran o napredku Sprinta\". Scrum Master bi moral:"
+    },
     "options": [
-      "Follow the organizational DoD exactly",
-      "Follow organizational DoD as minimum; add stricter criteria where the team sees fit",
-      "Ignore the organizational DoD entirely",
-      "Refuse to start the next Sprint until updated"
+      {
+        "en": "Allow attendance because transparency to stakeholders is a core Scrum value",
+        "sl": "Dovoliti udeležbo, ker je preglednost do deležnikov temeljna vrednost Scruma"
+      },
+      {
+        "en": "Decline; the Daily Scrum is a closed event for the Developers under Scrum rules",
+        "sl": "Zavrniti; Dnevni Scrum je zaprta prireditev za razvijalce po Scrum pravilih"
+      },
+      {
+        "en": "Coach the stakeholder on the Sprint Review as the right transparency forum, then decline",
+        "sl": "Coachati deležnika o Pregledu Sprinta kot pravem forumu za preglednost, nato zavrniti"
+      },
+      {
+        "en": "Allow with the constraint that the stakeholder cannot speak or interrupt the team",
+        "sl": "Dovoliti z omejitvijo, da deležnik ne more govoriti ali prekinjati tim"
+      }
     ],
     "correct": [
-      1
+      2
     ],
-    "why": "When an organization defines a DoD, the Scrum Team follows it as a minimum \u2014 and is free to raise the bar with stricter criteria. This preserves product-wide transparency across teams while honoring the Scrum Team's professional judgment on quality. Ignoring the org DoD fragments transparency; refusing to start blocks value delivery over a solvable problem."
+    "why": {
+      "en": "The Daily Scrum is for the Developers; its purpose is inspection and adaptation toward the Sprint Goal. Stakeholder presence chills team conversation and steers it toward reporting. Transparency to stakeholders is provided through the Sprint Review and visible artifacts (Sprint Backlog, Increment). The Scrum Master coaches on this rather than refusing on procedural grounds.",
+      "sl": "Dnevni Scrum je namenjen razvijalcem; njegova namena sta pregled in prilagoditev proti cilju Sprinta. Prisotnost deležnika otlumi timski pogovor in ga usmerja k poročanju. Preglednost do deležnikov je zagotovljena prek Pregleda Sprinta in vidnih artefaktov (seznam dela Sprinta, Inkrement). Scrum Master coacha to namesto da bi zavrnil na procesnih osnovah."
+    }
   },
   {
     "id": 4,
     "type": "single",
     "topic": "Scenarios",
-    "q": "An executive proposes that one Scrum Master serve four Scrum Teams to reduce cost. The Scrum Master should:",
+    "q": {
+      "en": "A Developer has missed Sprint Goals four Sprints in a row. Their teammates have tried to help; tension is rising; the Retrospective has not surfaced the issue. The Scrum Master should:",
+      "sl": "Razvijalec je zgrešil Cilje Sprinta štiri Sprinte zapored. Njegovi soteamates so se trudili pomagati; napetost raste; Retrospektiva ni odkrila problema. Scrum Master bi moral:"
+    },
     "options": [
-      "Decline outright \u2014 one SM cannot serve four teams",
-      "Accept without comment, since Scrum doesn't specify a ratio",
-      "Propose a trial while coaching on what effectiveness requires",
-      "Appoint a 'lead Developer' as SM proxy"
+      {
+        "en": "Wait for the team to raise it themselves — self-management requires patience",
+        "sl": "Čakati, da tim problem sam spravi na povrhnjico — samoupravljanje zahteva potrpljenja"
+      },
+      {
+        "en": "Address it privately with the underperforming Developer",
+        "sl": "Nasloviti to zasebno z razvijalcem s slabšimi rezultati"
+      },
+      {
+        "en": "Facilitate the next Retrospective so the team can inspect this team dynamic, even if uncomfortable",
+        "sl": "Olajšati naslednjo Retrospektivo, da tim presledi to timsko dinamiko, čeprav je nelagodno"
+      },
+      {
+        "en": "Take the issue to the Developer's line manager",
+        "sl": "Vzeti problem v obravnavo vodje razvoja"
+      }
     ],
     "correct": [
       2
     ],
-    "why": "The Scrum Guide is silent on Scrum-Master-to-team ratios, so the SM cannot refuse outright on a rule basis, and silent acceptance abandons the SM's coaching accountability. What the Guide does say is that the SM serves the team, the Product Owner, and the organization \u2014 so a principled response coaches the decision-maker on what effectiveness should be measured by, proposes a trial, and lets observed evidence guide the choice. An SM proxy is not a Scrum role."
+    "why": {
+      "en": "The Scrum Master is accountable for the Scrum Team's effectiveness and for the productivity of Scrum events. Passive waiting does not honor that accountability when the Retrospective is repeatedly avoiding a clear issue. Private performance conversations and escalating to a manager bypass the Scrum Team's collective inspection — the team must own its dynamic, with facilitation.",
+      "sl": "Scrum Master je odgovoren za učinkovitost Scrum tima in produktivnost Scrum prireditev. Pasivno čakanje ne spoštuje te odgovornosti, kadar Retrospektiva večkrat izogiba jasnem problemu. Zasebni razgovori o učinkovitosti in eskalacija do vodje zaobidejo skupinski pregled tima — tim mora biti lastnik svoje dinamike, z olajšanjem."
+    }
   },
   {
     "id": 5,
-    "type": "tf",
-    "topic": "Events",
-    "q": "A major technical discovery mid-Sprint makes the original plan impossible. The Developers and Product Owner renegotiate the Sprint Backlog, land on revised work that still advances the Sprint Goal, and carry on. This is a violation of Scrum because the Sprint Backlog cannot change mid-Sprint.",
+    "type": "single",
+    "topic": "Scenarios",
+    "q": {
+      "en": "Leadership announces a new performance review process based on individual story-point output. The Scrum Master should:",
+      "sl": "Vodstvo napoveduje nov proces vrednovanja, temelječ na posameznem izhodu točk. Scrum Master bi moral:"
+    },
     "options": [
-      "True",
-      "False"
+      {
+        "en": "Communicate the new process to the team so they can adjust their workflows accordingly",
+        "sl": "Komunicirati nov proces timu, da se lahko prilagodi njihovim delovnim procesom"
+      },
+      {
+        "en": "Refuse to participate; this performance system fundamentally violates Scrum principles",
+        "sl": "Zavrniti; ta sistem vrednovanja temeljito krši Scrum načela"
+      },
+      {
+        "en": "Coach leadership on how individual-output metrics undermine self-management; propose outcome-based alternatives",
+        "sl": "Coachati vodstvo o tem, kako metrike posameznega izhoda podkopavajo samoupravljanje; predlagati izide-usmerjene alternative"
+      },
+      {
+        "en": "Quietly comply with the rollout to maintain organizational support for Scrum overall",
+        "sl": "Tiho sodelati v uvedbi, da ohrani organizacijsko podporo Scrumu"
+      }
     ],
     "correct": [
-      1
+      2
     ],
-    "why": "False. The Sprint Backlog is a plan by and for the Developers and is expected to adapt daily as more is learned. Renegotiating scope with the Product Owner while preserving the Sprint Goal is exactly how the Sprint handles emergent reality. The Sprint Goal itself is the commitment; the specific items and plan are not."
+    "why": {
+      "en": "The Scrum Master serves the organization by leading and coaching on Scrum and empirical thinking. Individual output metrics distort behavior and erode self-management. Coaching with a constructive alternative (outcome measures) is more effective than communicating, refusing, or quietly complying — each of which abandons the SM's coaching accountability in different ways.",
+      "sl": "Scrum Master služi organizaciji z vodenjem in coachingom Scruma in empiričnega razmišljanja. Metrike posameznega izhoda izkrivljajo vedenje in erodirajo samoupravljanje. Coaching z konstruktivno alternativo (merjenjem izidov) je bolj učinkovit kot komuniciranje, zavračanje ali tiho sogodovanje — vsak od teh zapusti odgovornost coachinga Scrum Mastera na drugačen način."
+    }
   },
   {
     "id": 6,
     "type": "single",
     "topic": "Events",
-    "q": "After six months of Sprints, the Developers insist at every Retrospective: 'we have nothing new to discuss.' The Scrum Master should:",
+    "q": {
+      "en": "It is the scheduled Sprint Review and zero stakeholders attend. The Scrum Master should:",
+      "sl": "Je zaplanirana Pregled Sprinta in se ne pojavi noben deležnik. Scrum Master bi moral:"
+    },
     "options": [
-      "Cancel Retrospectives until the team has concerns",
-      "Continue facilitating and accept short, surface-level sessions",
-      "Shift the Retrospective focus to inspect a specific dimension and prompt deeper reflection",
-      "Combine the Retrospective with the Sprint Review to save time"
-    ],
-    "correct": [
-      2
-    ],
-    "why": "The Retrospective inspects people, interactions, processes, tools, and the Definition of Done. 'Nothing to discuss' is almost always a signal that the format has gone stale, not that improvement is exhausted. Rotating the lens and prompting deeper inquiry is a core SM facilitation skill. Cancelling or merging events isn't Scrum."
-  },
-  {
-    "id": 7,
-    "type": "single",
-    "topic": "Events",
-    "q": "Every Sprint Review in the organization is a one-way product demo with little stakeholder discussion. What should change first?",
-    "options": [
-      "Invite more stakeholders for more voices",
-      "Shorten the Review to reduce boredom",
-      "Restructure as a working session: inspect the Increment and adapt the Product Backlog",
-      "Replace the demo with a polished slide deck"
-    ],
-    "correct": [
-      2
-    ],
-    "why": "The Sprint Review is a working session, not a status broadcast. Its purpose is to inspect the Increment and adapt the Product Backlog through genuine collaboration. The structural fix isn't more attendees, less time, or prettier slides \u2014 it's changing what actually happens in the event."
-  },
-  {
-    "id": 8,
-    "type": "multi",
-    "topic": "Scrum Team",
-    "q": "A Scrum Team lacks a specialized skill (e.g., security engineering) and depends on an external specialist every Sprint. Which actions align with Scrum? (Select all that apply)",
-    "options": [
-      "Accept the dependency as permanent \u2014 Scrum doesn't require all skills to be in-team",
-      "Work to bring the missing skill into the team over time",
-      "Cross-train existing Developers to reduce the dependency",
-      "Hand all security-related work to the external specialist and treat it as outside the Sprint",
-      "Make the dependency visible in Scrum events so the organization can address it"
-    ],
-    "correct": [
-      1,
-      2,
-      4
-    ],
-    "why": "Cross-functional means the team has all the skills needed to create value each Sprint. Permanent external dependencies fragment accountability for the Increment. The Scrum response is to surface the gap transparently, build skill in-team, and cross-train \u2014 not to accept or hide the dependency."
-  },
-  {
-    "id": 9,
-    "type": "single",
-    "topic": "Events",
-    "q": "A senior Developer proposes skipping Sprint Planning for one Sprint because 'we already know what to do.' The Scrum Master should:",
-    "options": [
-      "Agree \u2014 self-management means the team decides which events to run",
-      "Facilitate Sprint Planning anyway and coach the team on why the event still matters",
-      "Escalate to management so the team doesn't skip Scrum events",
-      "Run an abbreviated 15-minute Sprint Planning instead"
+      {
+        "en": "Cancel the Sprint Review and reschedule for a time when stakeholders can attend",
+        "sl": "Preklicati Pregled Sprinta in ga preložiti na čas, ko se deležniki lahko udeležijo"
+      },
+      {
+        "en": "Hold the Review with the Scrum Team and surface the absent stakeholders as an impediment to address",
+        "sl": "Izvesti Pregled s Scrum timom in izpostaviti odsotne deležnike kot oviro, ki jo je treba nasloviti"
+      },
+      {
+        "en": "Skip the Sprint Review this Sprint and resume in the next one to save the team's time",
+        "sl": "Preskočiti Pregled Sprinta ta Sprint in nadaljevati v naslednjem, da prihrani timski čas"
+      },
+      {
+        "en": "Have the Scrum Master speak on behalf of stakeholders so the collaboration still happens",
+        "sl": "Imeti Scrum Mastera govoriti v imenu deležnikov, da se sodelovanje še vedno zgodi"
+      }
     ],
     "correct": [
       1
     ],
-    "why": "Sprint Planning is one of the five formal Scrum events and establishes the Sprint Goal \u2014 the Sprint's commitment. Its purpose is to create shared understanding of what valuable work the Sprint will produce and how, not just to generate a task list. A Developer feeling personal certainty about 'what to do' is not equivalent to the Scrum Team having a shared Sprint Goal and plan. The Scrum Master's role is to facilitate the event and coach the team on why it exists."
+    "why": {
+      "en": "Scrum events are time-boxed and should not be skipped or rescheduled. Holding the Review preserves the team's inspection rhythm. The lack of stakeholders is itself a transparency and engagement problem the SM must surface — the team adapts the Product Backlog with the information it has, while the SM coaches the organization on the Sprint Review's purpose.",
+      "sl": "Scrum prireditve so časovno omejene in jih ne smemo preskakati ali odklapljati. Izvajanje Pregleda ohranja timski ritualnost pregleda. Odsotnost deležnikov je sama po sebi problem preglednosti in angažiranosti, ki ga mora Scrum Master izpostaviti — tim prilagodi seznam produkta s podatki, ki jih ima, medtem ko SM coacha organizacijo o nameni Pregleda Sprinta."
+    }
+  },
+  {
+    "id": 7,
+    "type": "multi",
+    "topic": "Scrum Team",
+    "q": {
+      "en": "The Scrum Team has committed to a Sprint Goal that turns out to require security expertise the team lacks. A skilled external contractor is available immediately. Which actions are consistent with Scrum? (Select all that apply)",
+      "sl": "Scrum tim se je zavezal cilju Sprinta, ki se izkaže za potreban strokovnjak za varnost, ki ga tim nima. Sposoben zunanji izvajalec je takoj razpoložljiv. Katera dejanja so skladna s Scrum? (Izberite vse, ki veljajo)"
+    },
+    "options": [
+      {
+        "en": "Renegotiate the Sprint Backlog scope and surface the skills gap as an impediment",
+        "sl": "Pogajati se seznam dela Sprinta in izpostaviti vrzel spretnosti kot oviro"
+      },
+      {
+        "en": "Bring the contractor inside the Scrum Team for the Sprint as a Developer",
+        "sl": "Pripeljati izvajalca v Scrum tim kot razvijalca za Sprin"
+      },
+      {
+        "en": "Have the contractor work on the security task outside the Scrum Team for this Sprint",
+        "sl": "Imeti izvajalca delati na varnostni nalogi zunaj Scrum tima za ta Sprint"
+      },
+      {
+        "en": "Ignore the gap; ship without security work and address it in a future Sprint plan",
+        "sl": "Ignoriraj vrzel; odpošlji brez varnostnega dela in to naslov v načrtu prihodnjega Sprinta"
+      },
+      {
+        "en": "Begin cross-training Developers in the missing skill, even if the Sprint Goal is partially missed",
+        "sl": "Začeti usposabljanje razvijalcev v manjkajočej spretnosti, čeprav bo cilj Sprinta le delno dosežen"
+      }
+    ],
+    "correct": [
+      0,
+      1,
+      4
+    ],
+    "why": {
+      "en": "Cross-functional means the team has the skills it needs each Sprint — but Scrum allows adapting the team and the Sprint to reality. Renegotiating scope and surfacing the gap (option 0), temporarily incorporating the contractor as a Developer (option 1), and using the Sprint to start building the skill internally (option 4) all preserve team accountability for the Increment. Treating the contractor as outside the team (option 2) creates a permanent dependency anti-pattern. Shipping without the security work (option 3) violates the Definition of Done.",
+      "sl": "Raznolikost pomeni, da ima tim spretnosti, ki jih potrebuje vsak Sprint — vendar Scrum dovoljuje prilagoditev tima in Sprinta realnosti. Pogajanje obsega in izpostavitev vrzeli (opcija 0), začasno vključevanje izvajalca kot razvijalca (opcija 1) in uporaba Sprinta za začetek oblikovanja spretnosti interno (opcija 4) vsi ohranjajo odgovornost tima za Inkrement. Obravnavanje izvajalca zunaj tima (opcija 2) ustvari trajno odvisnost antipattern. Pošiljanje brez varnostnega dela (opcija 3) krši Definicijo Končanega."
+    }
+  },
+  {
+    "id": 8,
+    "type": "single",
+    "topic": "Scaling",
+    "q": {
+      "en": "Two Scrum Teams contributing to the same product have evolved different and incompatible Definitions of Done. A senior leader proposes that the Scrum Master \"harmonize\" the DoDs. The Scrum Master should:",
+      "sl": "Dva Scrum tima, ki prispevata k istemu produktu, sta razvila različni in nezdružljivi Definiciji Končanega. Visoki vodja predlaga, da Scrum Master \"uskladi\" Definicije Končanega. Scrum Master bi moral:"
+    },
+    "options": [
+      {
+        "en": "Negotiate a common DoD with the other Scrum Master and impose it on both teams",
+        "sl": "Pogajati skupno Definicijo Končanega z drugim Scrum Masterjem in jo naložiti obema timoma"
+      },
+      {
+        "en": "Defer to the org-wide baseline DoD if one exists; otherwise let the two DoDs stand",
+        "sl": "Zatrditi se s širšo organizacijsko bazno Definicijo Končanega, če obstaja; v nasprotnem primeru pustiti dve Definiciji Končanega stati"
+      },
+      {
+        "en": "Facilitate a working session with both teams' Developers to inspect the differences and converge on a unified DoD",
+        "sl": "Olajšati delavnico z razvijalci obeh timov, da pregledajo razlike in se dogovorijo o enotni Definiciji Končanega"
+      },
+      {
+        "en": "Have the Product Owner select which team's DoD wins",
+        "sl": "Imeti lastnika produkta izbrati, katere timske Definicije Končanega zmaga"
+      }
+    ],
+    "correct": [
+      2
+    ],
+    "why": {
+      "en": "For multiple teams on the same product, Increments must integrate, which requires a consistent DoD. The Definition of Done is created by the Developers — not by Scrum Masters, not by the Product Owner, and not by leadership. Imposing a DoD bypasses self-management. Allowing incompatible DoDs to stand breaks Increment transparency at the product level. Facilitating Developer-to-Developer convergence honors both principles.",
+      "sl": "Pri več timih na istem produktu se Inkrementov morajo integrirati, kar zahteva doslednost Definicije Končanega. Definicija Končanega je ustvarjena s strani razvijalcev — ne s strani Scrum Masterjev, ne s strani lastnika produkta in ne s strani vodstva. Nalaganje Definicije Končanega zaobide samoupravljanje. Toleriranje nezdružljivih Definicij Končanega razbije preglednost Inkrementov na ravni produkta. Olajšanje konvergence razvijalca do razvijalca spoštuje obe načeli."
+    }
+  },
+  {
+    "id": 9,
+    "type": "single",
+    "topic": "Accountabilities",
+    "q": {
+      "en": "Unable to reach the Product Owner during the Sprint, the Developers have been making product decisions in their absence — clarifying scope, making trade-offs, and reordering work mid-Sprint. The Scrum Master should:",
+      "sl": "Razvijalci ne morejo dosegati lastnika produkta med Sprintom in zato sprejemajo odločitve o produktu v njegovi odsotnosti — pojasnjujejo obseg, sprejemajo kompromise in preurednjujejo delo med Sprintom. Scrum Master bi moral:"
+    },
+    "options": [
+      {
+        "en": "Coach the Developers to stop making PO decisions and pause until the PO is reachable",
+        "sl": "Coachati razvijalce, da prenehajo sprejemati odločitve lastnika produkta in počakajo, da je lastnik dostopen"
+      },
+      {
+        "en": "Take over Product Owner activities and decisions until the PO returns to the team",
+        "sl": "Prevzeti dejavnosti in odločitve lastnika produkta, dokler se lastnik ne vrne v tim"
+      },
+      {
+        "en": "Coach the PO on availability and facilitate a sustainable refinement rhythm with the team",
+        "sl": "Coachati lastnika produkta na dostopnosti in olajšati trajnostni ritualnost izpopolnjevanja s timom"
+      },
+      {
+        "en": "Accept the situation; Developers can refine and order when the PO is unavailable",
+        "sl": "Sprejeti situacijo; razvijalci lahko izpopolnjujejo in urejajo, kadar je lastnik produkta nedostopen"
+      }
+    ],
+    "correct": [
+      2
+    ],
+    "why": {
+      "en": "Developers can collaborate on refinement, but ordering and value decisions are PO accountabilities and cannot be delegated implicitly. Coaching the team to stop and wait creates blocked work. Taking over PO activities is not a Scrum role for the SM. Accepting Developers as substitute POs erodes the accountability structure. The principled fix is coaching the PO on availability — addressing the root cause.",
+      "sl": "Razvijalci lahko sodelujejo pri izpopolnjevanju, vendar so ureditve in odločitve o vrednosti odgovornosti lastnika produkta in se ne morejo implicitno delegirati. Coaching tima k stanju in čakanju ustvari zaustavljeno delo. Prevzemanje dejavnosti lastnika produkta ni vloga Scrum Mastera. Sprejemanje razvijalcev kot nadomestnih lastnikov produkta erode strukturo odgovornosti. Principialna rešitev je coaching lastnika produkta o dostopnosti — naslov glavnega vzroka."
+    }
   },
   {
     "id": 10,
     "type": "single",
-    "topic": "Commitments",
-    "q": "A Product Owner tells the Scrum Team that a key customer deadline requires shipping work that hasn't met the Definition of Done. The Developers should:",
+    "topic": "Scrum Team",
+    "q": {
+      "en": "After three Sprints of self-management, a Scrum Team is paralyzed: nothing gets decided, no one owns problems, Sprint Goals miss. They ask the Scrum Master to 'just tell us what to do.' The Scrum Master should:",
+      "sl": "Po treh Sprintih samoupravljanja je Scrum tim paraliziran: nič se ne odloči, nihče ne prevzame problemov, Cilji Sprinta se zgrešijo. Sprašujejo Scrum Mastera, da jim 'samo reče, kaj naj naredijo'. Scrum Master bi moral:"
+    },
     "options": [
-      "Ship the work to meet the deadline \u2014 the PO has final say on releases",
-      "Refuse to ship and raise the issue publicly in the Sprint Review",
-      "Ship the work without updating the Increment to mark it Done",
-      "Complete only the parts meeting DoD; the PO decides whether to release that reduced Increment"
+      {
+        "en": "Direct decisions for now — self-management can be reintroduced once delivery has stabilized",
+        "sl": "Naročiti odločitve za zdaj — samoupravljanje se lahko ponovno predstavi, ko se dostava stabilizira"
+      },
+      {
+        "en": "Refuse — self-management is non-negotiable and the team must figure it out themselves",
+        "sl": "Zavrniti — samoupravljanje je nenegljivo in tim si mora sam ustvariti"
+      },
+      {
+        "en": "Coach the team through specific decisions one at a time, building self-management capability gradually",
+        "sl": "Coachati tim skozi posebne odločitve po ena naenkrat, postopoma gradeč sposobnost samoupravljanja"
+      },
+      {
+        "en": "Recommend the Scrum Team be disbanded and reformed with different membership",
+        "sl": "Priporočiti, da se Scrum tim razpusti in ponovno oblikuje z drugačnim članstvom"
+      }
     ],
     "correct": [
-      3
+      2
     ],
-    "why": "The Definition of Done creates transparency about what is truly complete. Work not meeting DoD cannot be part of the Increment and cannot be released as Done. The PO's release authority applies to Done work; it does not extend to releasing sub-DoD output as if it were Done. The right response preserves DoD integrity and hands the PO a real decision about the reduced Increment."
+    "why": {
+      "en": "Self-management is foundational to Scrum, but it isn't binary — teams build it. Directing undermines the long-term goal and signals that compliance is acceptable. Refusing leaves the team without scaffolding. Disbanding is extreme. Coaching specific decisions — what does the team need to figure out next, and how — builds the muscle while keeping work moving.",
+      "sl": "Samoupravljanje je temelj Scruma, vendar ni binarno — timi ga oblikujejo. Naročanje podkopava dolgoročni cilj in signalizira, da je skladnost sprejemljiva. Zavračanje pusti tim brez opore. Razpustitev je skrajna. Coaching specifičnih odločitev — kaj mora tim ugotoviti naslednje in kako — gradi mišico hkrati z gibanjem dela."
+    }
   }
 ]

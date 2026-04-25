@@ -3,161 +3,340 @@
     "id": 1,
     "type": "single",
     "topic": "PO Accountability",
-    "q": "The CEO tells the Product Owner that feature X must be at the top of the Product Backlog for the next release, overriding the PO's value ordering. The Product Owner should:",
+    "q": {
+      "en": "The CEO insists feature X be top of the Product Backlog. The PO has customer evidence that X delivers little user value, but the CEO references strategic context the PO doesn't have full visibility into. What should the PO do?",
+      "sl": "Izvršni direktor trdi, da mora biti značilnost X na vrhu Seznama Produkta. Lastnik produkta ima dokazane podatke od strank, da X daje malo vrednosti za uporabnika, vendar izvršni direktor navaja strateški kontekst, ki ga lastnik produkta ne vidi v celoti. Kaj bi moral lastnik produkta narediti?"
+    },
     "options": [
-      "Comply — the CEO has ultimate authority",
-      "Move X to the top and quietly deprioritize it later",
-      "Discuss with the CEO: present reasoning, incorporate their perspective, decide based on value",
-      "Ask the Scrum Master to mediate"
+      {
+        "en": "Comply — the CEO has organizational context that outranks the PO's local view",
+        "sl": "Sogoditi — izvršni direktor ima organizacijski kontekst, ki outranks lokalni vidik lastnika produkta"
+      },
+      {
+        "en": "Move feature X to the top quietly to avoid friction; explain the change only if asked",
+        "sl": "Premakniti značilnost X na vrh tiho, da se izogne trenju; razlago spremembe podaj le, če vprašajo"
+      },
+      {
+        "en": "Surface the customer evidence, ask the CEO for the strategic context, and decide once both are clear",
+        "sl": "Izpostaviti dokazane podatke stranke, prositi izvršnega direktorja za strateški kontekst in se odločiti, ko sta oba jasna"
+      },
+      {
+        "en": "Maintain the current ordering by user-value evidence and decline to move feature X",
+        "sl": "Ohraniti trenutno ureditev s podatki o vrednosti uporabnika in zavrniti premik značilnosti X"
+      }
     ],
     "correct": [
       2
     ],
-    "why": "For the PO to succeed, the organization must respect the PO's decisions — but respect is earned through transparent reasoning, not stubbornness. The PO remains accountable for ordering by value, incorporates new perspectives into that reasoning, and decides. Quiet resistance violates transparency. The Scrum Master does not mediate PO ordering decisions."
+    "why": {
+      "en": "The PO is accountable for maximizing value, and decides ordering — but maximization requires the best available evidence, not just locally observed user value. Strategic context the PO lacks may genuinely change the value calculus. Quietly complying breaks transparency; reflexively declining ignores legitimate organizational input. The empirical move is to surface both inputs before deciding.",
+      "sl": "Lastnik produkta je odgovoren za maksimizacijo vrednosti in odloča o ureditvi — vendar zahteva maksimizacijo najboljše dostopne stopnje dokaza, ne le lokalno opazovane vrednosti za uporabnika. Strateški kontekst, ki ga lastnik produkta nima, lahko resnično spremeni izračun vrednosti. Tiho sogodovanje razbije preglednost; refleksivno zavračanje ignorira legitimne organizacijske vhode. Empirični korak je izpostaviti oba vhoda pred odločitvijo."
+    }
   },
   {
     "id": 2,
     "type": "single",
-    "topic": "Value & Stakeholders",
-    "q": "Velocity has been high for six Sprints. Customer satisfaction and product usage metrics are flat or declining. The Product Owner should:",
+    "topic": "Product Backlog",
+    "q": {
+      "en": "The PO has spent six months refining the backlog meticulously: every item is detailed, sized, and clearly ordered. Stakeholders are pleased with the visibility. But Sprint output has dropped because Developers wait for super-detailed items and rarely shape them themselves. What should the PO do?",
+      "sl": "Lastnik produkta je šest mesecev koščate uskok seznama: vsak element je detajliran, skaliiran in jasno urejen. Deležniki so zadovoljni s preglednostjo. Vendar se je izhod Sprinta zmanjšal, ker razvijalci čakajo na super-detajlirane elemente in jih sami redko oblikujejo. Kaj bi moral lastnik produkta narediti?"
+    },
     "options": [
-      "Celebrate the high velocity — the team is productive",
-      "Ask the Developers to ship even more items per Sprint",
-      "Refocus the team on outcome measures (customer impact, usage, value) rather than output",
-      "Pause releases until value rebounds"
+      {
+        "en": "Continue — thorough refinement is the hallmark of an effective Product Owner",
+        "sl": "Nadaljevati — temeljito izpopolnjevanje je znak učinkovitega lastnika produkta"
+      },
+      {
+        "en": "Delegate the writing of detailed items to the Developers",
+        "sl": "Delegirati pisanje detajlirani elementov razvijalcem"
+      },
+      {
+        "en": "Reduce the level of upfront detail and allow more emergence and shaping during Sprints",
+        "sl": "Zmanjšati raven vnaprej detajlov in dopustiti več emergence in oblikovanja med Sprinti"
+      },
+      {
+        "en": "Cancel the current backlog and rebuild it from scratch with the Developers",
+        "sl": "Preklicati trenutni seznam in ga ponovno zgraditi iz nule s razvijalci"
+      }
     ],
     "correct": [
       2
     ],
-    "why": "Velocity measures throughput, not value. A product shipping lots of features while customer outcomes decline is a feature factory — maximizing output at the expense of value. The PO is accountable for value. The fix is reorienting what the team and organization measure and discuss, not cutting throughput or pushing more output."
+    "why": {
+      "en": "The Product Backlog is meant to emerge — items at the top are more refined, items further down are not. Over-specification turns it into a fixed plan and starves the Developers of the discovery work that creates shared understanding. Delegating writing doesn't solve over-specification. Rebuilding wastes the structure already in place. The fix is to dial back upfront detail.",
+      "sl": "Seznam Produkta je namenjen emergence — elementi na vrhu so bolj izpopolnjeni, elementi dalje so ne. Prevelika specifikacija ga spremeni v fiksni načrt in zgled razvijalcem odkrilanega dela, ki ustvari skupno razumevanje. Delegiranje pisanja ne reši prevelike specifikacije. Ponovno gradnjo potre zgrajeno strukturo. Popravka je zmanjšati vnaprej detail."
+    }
   },
   {
     "id": 3,
     "type": "single",
-    "topic": "Value & Stakeholders",
-    "q": "A feature has been in development for three Sprints. Recent customer interviews reveal users don't actually want it. The Product Owner has spent significant political capital getting it prioritized. What should the PO do?",
+    "topic": "Product Goal",
+    "q": {
+      "en": "After four Sprints toward the current Product Goal, an emerging market opportunity is significantly more aligned with company strategy. Replacing the Goal would discard most of what has been built so far. What should the PO do?",
+      "sl": "Po štirih Sprintih proti sedanjemu Cilju Izdelka se pojavi nova tržna priložnost, bistveno bolj usklajeni s strategijo podjetja. Zamenjava Cilja bi zavrgli večino tega, kar je že zgrajeno. Kaj bi moral lastnik produkta narediti?"
+    },
     "options": [
-      "Complete the feature to protect credibility",
-      "Complete it so the investment isn't fully wasted",
-      "Stop work, remove it from the backlog, and transparently communicate the reasoning",
-      "Scope it down so at least some version ships"
+      {
+        "en": "Stay on the current Goal; pivots after four Sprints waste prior investment and team momentum",
+        "sl": "Ostati na sedanjem Cilju; premiki po štirih Sprintih porabijo prejšnjo naložbo in tekmovalni elan tima"
+      },
+      {
+        "en": "Replace the Goal — empirical product management demands following the strongest available evidence",
+        "sl": "Zamenjati Cilj — empiričnega upravljanja produkta zahtevajo sledi najmočnejšim dostopnim dokazom"
+      },
+      {
+        "en": "Inspect whether the new evidence makes the current Goal genuinely obsolete; replace it only if so",
+        "sl": "Pregledati, ali novi dokaz resnično dela sedanj Cilj zastarel; zamenjati le, če je tako"
+      },
+      {
+        "en": "Pursue the current Goal and the new opportunity in parallel as two simultaneous Product Goals",
+        "sl": "Preganjati sedanj Cilj in novo priložnost vzporedno kot dva hkratna Cilja Izdelka"
+      }
     ],
     "correct": [
       2
     ],
-    "why": "Under empiricism, new evidence changes decisions. Sunk cost isn't a reason to continue delivering work that new evidence shows won't create value. Transparent pivots — with the reasoning — build long-term credibility far better than shipping a feature the PO privately knows won't help users. Scoping down still invests effort in the wrong direction."
+    "why": {
+      "en": "A Product Goal is a long-term commitment, but not immovable; it is replaced when obsolete. 'More aligned' is not the same as 'current Goal is obsolete' — the right step is inspection. Sticking to the current Goal ignores evidence; reflexively pivoting can be premature. Pursuing two Goals at once violates the rule of one Product Goal at a time.",
+      "sl": "Cilj Izdelka je dolgoročna zaveza, vendar ne nespremenljiva; je zamenjan, ko je zastarelo. 'Bolj uskaljeni' ni isto kot 'sedanj Cilj je zastarelo' — pravi korak je pregled. Držanje sedanjega Cilja ignorira dokazovke; refleksivni zasuk je lahko preuranjeno. Preganjanje dveh Ciljev hkrati krši pravilo enega Cilja Izdelka naenkrat."
+    }
   },
   {
     "id": 4,
     "type": "single",
     "topic": "Value & Stakeholders",
-    "q": "An executive demands the Product Owner commit to a fixed release date six months out. Empirical data shows high variability in team output and significant remaining product uncertainty. The PO should:",
+    "q": {
+      "en": "Stakeholders demand a precise scope-and-date commitment for a major release. Empirical data shows a wide confidence range. The PO should:",
+      "sl": "Deležniki zahtevajo natančno zavezanost obsega in datuma za večji izid. Empiričnih podatkov kaže široko območje zaupanja. Lastnik produkta bi moral:"
+    },
     "options": [
-      "Commit to the date so the organization can plan around it",
-      "Refuse — the PO cannot commit to any date because Scrum doesn't allow it",
-      "Share an empirical forecast with its confidence range and update it as learning occurs",
-      "Pad the forecast with a 50% buffer and commit to that date"
+      {
+        "en": "Provide the most likely date — stakeholders need a single number they can plan against",
+        "sl": "Zagotoviti najprimernejšo datumsko — deležniki potrebujejo eno samo število, na katerega lahko načrtujejo"
+      },
+      {
+        "en": "Share the wide confidence range and decline to commit to any single date publicly",
+        "sl": "Deliti široko območje zaupanja in zavrniti zaveso do kateregakoli datuma javno"
+      },
+      {
+        "en": "Pick a date in the upper end of the range and commit to that as the official release",
+        "sl": "Izbrati datum na zgornjem koncu območja in se zavezati temu kot uradni izdaji"
+      },
+      {
+        "en": "Share the range plus decision points for when and how the PO and stakeholders will reassess",
+        "sl": "Deliti območje plus odločitvene točke za kdaj in kako si lastnik produkta in deležniki ponovno pregledajo"
+      }
     ],
     "correct": [
-      2
+      3
     ],
-    "why": "Empirical forecasting under uncertainty produces ranges, not dates. Treating a forecast as a fixed commitment hides variability and manufactures false certainty. The PO shares the forecast honestly, updates as data evolves, and works with stakeholders to make decisions as learning accrues. Padded commitments still fail when variance exceeds the pad, and the pad itself hides information."
+    "why": {
+      "en": "Empirical forecasting under uncertainty produces ranges. Single-date commitments hide variability and create false certainty. But a bare range is hard to act on. The strongest empirical answer adds decision points — what evidence will narrow the range, and when — so stakeholders can plan around the uncertainty rather than against a fictional point.",
+      "sl": "Empiričnega napovedi pod negotovostjo proizvede območja. Zaveze o datumu le-tega skriva spremenljivost in ustvari lažno zanesljivost. Ampak golim območje je težko delati. Najmočnejši empiričnega odgovora doda odločitvene točke — kateri dokaz bo razpršil območje in kdaj — tako da deležniki lahko načrtujejo okrog negotovosti namesto proti izmišljeni točki."
+    }
   },
   {
     "id": 5,
     "type": "single",
     "topic": "Value & Stakeholders",
-    "q": "A competitor ships a feature your product lacks. Leadership demands you copy it immediately. How should an evidence-based Product Owner respond?",
+    "q": {
+      "en": "The PO has shipped a deliberately small MVP to test a hypothesis. Initial customer signal is mixed: some segments respond strongly, others not at all. Stakeholders push to \"finish\" the feature with the originally planned full scope. The PO should:",
+      "sl": "Lastnik produkta je pošiljal namerno majhen MVP za testiranje hipoteze.初始ni signal stranke je mešan: nekateri segmenti se odzvejo, drugi sploh ne. Deležniki tisnijo na \"konec\" značilnosti s prvotno predvidenim polnim obsegom. Lastnik produkta bi moral:"
+    },
     "options": [
-      "Prioritize copying the feature to stay competitive",
-      "Ignore the competitor and stay focused on the current Product Goal",
-      "Investigate whether the feature would deliver value for your users based on evidence",
-      "Run a small experiment to release it quickly and measure outcomes"
+      {
+        "en": "Ship the originally planned full scope — stakeholders are aligned and momentum matters",
+        "sl": "Pošiljati prvotno načrtovani polni obseg — deležniki so poravnani in elan je važen"
+      },
+      {
+        "en": "Run further small experiments targeting the segments that responded, before scaling",
+        "sl": "Voditi nadaljnje majhne poskuse, ki cilj segmente, ki so se odzvali, preden se povečam"
+      },
+      {
+        "en": "Drop the feature given mixed signal",
+        "sl": "Spustiti značilnost glede na mešan signal"
+      },
+      {
+        "en": "Increase scope but cut quality so the rest of the feature can ship faster",
+        "sl": "Povečati obseg vendar rezati kakovost, da se preostanek značilnosti pošlje hitreje"
+      }
+    ],
+    "correct": [
+      1
+    ],
+    "why": {
+      "en": "An MVP is a learning instrument: mixed signal is itself information. Scaling to full scope ignores the segmentation finding. Dropping the feature throws away the segments where it works. Cutting quality compounds the original uncertainty. Iterating where the signal is strong is what the MVP was designed to enable.",
+      "sl": "MVP je instrument za učenje: mešan signal je sam po sebi informacija. Skaliranja na polni obseg ignorira ugotovitev segmentacije. Spuščanje značilnosti meče proč segmente, kam deluje. Rezanje kakovosti pa povečuje prvotno negotovost. Iteriranja, kjer je signal krep, je tisto, kar je MVP zasnovan na omogočitev."
+    }
+  },
+  {
+    "id": 6,
+    "type": "single",
+    "topic": "Events",
+    "q": {
+      "en": "At Sprint Reviews, senior stakeholders dominate the conversation, propose features for the next Sprint, and the Scrum Team has had little input. The Product Owner should:",
+      "sl": "Na Pregledih Sprinta senior deležniki obvladujejo pogovor, predlagajo značilnosti za naslednji Sprint in Scrum tim je imelo malo vhodov. Lastnik produkta bi moral:"
+    },
+    "options": [
+      {
+        "en": "Let stakeholders drive — they have organizational context that the Scrum Team often lacks",
+        "sl": "Pustiti deležnike, da vodijo — imajo organizacijski kontekst, ki ga Scrum tim pogosto nima"
+      },
+      {
+        "en": "Take stakeholder input but make all ordering decisions independently after the Review ends",
+        "sl": "Vzeti deležniški vhod, vendar sprejeti vse odločitve o ureditvi neodvisno po koncu Pregleda"
+      },
+      {
+        "en": "Restructure the Sprint Review so the Scrum Team and stakeholders inspect together as collaborators",
+        "sl": "Pregraditi Pregled Sprinta, tako da Scrum tim in deležniki pregledajo skupaj kot tesni sodelavci"
+      },
+      {
+        "en": "Ask the Scrum Master to gatekeep stakeholder participation in future Reviews more strictly",
+        "sl": "Prositi Scrum Mastera, da bolj strogo čuva udeležbo deležnika v prihodnji Pregledih"
+      }
     ],
     "correct": [
       2
     ],
-    "why": "A competitor's move is a signal, not a decision. An evidence-based PO evaluates whether copying fits *your* users and Product Goal before acting. Reactive copying often ships features that don't fit. Option 3 skips the evaluation and jumps to delivery; option 1 is purely reactive; option 2 uses the signal as one input to a value-driven decision."
-  },
-  {
-    "id": 6,
-    "type": "multi",
-    "topic": "Scaling",
-    "q": "An organization is adding three new Scrum Teams to a product that currently has one team. Which of the following are consistent with Scrum? (Select all that apply)",
-    "options": [
-      "Each team has its own Product Owner",
-      "All teams share one Product Owner",
-      "All teams share one Product Backlog",
-      "All teams share one Product Goal",
-      "Each team maintains its own Definition of Done, independent of the others"
-    ],
-    "correct": [
-      1,
-      2,
-      3
-    ],
-    "why": "At scale, Scrum preserves single accountability on the product: one Product Owner, one Product Backlog, one Product Goal. Teams contributing to the same product must share a consistent Definition of Done so Increments integrate. Multiple POs fragment value ordering; independent DoDs break Increment transparency at the product level."
+    "why": {
+      "en": "The Sprint Review is a working session where the Scrum Team and stakeholders inspect the Increment together and adapt the Product Backlog. A one-sided conversation isn't collaboration; it's a feature-request meeting. Privately ignoring input doesn't fix the event itself. Gatekeeping isn't the SM's role at the Review. Restructuring how the conversation happens is the principled fix.",
+      "sl": "Pregled Sprinta je delavnica, na kateri Scrum tim in deležniki pregledajo Inkrement skupaj in prilagodijo Seznam Produkta. Enostran pogovor ni sodelovanje; je sestanke za prošnje značilnosti. Zasebno ignoriraj vhod ne popra samega dogodka. Čuvanje ni vloga Scrum Mastera pri Pregledu. Pregradeva kako pogovor se zgodi je principialna popravka."
+    }
   },
   {
     "id": 7,
     "type": "single",
-    "topic": "Events",
-    "q": "Mid-Sprint, a major customer signals a shift that makes the current Sprint Goal obsolete. What is within the Product Owner's accountability?",
+    "topic": "Scaling",
+    "q": {
+      "en": "As the product grows, leadership proposes splitting it into \"domains\" with a separate Product Owner for each domain to scale faster. The Product Owner should:",
+      "sl": "Ko se je produkt razširil, vodstvo predlaga razcepiti ga na \"domene\" z ločenim lastnik produkta za vsako domeno za hitrejšo skaliranje. Lastnik produkta bi moral:"
+    },
     "options": [
-      "Direct the Developers to immediately switch to new work",
-      "Cancel the Sprint and start a new one aligned to the new direction",
-      "Renegotiate the Sprint Backlog with the Developers to reshape the Sprint mid-flight",
-      "Wait for the Sprint Review to adapt the Product Backlog"
+      {
+        "en": "Accept — clear domain ownership reduces coordination overhead in a fast-growing product",
+        "sl": "Sprejeti — jasna lastniška domene zmanjšuje koordinacijo režije v hitro rastoč produkt"
+      },
+      {
+        "en": "Coach leadership on Scrum's 'one PO per product' guidance and propose alternative roles reporting to a single PO",
+        "sl": "Coachati vodstvo na Scrum '1 lastnik produkta po produktu' vodilnici in predlagati alternativne vloge poročila enem lastniku produkta"
+      },
+      {
+        "en": "Refuse, citing the Scrum Guide; multiple POs are not Scrum and must not be allowed",
+        "sl": "Zavrniti, sklicujoč se na Scrum Vodila; več lastniki produkta niso Scrum in se ne sme biti dovoljen"
+      },
+      {
+        "en": "Accept with the condition that one PO be designated as 'lead Product Owner' for the product",
+        "sl": "Sprejeti s pogojem, da je en lastnik produkta namenski kot 'vodilni lastnik produkta' za produkt"
+      }
     ],
     "correct": [
       1
     ],
-    "why": "Only the Product Owner has authority to cancel a Sprint, and an obsolete Sprint Goal is exactly the case where cancellation is right — it stops further waste on irrelevant work. Directing Developers ignores self-management; renegotiating scope is for changes within the Sprint Goal, not when the Goal itself is obsolete; waiting until Sprint Review extends the waste by days or weeks."
+    "why": {
+      "en": "At scale on one product, Scrum preserves single accountability — one PO, one Product Backlog, one Product Goal — to keep value ordering coherent. Reflexively accepting fragments the accountability. A flat refusal ignores the legitimate organizational concern. A 'lead PO' role isn't in Scrum and creates ambiguity. Coaching with workable alternatives addresses the principle and the org problem.",
+      "sl": "Pri skaliranju na enem proizvodu Scrum ohranja eno odgovornost — en lastnik produkta, en Seznam Produkta, en Cilj Izdelka — da drži ureditve vrednosti skladne. Refleksivno sprejemanje razkroji odgovornost. Ravna zavrnitev ignorira legitimni organizacijski problem. 'Vodilna vloga lastnika produkta' ni v Scrumu in ustvari dvoumnost. Coaching z delavnim alternativami naslov načelo in organizacijski problem."
+    }
   },
   {
     "id": 8,
-    "type": "tf",
-    "topic": "Product Backlog",
-    "q": "The Product Owner chooses to hide certain Product Backlog items from stakeholders to reduce noisy feedback and political pressure.",
+    "type": "single",
+    "topic": "Value & Stakeholders",
+    "q": {
+      "en": "The PO is being measured by leadership on team velocity and has been pushing the team to commit to more story points each Sprint. Quality is starting to slip. What should the PO do?",
+      "sl": "Lastnik produkta je merjen na vodstvo o hitrosti tima in ga je tisnilo, da se zavezati več točkam prihodak Sprint. Kakovost se začne padati. Kaj bi moral lastnik produkta narediti?"
+    },
     "options": [
-      "True — this is within the PO's discretion",
-      "False — this breaks the Product Backlog's transparency"
+      {
+        "en": "Continue — meeting the metric is how the PO's performance is judged",
+        "sl": "Nadaljevati — pogoj metriko je kako lastnik produkta je ocenjen"
+      },
+      {
+        "en": "Stop pushing for higher velocity and have a direct conversation with leadership about how velocity differs from value",
+        "sl": "Prenehati z tiskom za višjo hitrost in imeti direktni pogovor z vodstvom o tem, kako se hitrost razlikuje od vrednosti"
+      },
+      {
+        "en": "Have the team adjust their estimation so the same work produces a higher velocity number",
+        "sl": "Imeti tim prilagoditi njihove ocene, tako da enako delo proizvede večja hitrost"
+      },
+      {
+        "en": "Resign and explain to leadership why",
+        "sl": "Oditi in pojasniti vodstvu zakaj"
+      }
     ],
     "correct": [
       1
     ],
-    "why": "The Product Backlog must be transparent to enable empirical decisions across the Scrum Team and stakeholders. Hiding items to manage stakeholder reactions trades short-term peace for long-term erosion of trust and empirical validity. If certain conversations are noisy, the fix is how the PO structures the engagement — not opacity."
+    "why": {
+      "en": "Velocity is a throughput measure, not a value measure. Pushing it at the cost of quality damages long-term Ability to Innovate and customer outcomes. Inflating estimates is gaming. Resigning over a measurement disagreement is extreme and abandons the team. The PO addresses the misaligned metric directly with leadership — that is part of how respect for PO decisions is earned.",
+      "sl": "Hitrost je meritev pretoka, ne meritev vrednosti. Tisnot jo na stroške kakovosti poškoduje dolgoročne Sposobnosti Inoviranja in rezultatom stranke. Razduhanje ocene je igranje. Oditi čez meritev nestrinjanja je skrajno in zapusti tim. Lastnik produkta naslovi neporavnano metriko direktno z vodstvom — to je del kako spoštovanje za odločitve lastnika produkta je doseženo."
+    }
   },
   {
     "id": 9,
     "type": "single",
     "topic": "Product Backlog",
-    "q": "The Developers want to invest a Sprint in reducing technical debt. Stakeholders want new features. The Product Owner should:",
+    "q": {
+      "en": "A high-value initiative genuinely cannot fit into any single Sprint, even with maximum team focus. The PO should:",
+      "sl": "Visoko vrednostna pobuda resnično ne more biti v nobenem enem Sprintu, tudi s maksimalnim timskim fokusom. Lastnik produkta bi moral:"
+    },
     "options": [
-      "Side with stakeholders — new features are visible",
-      "Side with the Developers — technical health matters",
-      "Weigh debt reduction's impact on Ability to Innovate against near-term value",
-      "Alternate Sprints — one features, one debt"
+      {
+        "en": "Break it into smaller, sequenced items even if the individual items each deliver narrow user value",
+        "sl": "Razčleniti jo na manjše, zaporedne elemente, četudi posamezni elementi vsak dajejo ozko vrednost za uporabnika"
+      },
+      {
+        "en": "Reject the initiative — Scrum can't accommodate work this large",
+        "sl": "Zavrniti pobudo — Scrum ne more nastaniti tako veliki dela"
+      },
+      {
+        "en": "Run it as a \"feature project\" outside the normal Scrum cadence",
+        "sl": "Voditi jo kot 'projekt značilnosti' zunaj normalnega Scrum ritma"
+      },
+      {
+        "en": "Find a way to break it down so each piece delivers user value, even if narrower than originally envisioned",
+        "sl": "Poiščite način da jo razčlenite, tako da vsak kos dostavi vrednost za uporabnika, čeprav bolj ozko kot prvotno videno"
+      }
     ],
     "correct": [
-      2
+      3
     ],
-    "why": "Technical debt erodes the organization's Ability to Innovate — an EBM Key Value Area — but not every piece of debt reduction is the highest-value option. The PO evaluates whether *this* debt work outranks *these* alternative items. Alternating Sprints ignores the actual trade-offs; reflexively siding with either group abdicates the PO's value-ordering accountability."
+    "why": {
+      "en": "Decomposition is a core Product Owner skill: large initiatives become valuable items by finding the user-value-delivering slices, even when slimmer than ideal. Sequenced items that don't independently deliver value (option 0) recreate waterfall inside Sprints. Rejecting outright (option 1) abandons the initiative. Running outside Scrum (option 2) breaks empirical product management.",
+      "sl": "Razčlenitev je temeljna spretnost Lastnika Produkta: velike pobude postanejo dragoceni elementi z iskanjem uporabnika-vrednost-dostavljajoče rezine, čeprav bolj tanke kot idealno. Zaporedni elementi, ki ne dostavljajo vrednost neodvisno uporabnika (opcija 0) ponovno ustvarje vodopad v Sprintih. Zavrniti izven (opcija 1) meče pobudo. Voditi zunaj Scruma (opcija 2) razbije empiričnega upravljanja produkta. Razčlenitev je bil namen MVP namenjen omogočiti."
+    }
   },
   {
     "id": 10,
     "type": "single",
-    "topic": "PO Accountability",
-    "q": "The Product Owner has spent months personally writing every Product Backlog item, while Developers have no direct contact with stakeholders. The Scrum Master could help by:",
+    "topic": "Value & Stakeholders",
+    "q": {
+      "en": "After six months of EBM measurement, Time-to-Market has improved significantly but Current Value (NPS, retention) is flat. Leadership wants to celebrate the T2M win. The PO should:",
+      "sl": "Po šestih mesecih EBM merjenja se je Čas do Trga izboljšal bistveno, vendar je Trenutna Vrednost (NPS, obstanek) ravna. Vodstvo želi praznovat Čas do Trga zmago. Lastnik produkta bi moral:"
+    },
     "options": [
-      "Taking over backlog item writing to reduce the PO's burden",
-      "Coaching the PO and Developers on direct stakeholder collaboration, and the organization on why it matters",
-      "Letting the arrangement continue — it's within the PO's discretion",
-      "Appointing a business analyst to handle stakeholder communication"
+      {
+        "en": "Celebrate the T2M win — improved time-to-market is genuine progress for any product",
+        "sl": "Praznovat Čas do Trga zmago — izboljšan čas do trga je pravi napredek za kateregakoli produkta"
+      },
+      {
+        "en": "Reframe with leadership: T2M without CV means the team is becoming faster at building things users don't value",
+        "sl": "Preoblikovati z vodstvom: Čas do Trga brez Trenutne Vrednosti pomeni, da tim postaja hitrejši pri gradnji stvari, katere uporabniki ne cenijo"
+      },
+      {
+        "en": "Switch to metrics that better demonstrate the team's improving performance trajectory",
+        "sl": "Premik metriko, ki bolje demonstrira izboljšanje tima trajektorijo"
+      },
+      {
+        "en": "Refocus measurement effort on Unrealized Value, where there is clearly more opportunity",
+        "sl": "Preusmerite meritve napore na Neuresničeno Vrednost, kje je jasno več priložnosti"
+      }
     ],
     "correct": [
       1
     ],
-    "why": "The PO's accountability is maximizing value, not producing specifications. Direct collaboration between Developers and stakeholders is foundational to empiricism. The SM serves the Scrum Team and the organization by coaching this change. Taking over specification writing perpetuates the anti-pattern; a business analyst introduces a non-Scrum role; doing nothing ignores a clear dysfunction."
+    "why": {
+      "en": "EBM Key Value Areas are interpreted in relation to each other. T2M measures speed of delivering capability; CV measures realized value. Faster delivery of low-value work is throughput without outcome — exactly the feature-factory pattern EBM is designed to expose. Celebrating T2M alone misreads the data; switching metrics is gaming; pivoting to UV without explanation evades the inconvenient signal.",
+      "sl": "EBM Ključne Vrednostne Področja se razlagajo v odnosu drug do drugega. Čas do Trga meri hitrost dostave zmožnosti; Trenutna Vrednost meri realizirano vrednost. Hitrejša dostava nizke-vrednosti dela je pretok brez izida — natančno vzor tovarne značilnosti, ki jo je EBM zasnova izpostaviti. Praznovanje Časa do Trga samo napač bere podatke; premik metriko je igranje; obrt UV brez razlage se izogiba neprijetnem signalov."
+    }
   }
 ]
