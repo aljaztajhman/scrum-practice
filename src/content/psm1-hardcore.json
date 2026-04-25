@@ -8,12 +8,12 @@
       "Speak privately with the Developer and set performance expectations",
       "Raise the pattern in the next Retrospective so the Scrum Team can inspect and address it together",
       "Escalate to the Developer's line manager to take corrective action",
-      "Say nothing — self-management means the team alone decides if and how to respond"
+      "Say nothing \u2014 self-management means the team alone decides if and how to respond"
     ],
     "correct": [
       1
     ],
-    "why": "The Scrum Master is accountable for the Scrum Team's effectiveness and for the productivity of Scrum events. Surfacing a pattern the team has avoided is squarely in that remit — the SM doesn't prescribe the fix, but does make sure the team can inspect and adapt. Private performance conversations aren't the SM's role, escalating to a manager bypasses self-management, and doing nothing fails the Retrospective's purpose."
+    "why": "The Scrum Master is accountable for the Scrum Team's effectiveness and for the productivity of Scrum events. Surfacing a pattern the team has avoided is squarely in that remit \u2014 the SM doesn't prescribe the fix, but does make sure the team can inspect and adapt. Private performance conversations aren't the SM's role, escalating to a manager bypasses self-management, and doing nothing fails the Retrospective's purpose."
   },
   {
     "id": 2,
@@ -32,23 +32,23 @@
       2,
       3
     ],
-    "why": "The Scrum Master serves the organization by leading and coaching Scrum adoption. Individual productivity metrics are not empirical measures of team progress or product value — they create false signals that distract from the actual artifact (the Increment) and from self-management. The principled move is to redirect the conversation toward outcome-based measures and route product progress through the Product Owner. Quiet compliance entrenches an anti-Scrum behavior under the badge of Scrum."
+    "why": "The Scrum Master serves the organization by leading and coaching Scrum adoption. Individual productivity metrics are not empirical measures of team progress or product value \u2014 they create false signals that distract from the actual artifact (the Increment) and from self-management. The principled move is to redirect the conversation toward outcome-based measures and route product progress through the Product Owner. Quiet compliance entrenches an anti-Scrum behavior under the badge of Scrum."
   },
   {
     "id": 3,
     "type": "single",
     "topic": "Artifacts",
-    "q": "The organization has mandated a product-wide Definition of Done that the Scrum Team considers insufficient — it doesn't include meaningful testing or security review. What should the Scrum Team do?",
+    "q": "The organization has mandated a product-wide Definition of Done that the Scrum Team considers insufficient \u2014 it doesn't include meaningful testing or security review. What should the Scrum Team do?",
     "options": [
-      "Follow the organizational DoD exactly, since it's mandated",
-      "Follow the organizational DoD as a minimum, and add stricter criteria where the team sees fit",
-      "Ignore the organizational DoD and create their own",
-      "Refuse to start the next Sprint until the organization updates the DoD"
+      "Follow the organizational DoD exactly",
+      "Follow organizational DoD as minimum; add stricter criteria where the team sees fit",
+      "Ignore the organizational DoD entirely",
+      "Refuse to start the next Sprint until updated"
     ],
     "correct": [
       1
     ],
-    "why": "When an organization defines a DoD, the Scrum Team follows it as a minimum — and is free to raise the bar with stricter criteria. This preserves product-wide transparency across teams while honoring the Scrum Team's professional judgment on quality. Ignoring the org DoD fragments transparency; refusing to start blocks value delivery over a solvable problem."
+    "why": "When an organization defines a DoD, the Scrum Team follows it as a minimum \u2014 and is free to raise the bar with stricter criteria. This preserves product-wide transparency across teams while honoring the Scrum Team's professional judgment on quality. Ignoring the org DoD fragments transparency; refusing to start blocks value delivery over a solvable problem."
   },
   {
     "id": 4,
@@ -56,15 +56,15 @@
     "topic": "Scenarios",
     "q": "An executive proposes that one Scrum Master serve four Scrum Teams to reduce cost. The Scrum Master should:",
     "options": [
-      "Decline outright — one SM cannot effectively serve four teams",
-      "Accept without comment, since Scrum doesn't specify an SM-to-team ratio",
-      "Propose a trial while coaching the executive on what effectiveness requires, and let empirical evidence inform the decision",
-      "Appoint a \"lead Developer\" on each team to act as SM proxy"
+      "Decline outright \u2014 one SM cannot serve four teams",
+      "Accept without comment, since Scrum doesn't specify a ratio",
+      "Propose a trial while coaching on what effectiveness requires",
+      "Appoint a 'lead Developer' as SM proxy"
     ],
     "correct": [
       2
     ],
-    "why": "The Scrum Guide is silent on Scrum-Master-to-team ratios, so the SM cannot refuse outright on a rule basis, and silent acceptance abandons the SM's coaching accountability. What the Guide does say is that the SM serves the team, the Product Owner, and the organization — so a principled response coaches the decision-maker on what effectiveness should be measured by, proposes a trial, and lets observed evidence guide the choice. An SM proxy is not a Scrum role."
+    "why": "The Scrum Guide is silent on Scrum-Master-to-team ratios, so the SM cannot refuse outright on a rule basis, and silent acceptance abandons the SM's coaching accountability. What the Guide does say is that the SM serves the team, the Product Owner, and the organization \u2014 so a principled response coaches the decision-maker on what effectiveness should be measured by, proposes a trial, and lets observed evidence guide the choice. An SM proxy is not a Scrum role."
   },
   {
     "id": 5,
@@ -86,9 +86,9 @@
     "topic": "Events",
     "q": "After six months of Sprints, the Developers insist at every Retrospective: 'we have nothing new to discuss.' The Scrum Master should:",
     "options": [
-      "Cancel Retrospectives until the team has concerns to raise",
+      "Cancel Retrospectives until the team has concerns",
       "Continue facilitating and accept short, surface-level sessions",
-      "Shift the Retrospective focus to inspect a specific dimension (e.g., the Definition of Done, stakeholder engagement, flow) and prompt deeper reflection",
+      "Shift the Retrospective focus to inspect a specific dimension and prompt deeper reflection",
       "Combine the Retrospective with the Sprint Review to save time"
     ],
     "correct": [
@@ -102,15 +102,15 @@
     "topic": "Events",
     "q": "Every Sprint Review in the organization is a one-way product demo with little stakeholder discussion. What should change first?",
     "options": [
-      "Invite more stakeholders so more voices are in the room",
+      "Invite more stakeholders for more voices",
       "Shorten the Review to reduce boredom",
-      "Restructure the Review as a working session: inspect the Increment together and adapt the Product Backlog based on the collaboration",
-      "Replace the live demo with a polished slide deck summarizing progress"
+      "Restructure as a working session: inspect the Increment and adapt the Product Backlog",
+      "Replace the demo with a polished slide deck"
     ],
     "correct": [
       2
     ],
-    "why": "The Sprint Review is a working session, not a status broadcast. Its purpose is to inspect the Increment and adapt the Product Backlog through genuine collaboration. The structural fix isn't more attendees, less time, or prettier slides — it's changing what actually happens in the event."
+    "why": "The Sprint Review is a working session, not a status broadcast. Its purpose is to inspect the Increment and adapt the Product Backlog through genuine collaboration. The structural fix isn't more attendees, less time, or prettier slides \u2014 it's changing what actually happens in the event."
   },
   {
     "id": 8,
@@ -118,7 +118,7 @@
     "topic": "Scrum Team",
     "q": "A Scrum Team lacks a specialized skill (e.g., security engineering) and depends on an external specialist every Sprint. Which actions align with Scrum? (Select all that apply)",
     "options": [
-      "Accept the dependency as permanent — Scrum doesn't require all skills to be in-team",
+      "Accept the dependency as permanent \u2014 Scrum doesn't require all skills to be in-team",
       "Work to bring the missing skill into the team over time",
       "Cross-train existing Developers to reduce the dependency",
       "Hand all security-related work to the external specialist and treat it as outside the Sprint",
@@ -129,7 +129,7 @@
       2,
       4
     ],
-    "why": "Cross-functional means the team has all the skills needed to create value each Sprint. Permanent external dependencies fragment accountability for the Increment. The Scrum response is to surface the gap transparently, build skill in-team, and cross-train — not to accept or hide the dependency."
+    "why": "Cross-functional means the team has all the skills needed to create value each Sprint. Permanent external dependencies fragment accountability for the Increment. The Scrum response is to surface the gap transparently, build skill in-team, and cross-train \u2014 not to accept or hide the dependency."
   },
   {
     "id": 9,
@@ -137,7 +137,7 @@
     "topic": "Events",
     "q": "A senior Developer proposes skipping Sprint Planning for one Sprint because 'we already know what to do.' The Scrum Master should:",
     "options": [
-      "Agree — self-management means the team decides which events to run",
+      "Agree \u2014 self-management means the team decides which events to run",
       "Facilitate Sprint Planning anyway and coach the team on why the event still matters",
       "Escalate to management so the team doesn't skip Scrum events",
       "Run an abbreviated 15-minute Sprint Planning instead"
@@ -145,7 +145,7 @@
     "correct": [
       1
     ],
-    "why": "Sprint Planning is one of the five formal Scrum events and establishes the Sprint Goal — the Sprint's commitment. Its purpose is to create shared understanding of what valuable work the Sprint will produce and how, not just to generate a task list. A Developer feeling personal certainty about 'what to do' is not equivalent to the Scrum Team having a shared Sprint Goal and plan. The Scrum Master's role is to facilitate the event and coach the team on why it exists."
+    "why": "Sprint Planning is one of the five formal Scrum events and establishes the Sprint Goal \u2014 the Sprint's commitment. Its purpose is to create shared understanding of what valuable work the Sprint will produce and how, not just to generate a task list. A Developer feeling personal certainty about 'what to do' is not equivalent to the Scrum Team having a shared Sprint Goal and plan. The Scrum Master's role is to facilitate the event and coach the team on why it exists."
   },
   {
     "id": 10,
@@ -153,7 +153,7 @@
     "topic": "Commitments",
     "q": "A Product Owner tells the Scrum Team that a key customer deadline requires shipping work that hasn't met the Definition of Done. The Developers should:",
     "options": [
-      "Ship the work to meet the deadline — the PO has final say on releases",
+      "Ship the work to meet the deadline \u2014 the PO has final say on releases",
       "Refuse to ship and raise the issue publicly in the Sprint Review",
       "Ship the work without updating the Increment to mark it Done",
       "Complete only the parts meeting DoD; the PO decides whether to release that reduced Increment"

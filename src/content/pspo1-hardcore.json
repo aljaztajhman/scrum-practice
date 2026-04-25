@@ -5,10 +5,10 @@
     "topic": "PO Accountability",
     "q": "The CEO tells the Product Owner that feature X must be at the top of the Product Backlog for the next release, overriding the PO's value ordering. The Product Owner should:",
     "options": [
-      "Comply — the CEO has ultimate authority over product decisions",
+      "Comply — the CEO has ultimate authority",
       "Move X to the top and quietly deprioritize it later",
-      "Discuss with the CEO: present the value reasoning behind the current ordering, incorporate the CEO's perspective, and decide based on value",
-      "Ask the Scrum Master to mediate the disagreement"
+      "Discuss with the CEO: present reasoning, incorporate their perspective, decide based on value",
+      "Ask the Scrum Master to mediate"
     ],
     "correct": [
       2
@@ -21,9 +21,9 @@
     "topic": "Value & Stakeholders",
     "q": "Velocity has been high for six Sprints. Customer satisfaction and product usage metrics are flat or declining. The Product Owner should:",
     "options": [
-      "Celebrate the high velocity — the team is clearly productive",
+      "Celebrate the high velocity — the team is productive",
       "Ask the Developers to ship even more items per Sprint",
-      "Refocus the team and organization on outcome measures (customer impact, usage, value) rather than output",
+      "Refocus the team on outcome measures (customer impact, usage, value) rather than output",
       "Pause releases until value rebounds"
     ],
     "correct": [
@@ -37,9 +37,9 @@
     "topic": "Value & Stakeholders",
     "q": "A feature has been in development for three Sprints. Recent customer interviews reveal users don't actually want it. The Product Owner has spent significant political capital getting it prioritized. What should the PO do?",
     "options": [
-      "Complete the feature to protect the PO's credibility",
+      "Complete the feature to protect credibility",
       "Complete it so the investment isn't fully wasted",
-      "Stop work, remove it from the backlog, and transparently communicate the reasoning to stakeholders",
+      "Stop work, remove it from the backlog, and transparently communicate the reasoning",
       "Scope it down so at least some version ships"
     ],
     "correct": [
@@ -71,8 +71,8 @@
     "options": [
       "Prioritize copying the feature to stay competitive",
       "Ignore the competitor and stay focused on the current Product Goal",
-      "Investigate whether the feature would deliver value for your users; decide based on evidence, not reaction",
-      "Run a small experiment to release a version of it quickly, then measure outcomes"
+      "Investigate whether the feature would deliver value for your users based on evidence",
+      "Run a small experiment to release it quickly and measure outcomes"
     ],
     "correct": [
       2
@@ -134,10 +134,10 @@
     "topic": "Product Backlog",
     "q": "The Developers want to invest a Sprint in reducing technical debt. Stakeholders want new features. The Product Owner should:",
     "options": [
-      "Side with stakeholders — new features are visible value",
+      "Side with stakeholders — new features are visible",
       "Side with the Developers — technical health matters",
-      "Treat debt reduction as part of the same value conversation: weigh reduced Ability to Innovate against near-term value and order accordingly",
-      "Alternate Sprints — one of features, one of debt"
+      "Weigh debt reduction's impact on Ability to Innovate against near-term value",
+      "Alternate Sprints — one features, one debt"
     ],
     "correct": [
       2
