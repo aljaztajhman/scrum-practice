@@ -1,6 +1,6 @@
 import type { TrackId } from './tracks';
 
-export type ModeId = 'practice' | 'mock' | 'drill' | 'infinite' | 'hardcore' | 'ai';
+export type ModeId = 'practice' | 'mock' | 'infinite' | 'ai';
 
 export interface ModeDef {
   id: ModeId;
@@ -26,25 +26,11 @@ export const MODES: ModeDef[] = [
     path: (t) => `/mock/${t}`,
   },
   {
-    id: 'drill',
-    title: 'Topic drill',
-    italic: 'one area at a time',
-    desc: 'Pick a topic — Accountabilities, Events, Artifacts, Scenarios — and grind it until you own it.',
-    path: (t) => `/drill/${t}`,
-  },
-  {
     id: 'infinite',
     title: 'Infinite',
     italic: 'until you stop',
-    desc: 'Endless shuffled stream. Running accuracy counter. Walk away whenever you want.',
+    desc: 'Endless shuffled stream from the question bank. Running accuracy counter. Walk away whenever you want.',
     path: (t) => `/infinite/${t}`,
-  },
-  {
-    id: 'hardcore',
-    title: 'Hardcore',
-    italic: 'ten questions that hurt',
-    desc: 'Ten scenario-heavy questions where three of four options sound right. Tests judgment under competing Scrum principles, not memorization. For when you think you really know it.',
-    path: (t) => `/hardcore/${t}`,
   },
   {
     id: 'ai',
