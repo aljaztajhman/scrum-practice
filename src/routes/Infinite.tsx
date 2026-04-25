@@ -5,6 +5,7 @@ import { ArrowLeft, Check, X } from '../components/Icons';
 import PageShell from '../components/PageShell';
 import QuizCard from '../components/QuizCard';
 import Results from '../components/Results';
+import { useT } from '../i18n/LanguageContext';
 import { useInfiniteQuiz } from '../lib/quiz-engine';
 import { TRACKS, type TrackId } from '../lib/tracks';
 
@@ -16,22 +17,14 @@ export default function Infinite() {
   const { cert } = useParams<{ cert: string }>();
   const trackId = (cert?.toUpperCase() ?? '') as TrackId;
   const track = TRACKS[trackId];
-
   const [sessionKey, setSessionKey] = useState(0);
-
   if (!track) return <Navigate to="/" replace />;
-
   return <InfiniteSession key={sessionKey} track={track} onRestart={() => setSessionKey((k) => k + 1)} />;
 }
 
-function InfiniteSession({
-  track,
-  onRestart,
-}: {
-  track: (typeof TRACKS)[TrackId];
-  onRestart: () => void;
-}) {
+function InfiniteSession({ track, onRestart }: { track: (typeof TRACKS)[TrackId]; onRestart: () => void }) {
   const navigate = useNavigate();
+  const t = useT();
   const engine = useInfiniteQuiz(track.questions);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 
@@ -85,16 +78,13 @@ function InfiniteSession({
             onClick={() => navigate('/')}
             className="group flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-stone-600 hover:text-stone-900 transition-colors py-2 -ml-1 mb-5"
           >
-            <ArrowLeft
-              className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"
-              strokeWidth={2}
-            />
-            Back to start
+            <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" strokeWidth={2} />
+            {t('common.back')}
           </button>
           <div className="flex items-center gap-2">
             <div className="h-px w-10 bg-stone-700"></div>
             <span className="text-xs tracking-[0.3em] uppercase text-stone-700 font-medium">
-              Infinite session · {track.title}
+              {t('results.infiniteSession')} · {track.title}
             </span>
           </div>
         </div>
@@ -130,15 +120,12 @@ function InfiniteSession({
             onClick={requestExit}
             className="group flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-stone-600 hover:text-stone-900 transition-colors py-2 -ml-1"
           >
-            <ArrowLeft
-              className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"
-              strokeWidth={2}
-            />
-            Stop
+            <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" strokeWidth={2} />
+            {t('infinite.stop')}
           </button>
           <div className="flex items-center gap-2.5 md:gap-4 text-xs">
             <span className="hidden md:inline text-[10px] uppercase tracking-[0.2em] text-stone-500">
-              {track.title} · Infinite
+              {track.title} · {t('mode.infinite.title')}
             </span>
             <span className="hidden md:inline text-stone-300">·</span>
             <span className="flex items-center gap-1 text-emerald-800">
@@ -152,7 +139,7 @@ function InfiniteSession({
             <span className="text-stone-400">·</span>
             <span className="uppercase tracking-[0.15em] text-stone-600 tabular-nums">
               <span className="serif text-stone-900">{engine.answeredCount}</span>
-              <span className="text-stone-400"> answered</span>
+              <span className="text-stone-400"> {t('mock.answered')}</span>
             </span>
           </div>
         </div>

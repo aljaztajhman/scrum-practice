@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { tr, type Question } from '../lib/schema';
 import type { Track } from '../lib/tracks';
-import { useLanguage } from '../i18n/LanguageContext';
+import { useLanguage, useT } from '../i18n/LanguageContext';
 import { Check, X, RotateCcw } from './Icons';
 
 export interface AnswerRecord {
@@ -19,6 +19,7 @@ interface Props {
 
 export default function Results({ track, pool, answers, onRestart, onRetrySame }: Props) {
   const { lang } = useLanguage();
+  const t = useT();
   const [viewMode, setViewMode] = useState<'missed' | 'all'>('missed');
 
   const results = pool.map((q, i) => ({
@@ -34,10 +35,10 @@ export default function Results({ track, pool, answers, onRestart, onRetrySame }
 
   const byTopic: Record<string, { correct: number; total: number }> = {};
   results.forEach((r) => {
-    const t = r.question.topic;
-    if (!byTopic[t]) byTopic[t] = { correct: 0, total: 0 };
-    byTopic[t].total++;
-    if (r.correct) byTopic[t].correct++;
+    const t_ = r.question.topic;
+    if (!byTopic[t_]) byTopic[t_] = { correct: 0, total: 0 };
+    byTopic[t_].total++;
+    if (r.correct) byTopic[t_].correct++;
   });
 
   const topicsSorted = Object.entries(byTopic).sort(
@@ -51,25 +52,19 @@ export default function Results({ track, pool, answers, onRestart, onRetrySame }
     <div className="space-y-10 md:space-y-12">
       <div className="border border-stone-300 bg-white/70 p-8 md:p-12 paper">
         <p className="text-xs uppercase tracking-[0.3em] text-stone-600 mb-4">
-          {passed ? 'On track' : 'Keep studying'}
+          {passed ? t('results.eyebrowOn') : t('results.eyebrowKeep')}
         </p>
         <div className="flex items-end gap-4 mb-3">
-          <span
-            className="serif text-7xl md:text-9xl text-stone-900 leading-none"
-            style={{ fontWeight: 500 }}
-          >
+          <span className="serif text-7xl md:text-9xl text-stone-900 leading-none" style={{ fontWeight: 500 }}>
             {pct}
           </span>
           <span className="serif text-3xl md:text-4xl text-stone-500 italic pb-2">%</span>
         </div>
-        <p
-          className="serif text-xl md:text-2xl text-stone-700 italic"
-          style={{ fontWeight: 400 }}
-        >
-          {correct} correct out of {total}.{' '}
+        <p className="serif text-xl md:text-2xl text-stone-700 italic" style={{ fontWeight: 400 }}>
+          {correct} {t('results.correctOf')} {total}.{' '}
           {passed
-            ? "That's at or above the 85% threshold."
-            : `You need ${Math.ceil(total * 0.85) - correct} more correct to reach 85%.`}
+            ? t('results.aboveThreshold')
+            : `${t('results.youNeed')} ${Math.ceil(total * 0.85) - correct} ${t('results.moreCorrect')}`}
         </p>
       </div>
 
@@ -78,19 +73,19 @@ export default function Results({ track, pool, answers, onRestart, onRetrySame }
           onClick={onRetrySame}
           className="flex-1 bg-stone-900 text-stone-50 px-6 py-4 text-sm uppercase tracking-widest hover:bg-amber-700 transition-colors flex items-center justify-center gap-2"
         >
-          <RotateCcw className="w-4 h-4" strokeWidth={1.8} /> New round — same {track.title}
+          <RotateCcw className="w-4 h-4" strokeWidth={1.8} /> {t('results.newRound')} {track.title}
         </button>
         <button
           onClick={onRestart}
           className="flex-1 border border-stone-900 text-stone-900 px-6 py-4 text-sm uppercase tracking-widest hover:bg-stone-900 hover:text-stone-50 transition-colors"
         >
-          Change certification / length
+          {t('results.changeConfig')}
         </button>
       </div>
 
       <div>
         <p className="serif text-sm uppercase tracking-[0.25em] text-stone-600 mb-5">
-          By topic — weakest first
+          {t('results.byTopic')}
         </p>
         <div className="space-y-2">
           {topicsSorted.map(([topic, data]) => {
@@ -98,15 +93,11 @@ export default function Results({ track, pool, answers, onRestart, onRetrySame }
             return (
               <div key={topic} className="border border-stone-300 bg-white/60 px-5 py-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span
-                    className="serif text-stone-900 text-base"
-                    style={{ fontWeight: 500 }}
-                  >
+                  <span className="serif text-stone-900 text-base" style={{ fontWeight: 500 }}>
                     {topic}
                   </span>
                   <span className="text-xs text-stone-600 tabular-nums">
-                    {data.correct}/{data.total} ·{' '}
-                    <span className="text-stone-900 font-medium">{p}%</span>
+                    {data.correct}/{data.total} · <span className="text-stone-900 font-medium">{p}%</span>
                   </span>
                 </div>
                 <div className="h-1 bg-stone-200 relative overflow-hidden">
@@ -124,7 +115,7 @@ export default function Results({ track, pool, answers, onRestart, onRetrySame }
       <div>
         <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
           <p className="serif text-sm uppercase tracking-[0.25em] text-stone-600">
-            Review your answers
+            {t('results.review')}
           </p>
           <div className="flex gap-0 border border-stone-900 p-0.5 text-xs">
             <button
@@ -134,7 +125,7 @@ export default function Results({ track, pool, answers, onRestart, onRetrySame }
                 viewMode === 'missed' ? 'bg-stone-900 text-stone-50' : 'text-stone-700 hover:bg-stone-100'
               }`}
             >
-              Missed ({missed.length})
+              {t('results.missed')} ({missed.length})
             </button>
             <button
               onClick={() => setViewMode('all')}
@@ -143,18 +134,15 @@ export default function Results({ track, pool, answers, onRestart, onRetrySame }
                 viewMode === 'all' ? 'bg-stone-900 text-stone-50' : 'text-stone-700 hover:bg-stone-100'
               }`}
             >
-              All ({total})
+              {t('results.all')} ({total})
             </button>
           </div>
         </div>
 
         {visibleResults.length === 0 ? (
           <div className="border border-emerald-300 bg-emerald-50/60 p-8 text-center">
-            <p
-              className="serif text-xl italic text-emerald-900"
-              style={{ fontWeight: 400 }}
-            >
-              No missed questions. Clean sweep.
+            <p className="serif text-xl italic text-emerald-900" style={{ fontWeight: 400 }}>
+              {t('results.cleanSweep')}
             </p>
           </div>
         ) : (
@@ -170,24 +158,21 @@ export default function Results({ track, pool, answers, onRestart, onRetrySame }
                   </span>
                   {r.correct ? (
                     <span className="text-[10px] uppercase tracking-widest text-emerald-800 flex items-center gap-1">
-                      <Check className="w-3 h-3" strokeWidth={3} /> Correct
+                      <Check className="w-3 h-3" strokeWidth={3} /> {t('results.correctLabel')}
                     </span>
                   ) : (
                     <span className="text-[10px] uppercase tracking-widest text-rose-800 flex items-center gap-1">
-                      <X className="w-3 h-3" strokeWidth={3} /> Missed
+                      <X className="w-3 h-3" strokeWidth={3} /> {t('results.missedLabel')}
                     </span>
                   )}
                 </div>
-                <p
-                  className="serif text-stone-900 mt-1 mb-3 text-base md:text-lg"
-                  style={{ fontWeight: 500 }}
-                >
+                <p className="serif text-stone-900 mt-1 mb-3 text-base md:text-lg" style={{ fontWeight: 500 }}>
                   {tr(r.question.q, lang)}
                 </p>
                 {!r.correct && (
                   <>
                     <p className="text-xs text-stone-600 mb-1 uppercase tracking-wider">
-                      Correct answer
+                      {t('results.correctAnswer')}
                     </p>
                     <ul className="text-sm text-stone-800 mb-3 space-y-0.5">
                       {r.question.correct.map((ci) => (

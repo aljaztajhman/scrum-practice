@@ -4,6 +4,7 @@ import PageHeader from '../components/PageHeader';
 import PageShell from '../components/PageShell';
 import SequentialRunner from '../components/SequentialRunner';
 import TopicPicker from '../components/TopicPicker';
+import { useT } from '../i18n/LanguageContext';
 import { TRACKS, type TrackId } from '../lib/tracks';
 import { shuffle } from '../lib/utils';
 
@@ -11,6 +12,7 @@ export default function Drill() {
   const { cert } = useParams<{ cert: string }>();
   const trackId = (cert?.toUpperCase() ?? '') as TrackId;
   const track = TRACKS[trackId];
+  const t = useT();
 
   const [topic, setTopic] = useState<string | null>(null);
   const [sessionKey, setSessionKey] = useState(0);
@@ -21,10 +23,10 @@ export default function Drill() {
     return (
       <PageShell>
         <PageHeader
-          eyebrow={`${track.title} · Drill`}
-          title="Drill"
-          italic="one area"
-          tagline="Pick a topic and grind it until it clicks."
+          eyebrow={`${track.title} · ${t('drill.eyebrowSuffix')}`}
+          title={t('drill.title')}
+          italic={t('drill.italic')}
+          tagline={t('drill.tagline')}
           backTo="/"
         />
         <TopicPicker track={track} onPick={setTopic} />

@@ -1,7 +1,7 @@
 import { tr, type Question } from '../lib/schema';
 import type { Track } from '../lib/tracks';
 import { arraysEqualAsSets } from '../lib/utils';
-import { useLanguage } from '../i18n/LanguageContext';
+import { useLanguage, useT } from '../i18n/LanguageContext';
 import { Check, X, ChevronLeft, ChevronRight } from './Icons';
 
 interface Props {
@@ -32,6 +32,7 @@ export default function QuizCard({
   onPrev,
 }: Props) {
   const { lang } = useLanguage();
+  const t = useT();
   const isCorrect = locked && arraysEqualAsSets(selected, question.correct);
 
   return (
@@ -40,10 +41,10 @@ export default function QuizCard({
         <div className="flex items-center justify-between mb-4 gap-3">
           <p className="text-xs uppercase tracking-widest text-stone-500">
             {question.type === 'multi'
-              ? 'Select all that apply'
+              ? t('quiz.selectAll')
               : question.type === 'tf'
-                ? 'True or False'
-                : 'Choose one'}
+                ? t('quiz.tf')
+                : t('quiz.chooseOne')}
           </p>
           <span
             className={`text-[10px] uppercase tracking-widest px-2 py-1 border ${
@@ -61,7 +62,7 @@ export default function QuizCard({
           {tr(question.q, lang)}
         </h2>
 
-        <div className="space-y-2.5" role="group" aria-label="Answer options">
+        <div className="space-y-2.5" role="group">
           {question.options.map((opt, i) => {
             const isSel = selected.includes(i);
             const isRight = question.correct.includes(i);
@@ -121,12 +122,12 @@ export default function QuizCard({
               {isCorrect ? (
                 <>
                   <Check className="w-4 h-4 text-emerald-700" strokeWidth={2.5} />
-                  <span className="serif italic text-emerald-900 text-lg">Correct.</span>
+                  <span className="serif italic text-emerald-900 text-lg">{t('quiz.correct')}</span>
                 </>
               ) : (
                 <>
                   <X className="w-4 h-4 text-rose-700" strokeWidth={2.5} />
-                  <span className="serif italic text-rose-900 text-lg">Not quite.</span>
+                  <span className="serif italic text-rose-900 text-lg">{t('quiz.notQuite')}</span>
                 </>
               )}
             </div>
@@ -139,16 +140,16 @@ export default function QuizCard({
         <button
           onClick={onPrev}
           disabled={!canGoPrev}
-          aria-label="Previous question"
+          aria-label={t('common.previous')}
           className="flex items-center gap-2 px-4 md:px-5 py-3 text-xs uppercase tracking-widest border border-stone-400 text-stone-700 hover:bg-stone-900 hover:text-stone-50 hover:border-stone-900 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-stone-700 disabled:hover:border-stone-400 disabled:cursor-not-allowed transition-colors"
         >
           <ChevronLeft className="w-3.5 h-3.5" strokeWidth={2} />
-          <span className="hidden sm:inline">Previous</span>
+          <span className="hidden sm:inline">{t('common.previous')}</span>
         </button>
 
         <span className="text-xs text-stone-500 uppercase tracking-wider hidden sm:block">
           {question.type === 'multi' && !locked && selected.length > 0
-            ? `${selected.length} selected`
+            ? `${selected.length} ${t('quiz.selected')}`
             : ''}
         </span>
 
@@ -158,14 +159,14 @@ export default function QuizCard({
             disabled={!canSubmit}
             className="bg-stone-900 text-stone-50 px-6 py-3 text-xs md:text-sm uppercase tracking-widest hover:bg-amber-700 disabled:bg-stone-300 disabled:cursor-not-allowed transition-colors"
           >
-            Submit answer
+            {t('quiz.submit')}
           </button>
         ) : (
           <button
             onClick={onNext}
             className="bg-stone-900 text-stone-50 px-6 py-3 text-xs md:text-sm uppercase tracking-widest hover:bg-amber-700 transition-colors flex items-center gap-2"
           >
-            {isLastQuestion ? 'See results' : 'Next'}
+            {isLastQuestion ? t('quiz.seeResults') : t('common.next')}
             <ChevronRight className="w-3.5 h-3.5" strokeWidth={2} />
           </button>
         )}

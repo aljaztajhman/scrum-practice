@@ -1,4 +1,4 @@
-import { QuestionBankSchema, type Question } from './schema';
+import { QuestionBankSchema, type LocalizedString, type Question } from './schema';
 import psm1Raw from '../content/psm1.json';
 import pspo1Raw from '../content/pspo1.json';
 import psm1HardcoreRaw from '../content/psm1-hardcore.json';
@@ -8,8 +8,8 @@ export interface Track {
   id: TrackId;
   title: string;
   subtitle: string;
-  short: string;
-  tagline: string;
+  short: LocalizedString;
+  tagline: LocalizedString;
   questions: Question[];
   hardcoreQuestions: Question[];
   topicAccent: Record<string, string>;
@@ -17,7 +17,6 @@ export interface Track {
 
 export type TrackId = 'PSM1' | 'PSPO1';
 
-// Validate at module load. Fail loudly if content is malformed.
 const PSM1_QUESTIONS = QuestionBankSchema.parse(psm1Raw);
 const PSPO1_QUESTIONS = QuestionBankSchema.parse(pspo1Raw);
 const PSM1_HARDCORE = QuestionBankSchema.parse(psm1HardcoreRaw);
@@ -28,8 +27,11 @@ export const TRACKS: Record<TrackId, Track> = {
     id: 'PSM1',
     title: 'PSM I',
     subtitle: 'Professional Scrum Master I',
-    short: 'Scrum Master',
-    tagline: 'Built from the Scrum Guide 2020. Calibrated to how the real test reads.',
+    short: { en: 'Scrum Master', sl: 'Scrum Master' },
+    tagline: {
+      en: 'Built from the Scrum Guide 2020. Calibrated to how the real test reads.',
+      sl: 'Zgrajeno iz Scrum vodnika 2020. Usklajeno z besedilom pravega izpita.',
+    },
     questions: PSM1_QUESTIONS,
     hardcoreQuestions: PSM1_HARDCORE,
     topicAccent: {
@@ -46,8 +48,11 @@ export const TRACKS: Record<TrackId, Track> = {
     id: 'PSPO1',
     title: 'PSPO I',
     subtitle: 'Professional Scrum Product Owner I',
-    short: 'Product Owner',
-    tagline: 'Built from the Scrum Guide 2020. Focused on the Product Owner accountability.',
+    short: { en: 'Product Owner', sl: 'Lastnik produkta' },
+    tagline: {
+      en: 'Built from the Scrum Guide 2020. Focused on the Product Owner accountability.',
+      sl: 'Zgrajeno iz Scrum vodnika 2020. Osredotočeno na odgovornost lastnika produkta.',
+    },
     questions: PSPO1_QUESTIONS,
     hardcoreQuestions: PSPO1_HARDCORE,
     topicAccent: {

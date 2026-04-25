@@ -1,6 +1,6 @@
 import { tr, type Question } from '../lib/schema';
 import type { Track } from '../lib/tracks';
-import { useLanguage } from '../i18n/LanguageContext';
+import { useLanguage, useT } from '../i18n/LanguageContext';
 import { Check, ChevronLeft, ChevronRight } from './Icons';
 
 interface Props {
@@ -35,6 +35,7 @@ export default function MockQuizCard({
   totalQuestions,
 }: Props) {
   const { lang } = useLanguage();
+  const t = useT();
   return (
     <div>
       <div className="bg-white/70 backdrop-blur-sm border border-stone-300 p-6 md:p-10 paper">
@@ -45,10 +46,10 @@ export default function MockQuizCard({
             </span>
             <p className="text-xs uppercase tracking-widest text-stone-500">
               {question.type === 'multi'
-                ? 'Select all that apply'
+                ? t('quiz.selectAll')
                 : question.type === 'tf'
-                  ? 'True or False'
-                  : 'Choose one'}
+                  ? t('quiz.tf')
+                  : t('quiz.chooseOne')}
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -62,14 +63,14 @@ export default function MockQuizCard({
             <button
               onClick={onToggleFlag}
               aria-pressed={flagged}
-              aria-label={flagged ? 'Unflag this question' : 'Flag this question for review'}
+              aria-label={flagged ? t('mock.flagged') : t('mock.flag')}
               className={`text-[10px] uppercase tracking-widest px-2 py-1 border transition-colors ${
                 flagged
                   ? 'bg-amber-600 border-amber-600 text-white hover:bg-amber-700'
                   : 'bg-white border-stone-400 text-stone-600 hover:border-amber-600 hover:text-amber-800'
               }`}
             >
-              {flagged ? '⚑ Flagged' : '⚐ Flag'}
+              {flagged ? `⚑ ${t('mock.flagged')}` : `⚐ ${t('mock.flag')}`}
             </button>
           </div>
         </div>
@@ -81,7 +82,7 @@ export default function MockQuizCard({
           {tr(question.q, lang)}
         </h2>
 
-        <div className="space-y-2.5" role="group" aria-label="Answer options">
+        <div className="space-y-2.5" role="group">
           {question.options.map((opt, i) => {
             const isSel = selected.includes(i);
             const cls = isSel
@@ -116,15 +117,15 @@ export default function MockQuizCard({
         <button
           onClick={onPrev}
           disabled={!canGoPrev}
-          aria-label="Previous question"
+          aria-label={t('common.previous')}
           className="flex items-center gap-2 px-4 md:px-5 py-3 text-xs uppercase tracking-widest border border-stone-400 text-stone-700 hover:bg-stone-900 hover:text-stone-50 hover:border-stone-900 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-stone-700 disabled:hover:border-stone-400 disabled:cursor-not-allowed transition-colors"
         >
           <ChevronLeft className="w-3.5 h-3.5" strokeWidth={2} />
-          <span className="hidden sm:inline">Previous</span>
+          <span className="hidden sm:inline">{t('common.previous')}</span>
         </button>
 
         <span className="text-xs text-stone-500 uppercase tracking-wider hidden sm:block">
-          {question.type === 'multi' && selected.length > 0 ? `${selected.length} selected` : ''}
+          {question.type === 'multi' && selected.length > 0 ? `${selected.length} ${t('quiz.selected')}` : ''}
         </span>
 
         {canGoNext ? (
@@ -132,7 +133,7 @@ export default function MockQuizCard({
             onClick={onNext}
             className="bg-stone-900 text-stone-50 px-6 py-3 text-xs md:text-sm uppercase tracking-widest hover:bg-amber-700 transition-colors flex items-center gap-2"
           >
-            Next
+            {t('common.next')}
             <ChevronRight className="w-3.5 h-3.5" strokeWidth={2} />
           </button>
         ) : (
@@ -140,7 +141,7 @@ export default function MockQuizCard({
             onClick={onReview}
             className="bg-stone-900 text-stone-50 px-6 py-3 text-xs md:text-sm uppercase tracking-widest hover:bg-amber-700 transition-colors flex items-center gap-2"
           >
-            Review &amp; submit
+            {t('mock.reviewSubmit')}
             <ChevronRight className="w-3.5 h-3.5" strokeWidth={2} />
           </button>
         )}

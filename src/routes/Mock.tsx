@@ -8,6 +8,7 @@ import MockReview from '../components/MockReview';
 import MockTimer from '../components/MockTimer';
 import PageShell from '../components/PageShell';
 import Results from '../components/Results';
+import { useT } from '../i18n/LanguageContext';
 import { formatDuration, useMockExam } from '../lib/quiz-engine';
 import { MOCK_EXAM_DURATION_MS, MOCK_EXAM_QUESTION_COUNT } from '../lib/modes';
 import { TRACKS, type TrackId } from '../lib/tracks';
@@ -21,34 +22,15 @@ export default function Mock() {
   const { cert } = useParams<{ cert: string }>();
   const trackId = (cert?.toUpperCase() ?? '') as TrackId;
   const track = TRACKS[trackId];
-
   const [sessionKey, setSessionKey] = useState(0);
-
   if (!track) return <Navigate to="/" replace />;
-
-  return (
-    <MockSession
-      key={sessionKey}
-      track={track}
-      onRestart={() => setSessionKey((k) => k + 1)}
-    />
-  );
+  return <MockSession key={sessionKey} track={track} onRestart={() => setSessionKey((k) => k + 1)} />;
 }
 
-function MockSession({
-  track,
-  onRestart,
-}: {
-  track: (typeof TRACKS)[TrackId];
-  onRestart: () => void;
-}) {
+function MockSession({ track, onRestart }: { track: (typeof TRACKS)[TrackId]; onRestart: () => void }) {
   const navigate = useNavigate();
-
-  const pool = useMemo(
-    () => shuffle(track.questions).slice(0, MOCK_EXAM_QUESTION_COUNT),
-    [track.questions]
-  );
-
+  const t = useT();
+  const pool = useMemo(() => shuffle(track.questions).slice(0, MOCK_EXAM_QUESTION_COUNT), [track.questions]);
   const engine = useMockExam(pool, MOCK_EXAM_DURATION_MS);
   const [stage, setStage] = useState<'quiz' | 'review'>('quiz');
   const [showExitConfirm, setShowExitConfirm] = useState(false);
@@ -62,7 +44,6 @@ function MockSession({
     scrollTop();
   }, [engine.idx, stage, engine.finished]);
 
-  // Keyboard shortcuts
   useEffect(() => {
     if (engine.finished) return;
     const handler = (e: KeyboardEvent) => {
@@ -109,16 +90,13 @@ function MockSession({
             onClick={() => navigate('/')}
             className="group flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-stone-600 hover:text-stone-900 transition-colors py-2 -ml-1 mb-5"
           >
-            <ArrowLeft
-              className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"
-              strokeWidth={2}
-            />
-            Back to start
+            <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" strokeWidth={2} />
+            {t('common.back')}
           </button>
           <div className="flex items-center gap-2">
             <div className="h-px w-10 bg-stone-700"></div>
             <span className="text-xs tracking-[0.3em] uppercase text-stone-700 font-medium">
-              Mock exam results · {track.title}
+              {t('mock.results')} · {track.title}
             </span>
           </div>
         </div>
@@ -139,30 +117,25 @@ function MockSession({
         <button
           onClick={requestExit}
           className="group flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-stone-600 hover:text-stone-900 transition-colors py-2 -ml-1"
-          aria-label="Exit mock exam"
+          aria-label={t('common.exit')}
         >
-          <ArrowLeft
-            className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"
-            strokeWidth={2}
-          />
-          Exit
+          <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" strokeWidth={2} />
+          {t('common.exit')}
         </button>
         <div className="flex items-center gap-3 md:gap-4 text-xs">
           <span className="hidden md:inline text-[10px] uppercase tracking-[0.2em] text-stone-500">
-            {track.title} · Mock
+            {track.title} · {t('mock.modeLabel')}
           </span>
           <span className="hidden md:inline text-stone-300">·</span>
           <span className="uppercase tracking-[0.15em] text-stone-600 tabular-nums">
             <span className="serif text-stone-900">{engine.answeredCount}</span>
-            <span className="text-stone-400">
-              /{engine.pool.length} answered
-            </span>
+            <span className="text-stone-400">/{engine.pool.length} {t('mock.answered')}</span>
           </span>
           {engine.flaggedCount > 0 && (
             <>
               <span className="text-stone-400">·</span>
               <span className="uppercase tracking-[0.15em] text-amber-800 tabular-nums">
-                {engine.flaggedCount} flagged
+                {engine.flaggedCount} {t('mock.flaggedCount')}
               </span>
             </>
           )}
@@ -172,30 +145,15 @@ function MockSession({
           </span>
         </div>
       </div>
-      <div
-        className="h-0.5 bg-stone-300 relative overflow-hidden"
-        role="progressbar"
-        aria-valuenow={engine.answeredCount}
-        aria-valuemin={0}
-        aria-valuemax={engine.pool.length}
-      >
-        <div
-          className="absolute inset-y-0 left-0 bg-stone-900 transition-all duration-500"
-          style={{ width: `${(engine.answeredCount / engine.pool.length) * 100}%` }}
-        />
+      <div className="h-0.5 bg-stone-300 relative overflow-hidden" role="progressbar" aria-valuenow={engine.answeredCount} aria-valuemin={0} aria-valuemax={engine.pool.length}>
+        <div className="absolute inset-y-0 left-0 bg-stone-900 transition-all duration-500" style={{ width: `${(engine.answeredCount / engine.pool.length) * 100}%` }} />
       </div>
     </div>
   );
 
   if (stage === 'review') {
     return (
-      <PageShell
-        footer={
-          <p className="hidden md:block text-[11px] text-stone-500 tracking-wide">
-            <kbd>esc</kbd> keep going
-          </p>
-        }
-      >
+      <PageShell footer={<p className="hidden md:block text-[11px] text-stone-500 tracking-wide">{t('footer.shortcuts')}</p>}>
         {showExitConfirm && (
           <ExitModal
             answered={engine.answeredCount}
@@ -224,14 +182,7 @@ function MockSession({
   if (!engine.current) return null;
 
   return (
-    <PageShell
-      footer={
-        <p className="hidden md:block text-[11px] text-stone-500 tracking-wide">
-          <kbd>1</kbd>–<kbd>9</kbd> select · <kbd>f</kbd> flag · <kbd>←</kbd> <kbd>→</kbd>{' '}
-          navigate · <kbd>esc</kbd> exit · real exam: 80 Q · 60 min · 85% to pass
-        </p>
-      }
-    >
+    <PageShell footer={<p className="hidden md:block text-[11px] text-stone-500 tracking-wide">{t('footer.shortcuts')}</p>}>
       {showExitConfirm && (
         <ExitModal
           answered={engine.answeredCount}

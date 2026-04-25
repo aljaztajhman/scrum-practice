@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import type { Lang } from '../lib/schema';
+import { tr, type Lang } from '../lib/schema';
+import { STRINGS, type StringKey } from './strings';
 
 interface LanguageCtx {
   lang: Lang;
@@ -16,7 +17,7 @@ function readStoredLang(): Lang {
     const v = window.localStorage.getItem(STORAGE_KEY);
     if (v === 'sl' || v === 'en') return v;
   } catch {
-    // localStorage may be blocked; fall through
+    // ignore
   }
   return 'en';
 }
@@ -33,7 +34,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     try {
       window.localStorage.setItem(STORAGE_KEY, next);
     } catch {
-      // ignore storage errors
+      // ignore
     }
   };
 
@@ -42,4 +43,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
 export function useLanguage() {
   return useContext(Ctx);
+}
+
+export function useT() {
+  const { lang } = useLanguage();
+  return (key: StringKey): string => {
+    const s = STRINGS[key];
+    if (!s) return key as string;
+    return tr(s, lang);
+  };
 }

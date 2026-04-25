@@ -4,6 +4,7 @@ import LengthPicker from '../components/LengthPicker';
 import PageHeader from '../components/PageHeader';
 import PageShell from '../components/PageShell';
 import SequentialRunner from '../components/SequentialRunner';
+import { useT } from '../i18n/LanguageContext';
 import { TRACKS, type TrackId } from '../lib/tracks';
 import { shuffle } from '../lib/utils';
 
@@ -11,6 +12,7 @@ export default function Practice() {
   const { cert } = useParams<{ cert: string }>();
   const trackId = (cert?.toUpperCase() ?? '') as TrackId;
   const track = TRACKS[trackId];
+  const t = useT();
 
   const [length, setLength] = useState<number | null>(null);
   const [sessionKey, setSessionKey] = useState(0);
@@ -21,21 +23,17 @@ export default function Practice() {
     return (
       <PageShell>
         <PageHeader
-          eyebrow={`${track.title} · Practice`}
-          title="Practice"
-          italic="at your pace"
-          tagline="Answer, see the why, move on. Pick a length."
+          eyebrow={`${track.title} · ${t('practice.eyebrowSuffix')}`}
+          title={t('practice.title')}
+          italic={t('practice.italic')}
+          tagline={t('practice.tagline')}
           backTo="/"
         />
         <LengthPicker
           options={[
-            { n: 10, label: 'Warm-up', sub: 'Quick pulse-check' },
-            { n: 30, label: 'Standard', sub: 'Balanced practice' },
-            {
-              n: track.questions.length,
-              label: 'Full exam',
-              sub: `All ${track.questions.length} · mirrors the real test`,
-            },
+            { n: 10, labelKey: 'length.warmup', subKey: 'length.warmup.sub' },
+            { n: 30, labelKey: 'length.standard', subKey: 'length.standard.sub' },
+            { n: track.questions.length, labelKey: 'length.full', subKey: 'length.full.sub' },
           ]}
           onPick={setLength}
         />
