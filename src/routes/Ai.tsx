@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, Navigate } from 'react-router-dom';
-import { ArrowLeft, Check, X, RotateCcw } from '../components/Icons';
+import { ArrowLeft, Check, X, RotateCcw, Spinner } from '../components/Icons';
 import PageShell from '../components/PageShell';
 import QuizCard from '../components/QuizCard';
 import type { Question } from '../lib/schema';
@@ -220,8 +220,9 @@ function AiSession({ track }: { track: Track }) {
 
       {isLoadingFirst && (
         <div className="bg-white/70 backdrop-blur-sm border border-stone-300 p-12 md:p-16 paper text-center">
+          <Spinner className="w-10 h-10 mx-auto mb-5 text-stone-700" strokeWidth={1.8} />
           <p
-            className="serif italic text-2xl md:text-3xl text-stone-700 mb-3"
+            className="serif italic text-2xl md:text-3xl text-stone-700 mb-2"
             style={{ fontWeight: 400 }}
           >
             Composing a question…

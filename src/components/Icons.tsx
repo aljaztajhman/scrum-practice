@@ -64,3 +64,17 @@ export function RotateCcw({ className = '', strokeWidth = 2, ...rest }: IconProp
     </svg>
   );
 }
+
+export function Spinner({ className = '', strokeWidth = 2, ...rest }: IconProps) {
+  return (
+    <svg
+      {...baseProps}
+      strokeWidth={strokeWidth}
+      className={`animate-spin ${className}`}
+      {...rest}
+    >
+      <circle cx="12" cy="12" r="9" strokeOpacity="0.25" />
+      <path d="M21 12a9 9 0 0 1-9 9" />
+    </svg>
+  );
+}

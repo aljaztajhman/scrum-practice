@@ -129,6 +129,25 @@ function validate(parsed: unknown): GeneratedQuestion | null {
   return p as unknown as GeneratedQuestion;
 }
 
+
+function shuffleOptions(q: GeneratedQuestion): GeneratedQuestion {
+  // T/F questions stay in fixed True/False order
+  if (q.type === 'tf') return q;
+  const indexed = q.options.map((opt, i) => ({ opt, original: i }));
+  for (let i = indexed.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indexed[i], indexed[j]] = [indexed[j]!, indexed[i]!];
+  }
+  const correctSet = new Set(q.correct);
+  const newOptions = indexed.map((x) => x.opt);
+  const newCorrect: number[] = [];
+  indexed.forEach((x, newIdx) => {
+    if (correctSet.has(x.original)) newCorrect.push(newIdx);
+  });
+  newCorrect.sort((a, b) => a - b);
+  return { ...q, options: newOptions, correct: newCorrect };
+}
+
 async function generateOnce(
   client: Anthropic,
   cert: CertId,
@@ -150,7 +169,9 @@ async function generateOnce(
   } catch {
     return null;
   }
-  return validate(parsed);
+  const validated = validate(parsed);
+  if (!validated) return null;
+  return shuffleOptions(validated);
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
