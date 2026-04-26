@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Check, X, RotateCcw, Spinner } from '../components/Icons';
+import { ArrowLeft, Check, ChevronRight, X, RotateCcw, Spinner } from '../components/Icons';
 import PageShell from '../components/PageShell';
+import PageHeader from '../components/PageHeader';
 import ProUpgradePrompt from '../components/ProUpgradePrompt';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
@@ -21,6 +22,12 @@ const DIFFICULTY_BLURBS: Record<Difficulty, string> = {
   'scrum-master': 'Multi-step scenarios. Mastery-level depth expected.',
 };
 
+const DIFFICULTY_DETAILS: Record<Difficulty, string> = {
+  easy: 'Direct recall — definitions, timeboxes, accountabilities. A clear, factual answer in 30–50 words is enough.',
+  medium: 'Explain why the rule exists, when to apply it, or how concepts interact. 80–150 words. Demonstrate understanding, not just memorization.',
+  'scrum-master': 'A scenario the working Scrum Master actually faces. Diagnose the problem, then resolve it from the Scrum Guide. 150–220 words.',
+};
+
 interface OpenQuestion {
   topic: string;
   scrumGuideSection: string;
@@ -38,7 +45,6 @@ interface GradeResult {
   missedKeyPoints: string[];
 }
 
-// Client-side timeout in case Vercel/Anthropic is slow.
 const FETCH_TIMEOUT_MS = 45000;
 
 export default function Open() {
@@ -65,12 +71,12 @@ export default function Open() {
   return <OpenSession track={track} />;
 }
 
-type Stage = 'loading' | 'answering' | 'grading' | 'graded' | 'error';
+type Stage = 'intro' | 'loading' | 'answering' | 'grading' | 'graded' | 'error';
 
 function OpenSession({ track }: { track: Track }) {
   const navigate = useNavigate();
-  const [difficulty, setDifficulty] = useState<Difficulty>('medium');
-  const [stage, setStage] = useState<Stage>('loading');
+  const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
+  const [stage, setStage] = useState<Stage>('intro');
   const [question, setQuestion] = useState<OpenQuestion | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [grade, setGrade] = useState<GradeResult | null>(null);
@@ -133,13 +139,11 @@ function OpenSession({ track }: { track: Track }) {
     }
   }, [track.id]);
 
-  // Initial load
-  useEffect(() => {
-    void fetchQuestion(difficulty);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const startWith = (d: Difficulty) => {
+    setDifficulty(d);
+    void fetchQuestion(d);
+  };
 
-  // Difficulty change → refetch (only when not mid-grading)
   const changeDifficulty = (next: Difficulty) => {
     if (next === difficulty) return;
     if (stage === 'grading') return;
@@ -162,10 +166,7 @@ function OpenSession({ track }: { track: Track }) {
       if (!token) throw new Error('Not signed in');
       const res = await fetch('/api/grade-open-answer', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({
           q: question.q,
           referenceAnswer: question.referenceAnswer,
@@ -191,10 +192,7 @@ function OpenSession({ track }: { track: Track }) {
       setStage('graded');
     } catch (e) {
       if (e instanceof DOMException && e.name === 'AbortError') {
-        if (isMounted.current) {
-          setError('Grading timed out — please try Submit again.');
-          setStage('answering');
-        }
+        if (isMounted.current) { setError('Grading timed out — please try Submit again.'); setStage('answering'); }
         return;
       }
       if (!isMounted.current) return;
@@ -205,6 +203,46 @@ function OpenSession({ track }: { track: Track }) {
       abortControllers.current.delete(ctrl);
     }
   };
+
+  // ===== INTRO SCREEN — pick a difficulty before generating =====
+  if (stage === 'intro') {
+    return (
+      <PageShell>
+        <PageHeader
+          eyebrow={`${track.title} · Open response`}
+          title="Open"
+          italic="response"
+          tagline="No options. Type your answer in your own words. Pick a difficulty to begin."
+          backTo="/"
+        />
+        <div className="space-y-4">
+          {(['easy', 'medium', 'scrum-master'] as const).map((d) => (
+            <button
+              key={d}
+              onClick={() => startWith(d)}
+              className="group w-full text-left border border-stone-400 bg-white/50 hover:border-stone-900 hover:bg-white/80 transition-all duration-200 p-5 md:p-6"
+            >
+              <div className="flex items-start justify-between mb-2 gap-3">
+                <div>
+                  <div className="serif text-2xl md:text-3xl leading-tight text-stone-900" style={{ fontWeight: 500 }}>
+                    {DIFFICULTY_LABELS[d]}
+                  </div>
+                  <div className="serif italic text-sm md:text-base text-stone-600 mt-0.5" style={{ fontWeight: 400 }}>
+                    {DIFFICULTY_BLURBS[d]}
+                  </div>
+                </div>
+                <ChevronRight
+                  className="w-4 h-4 text-stone-500 transition-transform group-hover:translate-x-1 mt-2"
+                  strokeWidth={2}
+                />
+              </div>
+              <p className="text-sm text-stone-700 leading-relaxed">{DIFFICULTY_DETAILS[d]}</p>
+            </button>
+          ))}
+        </div>
+      </PageShell>
+    );
+  }
 
   const verdictColor =
     grade?.verdict === 'correct'
@@ -224,7 +262,6 @@ function OpenSession({ track }: { track: Track }) {
         </p>
       }
     >
-      {/* Header */}
       <div className="mb-6 md:mb-8">
         <div className="flex items-center justify-between mb-4 gap-2">
           <button
@@ -258,7 +295,7 @@ function OpenSession({ track }: { track: Track }) {
           </div>
         </div>
 
-        {/* Difficulty selector */}
+        {/* Difficulty tabs — visible during quiz, click to switch + refetch */}
         <div className="border-b border-stone-300">
           <div className="flex items-end gap-0">
             {(['easy', 'medium', 'scrum-master'] as const).map((d) => (
@@ -266,7 +303,7 @@ function OpenSession({ track }: { track: Track }) {
                 key={d}
                 type="button"
                 onClick={() => changeDifficulty(d)}
-                disabled={stage === 'grading'}
+                disabled={stage === 'grading' || stage === 'loading'}
                 className={`px-4 md:px-5 py-2.5 serif text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed ${
                   difficulty === d
                     ? 'text-stone-900 border-b-2 border-stone-900 -mb-px'
@@ -278,7 +315,7 @@ function OpenSession({ track }: { track: Track }) {
               </button>
             ))}
             <div className="ml-auto text-[10px] uppercase tracking-[0.2em] text-stone-500 italic serif pb-3 hidden sm:block">
-              {DIFFICULTY_BLURBS[difficulty]}
+              {difficulty ? DIFFICULTY_BLURBS[difficulty] : ''}
             </div>
           </div>
         </div>
@@ -288,11 +325,9 @@ function OpenSession({ track }: { track: Track }) {
         <div className="bg-white/70 backdrop-blur-sm border border-stone-300 p-12 md:p-16 paper text-center">
           <Spinner className="w-10 h-10 mx-auto mb-5 text-stone-700" strokeWidth={1.8} />
           <p className="serif italic text-2xl md:text-3xl text-stone-700 mb-2" style={{ fontWeight: 400 }}>
-            Composing a {DIFFICULTY_LABELS[difficulty].toLowerCase()} question…
+            Composing a {difficulty ? DIFFICULTY_LABELS[difficulty].toLowerCase() : ''} question…
           </p>
-          <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
-            One moment, the model is thinking
-          </p>
+          <p className="text-xs uppercase tracking-[0.25em] text-stone-500">One moment, the model is thinking</p>
         </div>
       )}
 
@@ -303,7 +338,7 @@ function OpenSession({ track }: { track: Track }) {
           </p>
           <p className="text-sm text-stone-700 leading-relaxed mb-6">{error}</p>
           <button
-            onClick={() => void fetchQuestion(difficulty)}
+            onClick={() => difficulty && void fetchQuestion(difficulty)}
             className="inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-6 py-3 text-xs uppercase tracking-widest hover:bg-stone-800 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" strokeWidth={2} /> Try again
@@ -313,22 +348,16 @@ function OpenSession({ track }: { track: Track }) {
 
       {question && (stage === 'answering' || stage === 'grading' || stage === 'graded') && (
         <div className="space-y-5">
-          {/* Question card */}
           <div className="border border-stone-300 bg-white/60 p-6 md:p-8">
             <div className="flex items-baseline justify-between gap-3 mb-3">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500">
-                {question.topic}
-              </span>
-              <span className="text-[10px] uppercase tracking-[0.25em] text-stone-400">
-                {question.scrumGuideSection}
-              </span>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500">{question.topic}</span>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-stone-400">{question.scrumGuideSection}</span>
             </div>
             <p className="serif text-xl md:text-2xl text-stone-900 leading-relaxed" style={{ fontWeight: 500 }}>
               {question.q}
             </p>
           </div>
 
-          {/* Answer area */}
           {(stage === 'answering' || stage === 'grading') && (
             <div className="space-y-3">
               <label className="block">
@@ -373,7 +402,6 @@ function OpenSession({ track }: { track: Track }) {
             </div>
           )}
 
-          {/* Verdict */}
           {stage === 'graded' && grade && (
             <div className="space-y-5">
               <div className={`border-l-4 ${verdictColor} p-5 md:p-6`}>
@@ -427,7 +455,7 @@ function OpenSession({ track }: { track: Track }) {
 
               <button
                 type="button"
-                onClick={() => void fetchQuestion(difficulty)}
+                onClick={() => difficulty && void fetchQuestion(difficulty)}
                 className="inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-6 py-3 text-xs uppercase tracking-widest hover:bg-stone-800 transition-colors"
               >
                 <RotateCcw className="w-3.5 h-3.5" strokeWidth={2} /> Next question
