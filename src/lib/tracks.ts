@@ -14,6 +14,18 @@ export interface Track {
 
 export type TrackId = 'PSM1' | 'PSPO1';
 
+const TRACK_IDS: TrackId[] = ['PSM1', 'PSPO1'];
+
+export function isTrackId(s: string | undefined): s is TrackId {
+  return s !== undefined && (TRACK_IDS as string[]).includes(s);
+}
+
+/** Parse a URL cert param into a TrackId, or null if invalid. Case-insensitive. */
+export function parseTrackId(cert: string | undefined): TrackId | null {
+  const upper = cert?.toUpperCase();
+  return isTrackId(upper) ? upper : null;
+}
+
 const PSM1_QUESTIONS = QuestionBankSchema.parse(psm1Raw);
 const PSPO1_QUESTIONS = QuestionBankSchema.parse(pspo1Raw);
 

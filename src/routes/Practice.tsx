@@ -4,16 +4,16 @@ import LengthPicker from '../components/LengthPicker';
 import PageHeader from '../components/PageHeader';
 import PageShell from '../components/PageShell';
 import SequentialRunner from '../components/SequentialRunner';
-import { TRACKS, type TrackId } from '../lib/tracks';
+import { TRACKS, parseTrackId } from '../lib/tracks';
 import { shuffle } from '../lib/utils';
 
 export default function Practice() {
   const { cert } = useParams<{ cert: string }>();
-  const trackId = (cert?.toUpperCase() ?? '') as TrackId;
-  const track = TRACKS[trackId];
+  const trackId = parseTrackId(cert);
   const [length, setLength] = useState<number | null>(null);
   const [sessionKey, setSessionKey] = useState(0);
-  if (!track) return <Navigate to="/" replace />;
+  if (!trackId) return <Navigate to="/" replace />;
+  const track = TRACKS[trackId];
   if (length === null) {
     return (
       <PageShell>

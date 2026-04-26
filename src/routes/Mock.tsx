@@ -10,17 +10,17 @@ import PageShell from '../components/PageShell';
 import Results from '../components/Results';
 import { formatDuration, useMockExam } from '../lib/quiz-engine';
 import { MOCK_EXAM_DURATION_MS, MOCK_EXAM_QUESTION_COUNT } from '../lib/modes';
-import { TRACKS, type TrackId } from '../lib/tracks';
+import { TRACKS, parseTrackId, type TrackId } from '../lib/tracks';
 import { shuffle } from '../lib/utils';
 
 function scrollTop() { window.scrollTo({ top: 0, behavior: 'instant' }); }
 
 export default function Mock() {
   const { cert } = useParams<{ cert: string }>();
-  const trackId = (cert?.toUpperCase() ?? '') as TrackId;
-  const track = TRACKS[trackId];
+  const trackId = parseTrackId(cert);
   const [sessionKey, setSessionKey] = useState(0);
-  if (!track) return <Navigate to="/" replace />;
+  if (!trackId) return <Navigate to="/" replace />;
+  const track = TRACKS[trackId];
   return <MockSession key={sessionKey} track={track} onRestart={() => setSessionKey((k) => k + 1)} />;
 }
 

@@ -4,7 +4,7 @@ import { ArrowLeft, Check, X, RotateCcw, Spinner } from '../components/Icons';
 import PageShell from '../components/PageShell';
 import QuizCard from '../components/QuizCard';
 import type { Question } from '../lib/schema';
-import { TRACKS, type Track, type TrackId } from '../lib/tracks';
+import { TRACKS, parseTrackId, type Track } from '../lib/tracks';
 import { arraysEqualAsSets } from '../lib/utils';
 
 interface AiQuestion extends Question {
@@ -34,9 +34,9 @@ const BUFFER_TARGET = 3; // 1 displayed + 2 prefetched
 
 export default function Ai() {
   const { cert } = useParams<{ cert: string }>();
-  const trackId = (cert?.toUpperCase() ?? '') as TrackId;
+  const trackId = parseTrackId(cert);
+  if (!trackId) return <Navigate to="/" replace />;
   const track = TRACKS[trackId];
-  if (!track) return <Navigate to="/" replace />;
   return <AiSession track={track} />;
 }
 

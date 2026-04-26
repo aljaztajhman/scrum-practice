@@ -6,16 +6,16 @@ import PageShell from '../components/PageShell';
 import QuizCard from '../components/QuizCard';
 import Results from '../components/Results';
 import { useInfiniteQuiz } from '../lib/quiz-engine';
-import { TRACKS, type TrackId } from '../lib/tracks';
+import { TRACKS, parseTrackId, type TrackId } from '../lib/tracks';
 
 function scrollTop(smooth = false) { window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'instant' }); }
 
 export default function Infinite() {
   const { cert } = useParams<{ cert: string }>();
-  const trackId = (cert?.toUpperCase() ?? '') as TrackId;
-  const track = TRACKS[trackId];
+  const trackId = parseTrackId(cert);
   const [sessionKey, setSessionKey] = useState(0);
-  if (!track) return <Navigate to="/" replace />;
+  if (!trackId) return <Navigate to="/" replace />;
+  const track = TRACKS[trackId];
   return <InfiniteSession key={sessionKey} track={track} onRestart={() => setSessionKey((k) => k + 1)} />;
 }
 
