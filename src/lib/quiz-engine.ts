@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Question } from './schema';
 import { arraysEqualAsSets, shuffle } from './utils';
 
@@ -190,12 +190,10 @@ export function useInfiniteQuiz(allQuestions: Question[]): InfiniteState & Infin
   }, [locked, selected, current]);
 
   const nextQuestion = useCallback(() => {
-    // Re-shuffle when near the end, avoiding recent duplicates
     const recent = history.slice(-RECENT_AVOIDANCE).map((h) => h.question.id);
     let nextIdx = idxInQueue + 1;
     if (nextIdx >= queue.length) {
       let reshuffled = shuffle(allQuestions);
-      // rotate so the first element isn't in the recent history
       let guard = 0;
       while (reshuffled[0] && recent.includes(reshuffled[0].id) && guard++ < 20) {
         reshuffled = shuffle(allQuestions);
@@ -203,7 +201,6 @@ export function useInfiniteQuiz(allQuestions: Question[]): InfiniteState & Infin
       setQueue(reshuffled);
       nextIdx = 0;
     } else if (queue[nextIdx] && recent.includes(queue[nextIdx]!.id)) {
-      // swap current with a later non-recent question when possible
       const swapAt = queue.findIndex(
         (q, i) => i > nextIdx && !recent.includes(q.id)
       );
@@ -276,6 +273,15 @@ export function useMockExam(
   const [finalAnswers, setFinalAnswers] = useState<Record<number, AnswerRecord> | null>(null);
   const [now, setNow] = useState<number>(() => Date.now());
 
+  // Refs make finalize race-proof:
+  //  - finalizedRef: idempotency guard so finalize runs exactly once
+  //  - selectionsRef: always-fresh read of selections, never a stale closure
+  const finalizedRef = useRef(false);
+  const selectionsRef = useRef(selections);
+  useEffect(() => {
+    selectionsRef.current = selections;
+  }, [selections]);
+
   useEffect(() => {
     if (finished) return;
     const t = setInterval(() => setNow(Date.now()), 1000);
@@ -288,9 +294,12 @@ export function useMockExam(
   const current = pool[idx];
 
   const finalize = useCallback(() => {
+    if (finalizedRef.current) return;
+    finalizedRef.current = true;
+    const liveSelections = selectionsRef.current;
     const answers: Record<number, AnswerRecord> = {};
     pool.forEach((q, i) => {
-      const sel = selections[i] ?? [];
+      const sel = liveSelections[i] ?? [];
       answers[i] = {
         selected: [...sel],
         correct: sel.length > 0 && arraysEqualAsSets(sel, q.correct),
@@ -298,7 +307,7 @@ export function useMockExam(
     });
     setFinalAnswers(answers);
     setFinished(true);
-  }, [pool, selections]);
+  }, [pool]);
 
   // Auto-submit on timer expiry
   useEffect(() => {
@@ -309,7 +318,7 @@ export function useMockExam(
 
   const toggleOption = useCallback(
     (i: number) => {
-      if (finished || !current) return;
+      if (finished || finalizedRef.current || !current) return;
       setSelections((prev) => {
         const cur = prev[idx] ?? [];
         const next =
@@ -325,29 +334,33 @@ export function useMockExam(
   );
 
   const toggleFlag = useCallback(() => {
+    if (finished || finalizedRef.current) return;
     setFlagged((prev) => {
       const next = new Set(prev);
       if (next.has(idx)) next.delete(idx);
       else next.add(idx);
       return next;
     });
-  }, [idx]);
+  }, [idx, finished]);
 
   const goTo = useCallback(
     (n: number) => {
+      if (finished || finalizedRef.current) return;
       if (n < 0 || n >= pool.length) return;
       setIdx(n);
     },
-    [pool.length]
+    [pool.length, finished]
   );
 
   const goNext = useCallback(() => {
+    if (finished || finalizedRef.current) return;
     if (idx < pool.length - 1) setIdx(idx + 1);
-  }, [idx, pool.length]);
+  }, [idx, pool.length, finished]);
 
   const goPrev = useCallback(() => {
+    if (finished || finalizedRef.current) return;
     if (idx > 0) setIdx(idx - 1);
-  }, [idx]);
+  }, [idx, finished]);
 
   const answeredCount = Object.values(selections).filter((s) => s.length > 0).length;
 
