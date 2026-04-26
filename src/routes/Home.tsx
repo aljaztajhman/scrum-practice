@@ -198,11 +198,8 @@ export default function Home() {
       )}
 
       <div className="space-y-8 md:space-y-10">
-        {/* Bank modes — Practice / Mock / Infinite */}
+        {/* Default modes — Practice / Mock / Infinite (no header; these are the default) */}
         <section>
-          <h2 className="serif text-sm uppercase tracking-[0.25em] text-stone-600 mb-4">
-            Practice the bank
-          </h2>
           <div className="grid sm:grid-cols-3 gap-3 md:gap-4">
             {bankModes.map((m) => (
               <BankModeCard
