@@ -17,14 +17,15 @@ export default function UserMenu() {
   }, [open]);
 
   if (loading) {
-    return <div className="w-8 h-8" />;
+    // Reserve space so the layout doesn't jump when auth state resolves
+    return <div className="w-20 h-8" />;
   }
 
   if (!isLoggedIn) {
     return (
       <Link
         to="/login"
-        className="text-sm serif text-stone-700 hover:text-stone-900 underline-offset-2 hover:underline"
+        className="inline-block text-xs uppercase tracking-widest serif border border-stone-500 px-3.5 py-1.5 text-stone-800 hover:border-stone-900 hover:bg-stone-900 hover:text-stone-50 transition-colors"
       >
         Sign in
       </Link>
@@ -39,7 +40,7 @@ export default function UserMenu() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-8 h-8 rounded-full bg-stone-900 text-stone-50 flex items-center justify-center serif text-sm hover:bg-stone-800"
+        className="w-9 h-9 rounded-full bg-stone-900 text-stone-50 flex items-center justify-center serif text-sm hover:bg-stone-800 ring-1 ring-stone-300"
         aria-label="Account menu"
       >
         {initial}

@@ -40,7 +40,6 @@ async function loadProfile(userId: string): Promise<Profile | null> {
     .eq('id', userId)
     .single();
   if (error) {
-    // Profile may not exist yet immediately after signup (trigger race)
     return null;
   }
   return data as Profile;
@@ -82,10 +81,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
-        // Small delay so the profile-creation trigger has time to commit on first signup
         const p = await loadProfile(s.user.id);
         if (!p && mounted) {
-          // Retry once
           await new Promise((r) => setTimeout(r, 400));
           const p2 = await loadProfile(s.user.id);
           if (mounted) setProfile(p2);
@@ -125,6 +122,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
+    // Defensive: clear local state immediately so UI updates without waiting for the listener
+    setUser(null);
+    setSession(null);
+    setProfile(null);
   }, []);
 
   const value = useMemo<AuthValue>(
