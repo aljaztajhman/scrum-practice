@@ -400,11 +400,3 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     detail: lastError,
   });
 }
-${attempt} failed:`, lastError);
-    }
-  }
-  res.status(502).json({
-    error: 'Could not generate a valid question after 5 attempts',
-    detail: lastError,
-  });
-}
