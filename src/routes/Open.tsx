@@ -84,6 +84,8 @@ function OpenSession({ track }: { track: Track }) {
   const [stats, setStats] = useState({ answered: 0, correct: 0, partial: 0 });
   const isMounted = useRef(true);
   const abortControllers = useRef<Set<AbortController>>(new Set());
+  // Track topics we've seen in this session so the server can avoid back-to-back repeats.
+  const recentTopics = useRef<string[]>([]);
 
   useEffect(() => {
     return () => {
@@ -110,8 +112,11 @@ function OpenSession({ track }: { track: Track }) {
       const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
       if (!token) throw new Error('Not signed in');
+      const recentParam = recentTopics.current.length > 0
+        ? `&recent=${encodeURIComponent(recentTopics.current.slice(-5).join('|'))}`
+        : '';
       const res = await fetch(
-        `/api/generate-open-question?cert=${track.id}&difficulty=${forDifficulty}`,
+        `/api/generate-open-question?cert=${track.id}&difficulty=${forDifficulty}${recentParam}`,
         { headers: { Authorization: `Bearer ${token}` }, signal: ctrl.signal }
       );
       if (!res.ok) {
@@ -120,6 +125,11 @@ function OpenSession({ track }: { track: Track }) {
       }
       const data = (await res.json()) as OpenQuestion;
       if (!isMounted.current) return;
+      // Remember this topic so the next request can avoid it.
+      recentTopics.current.push(data.topic);
+      if (recentTopics.current.length > 8) {
+        recentTopics.current = recentTopics.current.slice(-8);
+      }
       setQuestion(data);
       setStage('answering');
     } catch (e) {

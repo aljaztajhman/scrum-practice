@@ -112,9 +112,15 @@ const TOPIC_SEEDS: Record<CertId, string[]> = {
   ],
 };
 
-function pickTopic(cert: CertId): string {
+function pickTopic(cert: CertId, exclude: string[] = []): string {
   const list = TOPIC_SEEDS[cert];
-  return list[Math.floor(Math.random() * list.length)] as string;
+  const lower = exclude.map((s) => s.toLowerCase());
+  const filtered = list.filter((seed) => {
+    const s = seed.toLowerCase();
+    return !lower.some((ex) => ex.length > 4 && (s.includes(ex) || ex.includes(s)));
+  });
+  const pool = filtered.length > 0 ? filtered : list;
+  return pool[Math.floor(Math.random() * pool.length)] as string;
 }
 
 function pickStyle(): Style {

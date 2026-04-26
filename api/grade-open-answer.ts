@@ -33,9 +33,11 @@ function leniencyDirective(d: Difficulty): string {
     case 'easy':
       return `LENIENCY: maximum.
 - The learner is at recall level. Give credit generously for any correct fact, in any phrasing.
-- A learner who states the core point in their own words is correct, even if they miss minor wording.
-- Mark "correct" if they hit at least 2 of 3 rubric points and have no significant wrong claims.
-- Avoid penalizing brevity at this level. A short, accurate answer is fine.`;
+- The rubric only contains points that DIRECTLY answer the question. There are no "bonus" or "context" points at easy.
+- If the learner hits ALL rubric points (in any phrasing), mark "correct" with score 9-10. A one-word answer like "Product Owner" or "15 minutes" can be a complete, full-credit answer if that is what the question asked.
+- Do NOT mark anything as "missed" that the question did not literally ask for. If the rubric has only 1 point and the learner hit it, missedKeyPoints MUST be empty and verdict is "correct".
+- Brevity is not a defect at easy. The shortest correct answer wins.
+- Mark "partial" only if they got the answer partially wrong (e.g., wrong number, wrong role). Mark "incorrect" only if the core fact is wrong.`;
     case 'medium':
       return `LENIENCY: high.
 - Give credit for any reasonable demonstration of the concept, in the learner's own words.

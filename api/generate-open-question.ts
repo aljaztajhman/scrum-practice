@@ -113,9 +113,16 @@ const SEEDS: Record<CertId, Record<Difficulty, string[]>> = {
   },
 };
 
-function pickTopic(cert: CertId, difficulty: Difficulty): string {
+function pickTopic(cert: CertId, difficulty: Difficulty, exclude: string[]): string {
   const list = SEEDS[cert][difficulty];
-  return list[Math.floor(Math.random() * list.length)] as string;
+  const lower = exclude.map((s) => s.toLowerCase());
+  // Filter out any seed whose text overlaps with a recent topic.
+  const filtered = list.filter((seed) => {
+    const s = seed.toLowerCase();
+    return !lower.some((ex) => ex.length > 4 && (s.includes(ex) || ex.includes(s)));
+  });
+  const pool = filtered.length > 0 ? filtered : list;
+  return pool[Math.floor(Math.random() * pool.length)] as string;
 }
 
 function difficultyDirective(d: Difficulty): string {
@@ -139,7 +146,14 @@ DO NOT generate:
 
 The question should be SHORT — under 25 words. The answer should be 30-50 words. The reference answer is a plain factual definition or fact statement, 40-80 words.
 
-Rubric: 2-3 specific facts that should appear in the answer.`;
+CRITICAL RUBRIC RULE for easy:
+- Each rubric point must be a fact that DIRECTLY answers the question. Nothing else.
+- "Who can cancel a Sprint?" → rubric: ["The Product Owner has sole authority to cancel a Sprint."]. ONE point. Don't add "when" or "how often."
+- "What is the timebox of the Daily Scrum?" → rubric: ["15 minutes maximum."]. ONE point. Don't add "team size" or "same time each day."
+- "Name the 5 Scrum Values" → rubric: ["Commitment", "Focus", "Openness", "Respect", "Courage"]. FIVE points (one per item asked).
+- "Define the Sprint Goal" → rubric: ["The Sprint Goal is the single objective for the Sprint."]. ONE point. Don't elaborate beyond the definition.
+
+DO NOT include "context", "best practice notes", "when this applies", "why this exists", or any fact the question did not literally ask for. Those belong to MEDIUM and SCRUM-MASTER difficulties.`;
     case 'medium':
       return `DIFFICULTY: medium (application-level)
 
@@ -207,7 +221,7 @@ function validate(parsed: unknown, difficulty: Difficulty): OpenQuestion | null 
   if (typeof p.scrumGuideSection !== 'string' || p.scrumGuideSection.length < 4) return null;
   if (typeof p.q !== 'string' || p.q.length < 15) return null;
   if (typeof p.referenceAnswer !== 'string' || p.referenceAnswer.length < 40) return null;
-  if (!Array.isArray(p.rubricKeyPoints) || p.rubricKeyPoints.length < 2 || p.rubricKeyPoints.length > 6) return null;
+  if (!Array.isArray(p.rubricKeyPoints) || p.rubricKeyPoints.length < 1 || p.rubricKeyPoints.length > 6) return null;
   if (p.rubricKeyPoints.some((kp) => typeof kp !== 'string' || kp.length < 5)) return null;
 
   const wc = (s: string) => s.trim().split(/\s+/).length;
@@ -297,12 +311,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const cert = certParam as CertId;
   const difficulty = parseDifficulty(req.query.difficulty as string | undefined);
 
+  // Optional ?recent=topic1|topic2|topic3 — last few topics the user just saw.
+  const recentRaw = (req.query.recent as string | undefined) || '';
+  const recentTopics = recentRaw.split('|').map((s) => s.trim()).filter(Boolean).slice(0, 5);
+
   const client = new Anthropic({ apiKey });
 
   let lastError: string | null = null;
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const topic = pickTopic(cert, difficulty);
+      const topic = pickTopic(cert, difficulty, recentTopics);
       const response = await client.messages.create({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1500,
