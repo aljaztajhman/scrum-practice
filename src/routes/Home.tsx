@@ -105,7 +105,7 @@ export default function Home() {
         eyebrow="Scrum.org · Practice"
         title="The"
         italic="practice"
-        tagline="Built from the Scrum Guide 2020. Calibrated to how the real test reads."
+        tagline={track.tagline}
       />
 
       {showUpgradedBanner && (
@@ -124,9 +124,9 @@ export default function Home() {
               key={t.id}
               onClick={() => setTrackId(t.id)}
               aria-pressed={trackId === t.id}
-              className={`px-4 md:px-5 py-3 serif text-base ${
+              className={`px-4 md:px-5 py-3 serif text-base transition-colors ${
                 trackId === t.id
-                  ? 'text-stone-900 border-b-2 border-stone-900 -mb-px'
+                  ? 'text-stone-900 border-b-[3px] border-stone-900 -mb-px font-medium'
                   : 'text-stone-500 hover:text-stone-700'
               }`}
             >
@@ -142,8 +142,12 @@ export default function Home() {
       {/* Personal state row (logged in) OR sign-in prompt (anonymous) */}
       {isLoggedIn ? (
         <div className="text-xs text-stone-600 mb-8 flex items-center gap-2.5 flex-wrap tabular-nums">
+          <span className="serif text-stone-900" style={{ fontWeight: 500 }}>{track.title}</span>
           {tierLabel && (
-            <span className="serif italic text-stone-700">{tierLabel} tier</span>
+            <>
+              <span className="text-stone-400">·</span>
+              <span className="serif italic text-stone-700">{tierLabel} tier</span>
+            </>
           )}
           {totalAttempts > 0 ? (
             <>
