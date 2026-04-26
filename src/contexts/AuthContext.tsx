@@ -63,8 +63,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let mounted = true;
 
+    // Defense-in-depth: never let `loading` stay true forever.
+    // If supabase.getSession() hangs (auth lock issues etc.), force loading=false
+    // so the UI renders the logged-out state at minimum.
+    const safetyTimeout = setTimeout(() => {
+      if (mounted) setLoading(false);
+    }, 3000);
+
     supabase.auth.getSession().then(async ({ data: { session: s } }) => {
       if (!mounted) return;
+      clearTimeout(safetyTimeout);
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
@@ -92,10 +100,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } else {
         if (mounted) setProfile(null);
       }
+      // Auth state change resolves loading too
+      if (mounted) setLoading(false);
     });
 
     return () => {
       mounted = false;
+      clearTimeout(safetyTimeout);
       subscription.unsubscribe();
     };
   }, []);

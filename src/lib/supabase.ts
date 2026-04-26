@@ -9,11 +9,20 @@ if (!url || !anonKey) {
   );
 }
 
+// No-op lock replaces the default navigator.locks-based lock.
+// Default lock can get orphaned and stick getSession() for 5s on every page load
+// when the auth token is being refreshed concurrently. We're a single-user study app
+// so we don't need cross-tab synchronization.
+async function noOpLock<R>(_name: string, _acquireTimeout: number, fn: () => Promise<R>): Promise<R> {
+  return await fn();
+}
+
 export const supabase = createClient(url, anonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
     detectSessionInUrl: true,
+    lock: noOpLock,
   },
 });
 
