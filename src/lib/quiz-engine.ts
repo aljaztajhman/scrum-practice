@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Question } from './schema';
 import { arraysEqualAsSets, shuffle } from './utils';
+import { PASS_THRESHOLD_PCT } from './modes';
 
 export interface AnswerRecord {
   selected: number[];
   correct: boolean;
 }
 
-// ========== Sequential quiz (Practice, Drill) ==========
+// ========== Sequential quiz (Practice) ==========
 
 interface SequentialState {
   pool: Question[];
@@ -35,14 +36,25 @@ interface SequentialActions {
   reset: () => void;
 }
 
+export interface SequentialOptions {
+  onAnswered?: (question: Question, selected: number[], correct: boolean) => void;
+}
+
 export function useSequentialQuiz(
-  initialPool: Question[]
+  initialPool: Question[],
+  options?: SequentialOptions
 ): SequentialState & SequentialActions {
   const [pool] = useState(initialPool);
   const [idx, setIdx] = useState(0);
   const [workingSelections, setWorkingSelections] = useState<Record<number, number[]>>({});
   const [answers, setAnswers] = useState<Record<number, AnswerRecord>>({});
   const [stage, setStage] = useState<'quiz' | 'results'>('quiz');
+
+  // Stable ref to the latest callback so submitAnswer doesn't need to re-memoize on every option change
+  const onAnsweredRef = useRef(options?.onAnswered);
+  useEffect(() => {
+    onAnsweredRef.current = options?.onAnswered;
+  }, [options?.onAnswered]);
 
   const current = pool[idx];
   const submitted = answers[idx];
@@ -82,6 +94,7 @@ export function useSequentialQuiz(
       ...prev,
       [idx]: { selected: [...selected], correct: isCorrect },
     }));
+    onAnsweredRef.current?.(current, [...selected], isCorrect);
   }, [canSubmit, selected, current, idx]);
 
   const finish = useCallback(() => setStage('results'), []);
@@ -156,15 +169,27 @@ interface InfiniteActions {
   stopAndReview: () => void;
 }
 
+export interface InfiniteOptions {
+  onAnswered?: (question: Question, selected: number[], correct: boolean) => void;
+}
+
 const RECENT_AVOIDANCE = 10;
 
-export function useInfiniteQuiz(allQuestions: Question[]): InfiniteState & InfiniteActions {
+export function useInfiniteQuiz(
+  allQuestions: Question[],
+  options?: InfiniteOptions
+): InfiniteState & InfiniteActions {
   const [queue, setQueue] = useState<Question[]>(() => shuffle(allQuestions));
   const [idxInQueue, setIdxInQueue] = useState(0);
   const [selected, setSelected] = useState<number[]>([]);
   const [locked, setLocked] = useState(false);
   const [history, setHistory] = useState<InfiniteEntry[]>([]);
   const [stage, setStage] = useState<'quiz' | 'results'>('quiz');
+
+  const onAnsweredRef = useRef(options?.onAnswered);
+  useEffect(() => {
+    onAnsweredRef.current = options?.onAnswered;
+  }, [options?.onAnswered]);
 
   const current = queue[idxInQueue]!;
 
@@ -187,6 +212,7 @@ export function useInfiniteQuiz(allQuestions: Question[]): InfiniteState & Infin
     const isCorrect = arraysEqualAsSets(selected, current.correct);
     setHistory((h) => [...h, { question: current, selected: [...selected], correct: isCorrect }]);
     setLocked(true);
+    onAnsweredRef.current?.(current, [...selected], isCorrect);
   }, [locked, selected, current]);
 
   const nextQuestion = useCallback(() => {
@@ -261,9 +287,21 @@ interface MockActions {
   finish: () => void;
 }
 
+export interface MockFinalizedData {
+  attempts: Array<{ question: Question; selected: number[]; correct: boolean }>;
+  correctCount: number;
+  durationMs: number;
+  passed: boolean;
+}
+
+export interface MockOptions {
+  onFinalized?: (data: MockFinalizedData) => void;
+}
+
 export function useMockExam(
   pool: Question[],
-  durationMs: number
+  durationMs: number,
+  options?: MockOptions
 ): MockState & MockActions {
   const [idx, setIdx] = useState(0);
   const [selections, setSelections] = useState<Record<number, number[]>>({});
@@ -276,11 +314,16 @@ export function useMockExam(
   // Refs make finalize race-proof:
   //  - finalizedRef: idempotency guard so finalize runs exactly once
   //  - selectionsRef: always-fresh read of selections, never a stale closure
+  //  - onFinalizedRef: stable callback handle for the latest options.onFinalized
   const finalizedRef = useRef(false);
   const selectionsRef = useRef(selections);
+  const onFinalizedRef = useRef(options?.onFinalized);
   useEffect(() => {
     selectionsRef.current = selections;
   }, [selections]);
+  useEffect(() => {
+    onFinalizedRef.current = options?.onFinalized;
+  }, [options?.onFinalized]);
 
   useEffect(() => {
     if (finished) return;
@@ -298,16 +341,26 @@ export function useMockExam(
     finalizedRef.current = true;
     const liveSelections = selectionsRef.current;
     const answers: Record<number, AnswerRecord> = {};
+    const attempts: MockFinalizedData['attempts'] = [];
     pool.forEach((q, i) => {
       const sel = liveSelections[i] ?? [];
-      answers[i] = {
-        selected: [...sel],
-        correct: sel.length > 0 && arraysEqualAsSets(sel, q.correct),
-      };
+      const isCorrect = sel.length > 0 && arraysEqualAsSets(sel, q.correct);
+      answers[i] = { selected: [...sel], correct: isCorrect };
+      attempts.push({ question: q, selected: [...sel], correct: isCorrect });
     });
     setFinalAnswers(answers);
     setFinished(true);
-  }, [pool]);
+
+    const correctCount = attempts.filter((a) => a.correct).length;
+    const actualDuration = Date.now() - startedAt;
+    const passed = pool.length > 0 && (correctCount / pool.length) * 100 >= PASS_THRESHOLD_PCT;
+    onFinalizedRef.current?.({
+      attempts,
+      correctCount,
+      durationMs: actualDuration,
+      passed,
+    });
+  }, [pool, startedAt]);
 
   // Auto-submit on timer expiry
   useEffect(() => {

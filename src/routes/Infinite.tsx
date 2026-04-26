@@ -6,6 +6,7 @@ import PageShell from '../components/PageShell';
 import QuizCard from '../components/QuizCard';
 import Results from '../components/Results';
 import { useInfiniteQuiz } from '../lib/quiz-engine';
+import { useAttemptLogger } from '../lib/attempt-logger';
 import { TRACKS, parseTrackId, type TrackId } from '../lib/tracks';
 
 function scrollTop(smooth = false) { window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'instant' }); }
@@ -21,7 +22,12 @@ export default function Infinite() {
 
 function InfiniteSession({ track, onRestart }: { track: (typeof TRACKS)[TrackId]; onRestart: () => void }) {
   const navigate = useNavigate();
-  const engine = useInfiniteQuiz(track.questions);
+  const logAttempt = useAttemptLogger(track.id, 'infinite');
+  const engine = useInfiniteQuiz(track.questions, {
+    onAnswered: (q, selected, correct) => {
+      void logAttempt(q, selected, correct);
+    },
+  });
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const requestExit = useCallback(() => {
     if (engine.answeredCount > 0) setShowExitConfirm(true);

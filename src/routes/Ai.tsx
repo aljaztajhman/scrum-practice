@@ -5,6 +5,7 @@ import PageShell from '../components/PageShell';
 import QuizCard from '../components/QuizCard';
 import type { Question } from '../lib/schema';
 import { TRACKS, parseTrackId, type Track } from '../lib/tracks';
+import { useAuth } from '../contexts/AuthContext';
 import { arraysEqualAsSets } from '../lib/utils';
 
 interface AiQuestion extends Question {
@@ -35,7 +36,14 @@ const BUFFER_TARGET = 3; // 1 displayed + 2 prefetched
 export default function Ai() {
   const { cert } = useParams<{ cert: string }>();
   const trackId = parseTrackId(cert);
+  const { isLoggedIn, loading } = useAuth();
   if (!trackId) return <Navigate to="/" replace />;
+  // While auth state is loading, show nothing (avoid a redirect flash)
+  if (loading) return null;
+  // AI mode requires login. Redirect with `from` so user lands back here after sign-in.
+  if (!isLoggedIn) {
+    return <Navigate to="/login" state={{ from: `/ai/${trackId}` }} replace />;
+  }
   const track = TRACKS[trackId];
   return <AiSession track={track} />;
 }
@@ -153,14 +161,12 @@ function AiSession({ track }: { track: Track }) {
     setQueue((prev) => prev.slice(1));
     setSelected([]);
     setLocked(false);
-    // top-up will trigger via useEffect on queue change... actually it won't because no deps; trigger manually
     setTimeout(topUp, 0);
   };
 
   const onTryAgain = () => {
     consecutiveErrors.current = 0;
     setError(null);
-    // useEffect on [error] will trigger topUp
   };
 
   const incorrect = stats.answered - stats.correct;

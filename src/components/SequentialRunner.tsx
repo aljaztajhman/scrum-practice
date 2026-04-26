@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSequentialQuiz } from '../lib/quiz-engine';
+import { useAttemptLogger, type AttemptSource } from '../lib/attempt-logger';
 import type { Question } from '../lib/schema';
 import type { Track } from '../lib/tracks';
 import ExitModal from './ExitModal';
@@ -15,9 +16,10 @@ function scrollTop(smooth = false) {
 interface Props {
   track: Track;
   pool: Question[];
-  onExitPath: string; // where to go when user exits (home, cert picker, etc.)
-  onRestart: () => void; // for "new round — same X" from Results
-  onChangeConfig: () => void; // for "change cert/length/topic" from Results
+  onExitPath: string;
+  onRestart: () => void;
+  onChangeConfig: () => void;
+  source?: AttemptSource;
 }
 
 export default function SequentialRunner({
@@ -26,8 +28,14 @@ export default function SequentialRunner({
   onExitPath,
   onRestart,
   onChangeConfig,
+  source = 'practice',
 }: Props) {
-  const engine = useSequentialQuiz(pool);
+  const logAttempt = useAttemptLogger(track.id, source);
+  const engine = useSequentialQuiz(pool, {
+    onAnswered: (q, selected, correct) => {
+      void logAttempt(q, selected, correct);
+    },
+  });
   const navigate = useNavigate();
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 

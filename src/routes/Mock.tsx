@@ -9,6 +9,7 @@ import MockTimer from '../components/MockTimer';
 import PageShell from '../components/PageShell';
 import Results from '../components/Results';
 import { formatDuration, useMockExam } from '../lib/quiz-engine';
+import { useBatchAttemptLogger, useMockSessionLogger } from '../lib/attempt-logger';
 import { MOCK_EXAM_DURATION_MS, MOCK_EXAM_QUESTION_COUNT } from '../lib/modes';
 import { TRACKS, parseTrackId, type TrackId } from '../lib/tracks';
 import { shuffle } from '../lib/utils';
@@ -27,7 +28,19 @@ export default function Mock() {
 function MockSession({ track, onRestart }: { track: (typeof TRACKS)[TrackId]; onRestart: () => void }) {
   const navigate = useNavigate();
   const pool = useMemo(() => shuffle(track.questions).slice(0, MOCK_EXAM_QUESTION_COUNT), [track.questions]);
-  const engine = useMockExam(pool, MOCK_EXAM_DURATION_MS);
+  const logBatch = useBatchAttemptLogger(track.id, 'mock');
+  const logSession = useMockSessionLogger(track.id);
+  const engine = useMockExam(pool, MOCK_EXAM_DURATION_MS, {
+    onFinalized: (data) => {
+      void logBatch(data.attempts);
+      void logSession({
+        questionCount: data.attempts.length,
+        correctCount: data.correctCount,
+        durationMs: data.durationMs,
+        passed: data.passed,
+      });
+    },
+  });
   const [stage, setStage] = useState<'quiz' | 'review'>('quiz');
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 
