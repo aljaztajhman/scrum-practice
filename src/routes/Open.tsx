@@ -7,12 +7,27 @@ import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { TRACKS, parseTrackId, type Track } from '../lib/tracks';
 
+type Difficulty = 'easy' | 'medium' | 'scrum-master';
+
+const DIFFICULTY_LABELS: Record<Difficulty, string> = {
+  easy: 'Easy',
+  medium: 'Medium',
+  'scrum-master': 'Scrum Master',
+};
+
+const DIFFICULTY_BLURBS: Record<Difficulty, string> = {
+  easy: 'Recall-level facts. Generous grading.',
+  medium: 'Apply the concept in your own words.',
+  'scrum-master': 'Multi-step scenarios. Mastery-level depth expected.',
+};
+
 interface OpenQuestion {
   topic: string;
   scrumGuideSection: string;
   q: string;
   referenceAnswer: string;
   rubricKeyPoints: string[];
+  difficulty: Difficulty;
 }
 
 interface GradeResult {
@@ -22,6 +37,9 @@ interface GradeResult {
   hitKeyPoints: string[];
   missedKeyPoints: string[];
 }
+
+// Client-side timeout in case Vercel/Anthropic is slow.
+const FETCH_TIMEOUT_MS = 45000;
 
 export default function Open() {
   const { cert } = useParams<{ cert: string }>();
@@ -51,6 +69,7 @@ type Stage = 'loading' | 'answering' | 'grading' | 'graded' | 'error';
 
 function OpenSession({ track }: { track: Track }) {
   const navigate = useNavigate();
+  const [difficulty, setDifficulty] = useState<Difficulty>('medium');
   const [stage, setStage] = useState<Stage>('loading');
   const [question, setQuestion] = useState<OpenQuestion | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
@@ -70,7 +89,7 @@ function OpenSession({ track }: { track: Track }) {
     };
   }, []);
 
-  const fetchQuestion = useCallback(async () => {
+  const fetchQuestion = useCallback(async (forDifficulty: Difficulty) => {
     setStage('loading');
     setError(null);
     setQuestion(null);
@@ -78,14 +97,17 @@ function OpenSession({ track }: { track: Track }) {
     setGrade(null);
     const ctrl = new AbortController();
     abortControllers.current.add(ctrl);
+    const timeoutId = setTimeout(() => {
+      try { ctrl.abort(); } catch { /* noop */ }
+    }, FETCH_TIMEOUT_MS);
     try {
       const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
       if (!token) throw new Error('Not signed in');
-      const res = await fetch(`/api/generate-open-question?cert=${track.id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        signal: ctrl.signal,
-      });
+      const res = await fetch(
+        `/api/generate-open-question?cert=${track.id}&difficulty=${forDifficulty}`,
+        { headers: { Authorization: `Bearer ${token}` }, signal: ctrl.signal }
+      );
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         throw new Error(body.error || `Server returned ${res.status}`);
@@ -95,18 +117,35 @@ function OpenSession({ track }: { track: Track }) {
       setQuestion(data);
       setStage('answering');
     } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return;
+      if (e instanceof DOMException && e.name === 'AbortError') {
+        if (isMounted.current) {
+          setError('Generation timed out — please try again. The model may be under load.');
+          setStage('error');
+        }
+        return;
+      }
       if (!isMounted.current) return;
       setError(e instanceof Error ? e.message : 'Failed to load question');
       setStage('error');
     } finally {
+      clearTimeout(timeoutId);
       abortControllers.current.delete(ctrl);
     }
   }, [track.id]);
 
+  // Initial load
   useEffect(() => {
-    void fetchQuestion();
-  }, [fetchQuestion]);
+    void fetchQuestion(difficulty);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Difficulty change → refetch (only when not mid-grading)
+  const changeDifficulty = (next: Difficulty) => {
+    if (next === difficulty) return;
+    if (stage === 'grading') return;
+    setDifficulty(next);
+    void fetchQuestion(next);
+  };
 
   const submitAnswer = async () => {
     if (!question || stage !== 'answering' || userAnswer.trim().length < 3) return;
@@ -114,6 +153,9 @@ function OpenSession({ track }: { track: Track }) {
     setError(null);
     const ctrl = new AbortController();
     abortControllers.current.add(ctrl);
+    const timeoutId = setTimeout(() => {
+      try { ctrl.abort(); } catch { /* noop */ }
+    }, FETCH_TIMEOUT_MS);
     try {
       const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
@@ -130,6 +172,7 @@ function OpenSession({ track }: { track: Track }) {
           rubricKeyPoints: question.rubricKeyPoints,
           scrumGuideSection: question.scrumGuideSection,
           userAnswer: userAnswer.trim(),
+          difficulty: question.difficulty,
         }),
         signal: ctrl.signal,
       });
@@ -147,11 +190,18 @@ function OpenSession({ track }: { track: Track }) {
       }));
       setStage('graded');
     } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return;
+      if (e instanceof DOMException && e.name === 'AbortError') {
+        if (isMounted.current) {
+          setError('Grading timed out — please try Submit again.');
+          setStage('answering');
+        }
+        return;
+      }
       if (!isMounted.current) return;
       setError(e instanceof Error ? e.message : 'Grading failed');
       setStage('answering');
     } finally {
+      clearTimeout(timeoutId);
       abortControllers.current.delete(ctrl);
     }
   };
@@ -207,13 +257,38 @@ function OpenSession({ track }: { track: Track }) {
             </span>
           </div>
         </div>
+
+        {/* Difficulty selector */}
+        <div className="border-b border-stone-300">
+          <div className="flex items-end gap-0">
+            {(['easy', 'medium', 'scrum-master'] as const).map((d) => (
+              <button
+                key={d}
+                type="button"
+                onClick={() => changeDifficulty(d)}
+                disabled={stage === 'grading'}
+                className={`px-4 md:px-5 py-2.5 serif text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed ${
+                  difficulty === d
+                    ? 'text-stone-900 border-b-2 border-stone-900 -mb-px'
+                    : 'text-stone-500 hover:text-stone-700'
+                }`}
+                title={DIFFICULTY_BLURBS[d]}
+              >
+                {DIFFICULTY_LABELS[d]}
+              </button>
+            ))}
+            <div className="ml-auto text-[10px] uppercase tracking-[0.2em] text-stone-500 italic serif pb-3 hidden sm:block">
+              {DIFFICULTY_BLURBS[difficulty]}
+            </div>
+          </div>
+        </div>
       </div>
 
       {stage === 'loading' && (
         <div className="bg-white/70 backdrop-blur-sm border border-stone-300 p-12 md:p-16 paper text-center">
           <Spinner className="w-10 h-10 mx-auto mb-5 text-stone-700" strokeWidth={1.8} />
           <p className="serif italic text-2xl md:text-3xl text-stone-700 mb-2" style={{ fontWeight: 400 }}>
-            Composing a question…
+            Composing a {DIFFICULTY_LABELS[difficulty].toLowerCase()} question…
           </p>
           <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
             One moment, the model is thinking
@@ -228,7 +303,7 @@ function OpenSession({ track }: { track: Track }) {
           </p>
           <p className="text-sm text-stone-700 leading-relaxed mb-6">{error}</p>
           <button
-            onClick={() => void fetchQuestion()}
+            onClick={() => void fetchQuestion(difficulty)}
             className="inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-6 py-3 text-xs uppercase tracking-widest hover:bg-stone-800 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" strokeWidth={2} /> Try again
@@ -257,16 +332,14 @@ function OpenSession({ track }: { track: Track }) {
           {(stage === 'answering' || stage === 'grading') && (
             <div className="space-y-3">
               <label className="block">
-                <span className="text-xs uppercase tracking-widest text-stone-600 mb-2 block">
-                  Your answer
-                </span>
+                <span className="text-xs uppercase tracking-widest text-stone-600 mb-2 block">Your answer</span>
                 <textarea
                   value={userAnswer}
                   onChange={(e) => setUserAnswer(e.target.value)}
                   disabled={stage === 'grading'}
                   rows={8}
                   maxLength={4000}
-                  placeholder="Type your answer in your own words. Aim for 50-150 words."
+                  placeholder="Type your answer in your own words."
                   className="w-full border border-stone-400 bg-white/60 px-4 py-3 serif text-base leading-relaxed focus:outline-none focus:border-stone-900 disabled:opacity-60 resize-y"
                   onKeyDown={(e) => {
                     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
@@ -294,6 +367,9 @@ function OpenSession({ track }: { track: Track }) {
                   {stage === 'grading' ? 'Grading…' : 'Submit answer'}
                 </button>
               </div>
+              {error && stage === 'answering' && (
+                <div className="text-sm text-rose-700 bg-rose-50 border border-rose-300 px-3 py-2">{error}</div>
+              )}
             </div>
           )}
 
@@ -314,9 +390,7 @@ function OpenSession({ track }: { track: Track }) {
 
               {grade.hitKeyPoints.length > 0 && (
                 <div className="border border-stone-300 bg-white/40 p-5">
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-emerald-800 mb-3">
-                    What you got right
-                  </p>
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-emerald-800 mb-3">What you got right</p>
                   <ul className="space-y-1 text-sm text-stone-800">
                     {grade.hitKeyPoints.map((kp, i) => (
                       <li key={i} className="flex items-start gap-2">
@@ -330,9 +404,7 @@ function OpenSession({ track }: { track: Track }) {
 
               {grade.missedKeyPoints.length > 0 && (
                 <div className="border border-stone-300 bg-white/40 p-5">
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-rose-800 mb-3">
-                    What you missed
-                  </p>
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-rose-800 mb-3">What you missed</p>
                   <ul className="space-y-1 text-sm text-stone-800">
                     {grade.missedKeyPoints.map((kp, i) => (
                       <li key={i} className="flex items-start gap-2">
@@ -344,7 +416,6 @@ function OpenSession({ track }: { track: Track }) {
                 </div>
               )}
 
-              {/* Reference answer */}
               <div className="border border-stone-300 bg-stone-50/60 p-5">
                 <p className="text-[10px] uppercase tracking-[0.25em] text-stone-500 mb-3">
                   Reference answer · grounded in {question.scrumGuideSection}
@@ -356,7 +427,7 @@ function OpenSession({ track }: { track: Track }) {
 
               <button
                 type="button"
-                onClick={() => void fetchQuestion()}
+                onClick={() => void fetchQuestion(difficulty)}
                 className="inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-6 py-3 text-xs uppercase tracking-widest hover:bg-stone-800 transition-colors"
               >
                 <RotateCcw className="w-3.5 h-3.5" strokeWidth={2} /> Next question

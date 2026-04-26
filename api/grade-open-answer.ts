@@ -2,12 +2,17 @@ import Anthropic from '@anthropic-ai/sdk';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { authenticateRequest, getProfile } from './_lib/auth.js';
 
+export const maxDuration = 30;
+
+type Difficulty = 'easy' | 'medium' | 'scrum-master';
+
 interface GradeRequest {
   q: string;
   referenceAnswer: string;
   rubricKeyPoints: string[];
   scrumGuideSection: string;
   userAnswer: string;
+  difficulty: Difficulty;
 }
 
 interface GradeResult {
@@ -18,18 +23,46 @@ interface GradeResult {
   missedKeyPoints: string[];
 }
 
-function buildGradePrompt(g: GradeRequest): string {
-  return `You are grading a learner's open-response answer to a Scrum question. Be fair, specific, and grounded in the Scrum Guide 2020.
+function parseDifficulty(s: unknown): Difficulty {
+  if (s === 'easy' || s === 'medium' || s === 'scrum-master') return s;
+  return 'medium';
+}
 
-QUESTION:
+function leniencyDirective(d: Difficulty): string {
+  switch (d) {
+    case 'easy':
+      return `LENIENCY: maximum.
+- The learner is at recall level. Give credit generously for any correct fact, in any phrasing.
+- A learner who states the core point in their own words is correct, even if they miss minor wording.
+- Mark "correct" if they hit at least 2 of 3 rubric points and have no significant wrong claims.
+- Avoid penalizing brevity at this level. A short, accurate answer is fine.`;
+    case 'medium':
+      return `LENIENCY: high.
+- Give credit for any reasonable demonstration of the concept, in the learner's own words.
+- Synonyms, paraphrases, and good examples count. Don't require exact rubric phrasing.
+- Mark "correct" if they hit most rubric points and the spirit of the answer is right.
+- Penalize only clearly wrong claims, not gaps in completeness.`;
+    case 'scrum-master':
+      return `LENIENCY: balanced.
+- This is mastery level. Expect the learner to articulate diagnosis AND resolution, but still credit good thinking.
+- Reward depth, but don't punish a different valid framing if it's Scrum-Guide-defensible.
+- Mark "correct" if their reasoning lands on a Scrum-Guide-grounded conclusion, even by a different path than the reference.
+- Be strict ONLY on factual errors about Scrum (wrong accountabilities, wrong events, wrong timeboxes).`;
+  }
+}
+
+function buildGradePrompt(g: GradeRequest): string {
+  return `You are grading a learner's open-response answer to a Scrum question. Be fair, generous on phrasing, strict on factual correctness about Scrum.
+
+QUESTION (difficulty: ${g.difficulty}):
 ${g.q}
 
 SCRUM GUIDE SECTION: ${g.scrumGuideSection}
 
-REFERENCE ANSWER (a model correct answer):
+REFERENCE ANSWER:
 ${g.referenceAnswer}
 
-RUBRIC KEY POINTS (the learner must demonstrate these to be considered correct):
+RUBRIC KEY POINTS (the learner should demonstrate these):
 ${g.rubricKeyPoints.map((kp, i) => `${i + 1}. ${kp}`).join('\n')}
 
 LEARNER'S ANSWER:
@@ -37,23 +70,25 @@ LEARNER'S ANSWER:
 ${g.userAnswer}
 """
 
-Grading rules:
-- Match the learner's answer to each rubric key point. Mark it "hit" if the concept is clearly present, even in different words. Mark it "missed" if absent or wrong.
-- Be lenient on phrasing — credit synonyms, paraphrases, examples that demonstrate understanding.
-- Be strict on conceptual correctness — if the learner makes a clearly wrong claim about Scrum (e.g. "the SM assigns work to Devs", "the PO can be a committee"), penalize even if other points are hit.
+${leniencyDirective(g.difficulty)}
+
+Universal rules:
+- Match the learner's answer to each rubric key point. Mark it "hit" if the concept is clearly present, even paraphrased. Mark "missed" if absent.
+- Synonyms, examples, and "in their own words" all count for hits.
+- Be strict on conceptual correctness — wrong claims about Scrum (e.g. "the SM assigns work to Devs", "the PO can be a committee", wrong timeboxes) should be penalized regardless of difficulty.
 - Verdict thresholds:
-  - "correct" = hit all or all-but-one key points AND no significant wrong claims (score 8-10)
+  - "correct" = hit most rubric points (per the leniency directive above) AND no significant wrong claims (score 8-10)
   - "partial" = hit some key points OR has minor errors (score 4-7)
   - "incorrect" = missed most key points OR has significant wrong claims (score 0-3)
-- Feedback: 1-3 sentences. State what they got right, what they missed, what (if any) wrong claim they made. Plain, direct prose.
+- Feedback: 1-3 sentences. Specific. State what they got right, what they missed, and any wrong claim.
 
-Output strict JSON only - no markdown, no commentary:
+Output strict JSON only - no markdown:
 {
   "verdict": "correct" | "partial" | "incorrect",
   "score": <integer 0-10>,
-  "feedback": "<1-3 sentence rationale>",
-  "hitKeyPoints": [<rubric points the learner hit, copied exactly>],
-  "missedKeyPoints": [<rubric points the learner missed, copied exactly>]
+  "feedback": "<1-3 sentences>",
+  "hitKeyPoints": [<rubric points hit, copied exactly>],
+  "missedKeyPoints": [<rubric points missed, copied exactly>]
 }`;
 }
 
@@ -64,10 +99,8 @@ function validate(parsed: unknown, rubric: string[]): GradeResult | null {
   if (typeof p.score !== 'number' || p.score < 0 || p.score > 10) return null;
   if (typeof p.feedback !== 'string' || p.feedback.length < 5) return null;
   if (!Array.isArray(p.hitKeyPoints) || !Array.isArray(p.missedKeyPoints)) return null;
-  // Coerce strings
   const hit = (p.hitKeyPoints as unknown[]).filter((k): k is string => typeof k === 'string');
   const miss = (p.missedKeyPoints as unknown[]).filter((k): k is string => typeof k === 'string');
-  // Sanity: hit + miss should roughly cover the rubric (model can paraphrase though)
   if (hit.length + miss.length < Math.max(1, rubric.length - 1)) return null;
   return {
     verdict: p.verdict,
@@ -113,33 +146,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const auth = await authenticateRequest(req);
-  if (!auth) {
-    res.status(401).json({ error: 'Unauthorized' });
-    return;
-  }
+  if (!auth) { res.status(401).json({ error: 'Unauthorized' }); return; }
   const profile = await getProfile(auth.supabaseAdmin, auth.user.id);
-  if (!profile) {
-    res.status(403).json({ error: 'Profile not found' });
-    return;
-  }
+  if (!profile) { res.status(403).json({ error: 'Profile not found' }); return; }
   const allowed = profile.tier === 'pro' || profile.tier === 'admin' || profile.is_admin === true;
-  if (!allowed) {
-    res.status(403).json({ error: 'Pro tier required' });
-    return;
-  }
+  if (!allowed) { res.status(403).json({ error: 'Pro tier required' }); return; }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    res.status(500).json({ error: 'Server not configured' });
-    return;
-  }
+  if (!apiKey) { res.status(500).json({ error: 'Server not configured' }); return; }
 
-  // Validate body
   const body = req.body as Partial<GradeRequest> | undefined;
-  if (!body || typeof body !== 'object') {
-    res.status(400).json({ error: 'Missing JSON body' });
-    return;
-  }
+  if (!body || typeof body !== 'object') { res.status(400).json({ error: 'Missing JSON body' }); return; }
   if (
     typeof body.q !== 'string' || body.q.length < 5 ||
     typeof body.referenceAnswer !== 'string' || body.referenceAnswer.length < 5 ||
@@ -150,16 +167,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(400).json({ error: 'Invalid body shape' });
     return;
   }
-  // Cap user answer length to prevent prompt injection / runaway tokens
-  if (body.userAnswer.length > 4000) {
-    res.status(400).json({ error: 'Answer too long (max 4000 chars)' });
-    return;
-  }
-  // Reject empty / whitespace-only answers without burning a Claude call
-  if (body.userAnswer.trim().length < 3) {
-    res.status(400).json({ error: 'Answer too short to grade' });
-    return;
-  }
+  if (body.userAnswer.length > 4000) { res.status(400).json({ error: 'Answer too long (max 4000 chars)' }); return; }
+  if (body.userAnswer.trim().length < 3) { res.status(400).json({ error: 'Answer too short to grade' }); return; }
 
   const gradeReq: GradeRequest = {
     q: body.q,
@@ -167,6 +176,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     rubricKeyPoints: body.rubricKeyPoints as string[],
     scrumGuideSection: body.scrumGuideSection,
     userAnswer: body.userAnswer,
+    difficulty: parseDifficulty(body.difficulty),
   };
 
   const client = new Anthropic({ apiKey });
@@ -180,22 +190,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         messages: [{ role: 'user', content: buildGradePrompt(gradeReq) }],
       });
       const block = response.content[0];
-      if (!block || block.type !== 'text') {
-        lastError = 'Empty response';
-        continue;
-      }
+      if (!block || block.type !== 'text') { lastError = 'Empty response'; continue; }
       const match = block.text.trim().match(/\{[\s\S]*\}/);
-      if (!match) {
-        lastError = 'No JSON in response';
-        continue;
-      }
+      if (!match) { lastError = 'No JSON in response'; continue; }
       let parsed: unknown;
       try { parsed = JSON.parse(match[0]); } catch { lastError = 'Bad JSON'; continue; }
       const validated = validate(parsed, gradeReq.rubricKeyPoints);
-      if (!validated) {
-        lastError = 'Validation failed';
-        continue;
-      }
+      if (!validated) { lastError = 'Validation failed'; continue; }
       res.status(200).json(validated);
       return;
     } catch (e) {
