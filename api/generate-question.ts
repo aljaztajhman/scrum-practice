@@ -221,6 +221,74 @@ function shuffleOptions(q: GeneratedQuestion): GeneratedQuestion {
   return { ...q, options: newOptions, correct: newCorrect };
 }
 
+// ---------- Abuse protection ----------
+
+const PROD_URL = 'https://scrum-practice.vercel.app';
+const ORIGIN_PATTERNS: RegExp[] = [
+  /^https?:\/\/localhost(:\d+)?$/,
+  /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
+];
+
+function originAllowed(origin: string | undefined, referer: string | undefined): boolean {
+  const allowedExact: string[] = [PROD_URL];
+  if (process.env.VERCEL_URL) allowedExact.push(`https://${process.env.VERCEL_URL}`);
+
+  const candidates = [origin, referer].filter((v): v is string => typeof v === 'string' && v.length > 0);
+  if (candidates.length === 0) return false; // no Origin AND no Referer => not a browser
+
+  for (const candidate of candidates) {
+    let url: URL;
+    try {
+      url = new URL(candidate);
+    } catch {
+      continue;
+    }
+    const clean = `${url.protocol}//${url.host}`;
+    if (allowedExact.includes(clean)) return true;
+    if (ORIGIN_PATTERNS.some((p) => p.test(clean))) return true;
+  }
+  return false;
+}
+
+const RATE_WINDOW_MS = 5 * 60 * 1000;
+const RATE_MAX_PER_IP = 30;
+const ipHits = new Map<string, number[]>();
+
+function checkRateLimit(ip: string): { ok: boolean; retryAfterSec: number } {
+  const now = Date.now();
+  const prev = ipHits.get(ip) ?? [];
+  const recent = prev.filter((t) => now - t < RATE_WINDOW_MS);
+  if (recent.length >= RATE_MAX_PER_IP) {
+    const oldest = recent[0]!;
+    const retryAfterSec = Math.max(1, Math.ceil((RATE_WINDOW_MS - (now - oldest)) / 1000));
+    ipHits.set(ip, recent);
+    return { ok: false, retryAfterSec };
+  }
+  recent.push(now);
+  ipHits.set(ip, recent);
+
+  // Opportunistic GC so the map can't grow without bound on a hot instance
+  if (ipHits.size > 500) {
+    for (const [k, v] of ipHits.entries()) {
+      const r = v.filter((t) => now - t < RATE_WINDOW_MS);
+      if (r.length === 0) ipHits.delete(k);
+      else ipHits.set(k, r);
+    }
+  }
+  return { ok: true, retryAfterSec: 0 };
+}
+
+function getClientIp(req: VercelRequest): string {
+  const xff = req.headers['x-forwarded-for'];
+  if (typeof xff === 'string' && xff.length > 0) return xff.split(',')[0]!.trim();
+  if (Array.isArray(xff) && xff[0]) return xff[0].split(',')[0]!.trim();
+  const xri = req.headers['x-real-ip'];
+  if (typeof xri === 'string' && xri.length > 0) return xri;
+  return 'unknown';
+}
+
+// ---------- Generation ----------
+
 async function generateOnce(
   client: Anthropic,
   cert: CertId,
@@ -253,6 +321,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
+
+  // Origin / Referer allowlist — block curl, cross-origin embeds, and bots
+  const pickHeader = (h: string | string[] | undefined): string | undefined =>
+    Array.isArray(h) ? h[0] : h;
+  const origin = pickHeader(req.headers.origin);
+  const referer = pickHeader(req.headers.referer);
+  if (!originAllowed(origin, referer)) {
+    res.status(403).json({ error: 'Forbidden' });
+    return;
+  }
+
+  // Per-IP rate limit (best-effort, in-memory)
+  const ip = getClientIp(req);
+  const limit = checkRateLimit(ip);
+  if (!limit.ok) {
+    res.setHeader('Retry-After', String(limit.retryAfterSec));
+    res.status(429).json({ error: 'Rate limit exceeded', retryAfterSec: limit.retryAfterSec });
+    return;
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     res.status(500).json({ error: 'Server not configured: missing ANTHROPIC_API_KEY' });
