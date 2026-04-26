@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import PageShell from '../components/PageShell';
 import { Check, ChevronRight } from '../components/Icons';
@@ -14,10 +14,37 @@ export default function Home() {
   const [trackId, setTrackId] = useState<TrackId>('PSM1');
   const navigate = useNavigate();
   const track = TRACKS[trackId];
-  const { isPro, isLoggedIn, user } = useAuth();
+  const { isPro, isLoggedIn, user, refreshProfile } = useAuth();
   const [attempts, setAttempts] = useState<AttemptRow[] | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [showUpgradedBanner, setShowUpgradedBanner] = useState(false);
 
-  // Fetch user's attempts (small; one query per home visit) so we can show review counts
+  // Handle Stripe success redirect (?upgraded=true): poll the profile until the
+  // webhook flips tier, show a thank-you banner, clean the URL.
+  useEffect(() => {
+    if (searchParams.get('upgraded') !== 'true') return;
+    if (!isLoggedIn) return;
+    let cancelled = false;
+    const poll = async () => {
+      for (let i = 0; i < 8 && !cancelled; i++) {
+        await refreshProfile();
+        await new Promise((r) => setTimeout(r, 1000));
+      }
+    };
+    void poll();
+    setShowUpgradedBanner(true);
+    const next = new URLSearchParams(searchParams);
+    next.delete('upgraded');
+    setSearchParams(next, { replace: true });
+    const t = setTimeout(() => setShowUpgradedBanner(false), 8000);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn]);
+
+  // Fetch user's attempts so we can show a Review tile with a count.
   useEffect(() => {
     if (!isLoggedIn || !user) {
       setAttempts(null);
@@ -46,6 +73,13 @@ export default function Home() {
   return (
     <PageShell>
       <PageHeader eyebrow="Scrum.org · Practice" title="The" italic="practice" tagline={track.tagline} />
+      {showUpgradedBanner && (
+        <div className="mb-6 border border-emerald-300 bg-emerald-50/80 px-5 py-4">
+          <p className="serif italic text-emerald-900 text-base" style={{ fontWeight: 400 }}>
+            Welcome to Pro. AI mode is unlocked. The page will refresh tier status automatically — give it a moment.
+          </p>
+        </div>
+      )}
       <div className="space-y-10">
         <div>
           <p className="serif text-sm uppercase tracking-[0.25em] text-stone-600 mb-5">Pick your certification</p>

@@ -82,27 +82,19 @@ function AiUpgradePrompt({ trackId }: { trackId: string }) {
           onClick={() => navigate('/')}
           className="group flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-stone-600 hover:text-stone-900 transition-colors py-2 -ml-1 mb-5"
         >
-          <ArrowLeft
-            className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"
-            strokeWidth={2}
-          />
+          <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" strokeWidth={2} />
           Back to start
         </button>
         <div className="flex items-center gap-2">
           <div className="h-px w-10 bg-stone-700"></div>
-          <span className="text-xs tracking-[0.3em] uppercase text-stone-700 font-medium">
-            AI mode · {trackId}
-          </span>
+          <span className="text-xs tracking-[0.3em] uppercase text-stone-700 font-medium">AI mode · {trackId}</span>
         </div>
       </div>
       <div className="border border-stone-300 bg-white/60 p-8 md:p-12 max-w-2xl">
         <div className="inline-block text-[10px] uppercase tracking-[0.25em] px-2.5 py-1 bg-stone-900 text-stone-50 serif mb-5">
           Pro feature
         </div>
-        <h1
-          className="serif text-3xl md:text-4xl text-stone-900 mb-3 leading-tight"
-          style={{ fontWeight: 500 }}
-        >
+        <h1 className="serif text-3xl md:text-4xl text-stone-900 mb-3 leading-tight" style={{ fontWeight: 500 }}>
           AI mode is <em className="italic">Pro only</em>
         </h1>
         <p className="text-stone-700 leading-relaxed mb-5">
@@ -111,8 +103,7 @@ function AiUpgradePrompt({ trackId }: { trackId: string }) {
           angles the static bank never does.
         </p>
         <p className="text-sm text-stone-600 italic serif mb-7">
-          Free tier covers Practice, Mock, Infinite, and full statistics. AI mode is the one Pro
-          feature.
+          Free tier covers Practice, Mock, Infinite, and full statistics. AI mode is the one Pro feature.
         </p>
         <div className="text-stone-900 mb-5">
           <span className="serif text-3xl tabular-nums" style={{ fontWeight: 500 }}>€9.99</span>
@@ -150,6 +141,8 @@ function AiSession({ track }: { track: Track }) {
   const inFlight = useRef(0);
   const consecutiveErrors = useRef(0);
   const isMounted = useRef(true);
+  // Track all in-flight AbortControllers so we can cancel them on unmount.
+  const abortControllers = useRef<Set<AbortController>>(new Set());
 
   useEffect(() => {
     queueRef.current = queue;
@@ -158,17 +151,25 @@ function AiSession({ track }: { track: Track }) {
   useEffect(() => {
     return () => {
       isMounted.current = false;
+      // Cancel every in-flight Anthropic request on unmount.
+      for (const ctrl of abortControllers.current) {
+        try { ctrl.abort(); } catch { /* noop */ }
+      }
+      abortControllers.current.clear();
     };
   }, []);
 
   const fetchOne = useCallback(async () => {
     inFlight.current++;
+    const ctrl = new AbortController();
+    abortControllers.current.add(ctrl);
     try {
       const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
       if (!token) throw new Error('Not signed in');
       const res = await fetch(`/api/generate-question?cert=${track.id}`, {
         headers: { Authorization: `Bearer ${token}` },
+        signal: ctrl.signal,
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -193,15 +194,13 @@ function AiSession({ track }: { track: Track }) {
       consecutiveErrors.current = 0;
       setError(null);
     } catch (e) {
+      if (e instanceof DOMException && e.name === 'AbortError') return;
       consecutiveErrors.current++;
-      if (
-        consecutiveErrors.current >= 3 &&
-        queueRef.current.length === 0 &&
-        isMounted.current
-      ) {
+      if (consecutiveErrors.current >= 3 && queueRef.current.length === 0 && isMounted.current) {
         setError(e instanceof Error ? e.message : 'Generation failed');
       }
     } finally {
+      abortControllers.current.delete(ctrl);
       inFlight.current--;
       if (isMounted.current && !error) {
         topUp();
@@ -213,9 +212,7 @@ function AiSession({ track }: { track: Track }) {
   const topUp = useCallback(() => {
     if (error) return;
     const need = BUFFER_TARGET - queueRef.current.length - inFlight.current;
-    for (let i = 0; i < need; i++) {
-      void fetchOne();
-    }
+    for (let i = 0; i < need; i++) void fetchOne();
   }, [error, fetchOne]);
 
   useEffect(() => {
@@ -231,9 +228,7 @@ function AiSession({ track }: { track: Track }) {
     if (locked || !current) return;
     setSelected((prev) =>
       current.type === 'multi'
-        ? prev.includes(i)
-          ? prev.filter((x) => x !== i)
-          : [...prev, i]
+        ? prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]
         : [i]
     );
   };
@@ -242,10 +237,7 @@ function AiSession({ track }: { track: Track }) {
     if (!current || selected.length === 0 || locked) return;
     const isCorrect = arraysEqualAsSets(selected, current.correct);
     setLocked(true);
-    setStats((s) => ({
-      answered: s.answered + 1,
-      correct: s.correct + (isCorrect ? 1 : 0),
-    }));
+    setStats((s) => ({ answered: s.answered + 1, correct: s.correct + (isCorrect ? 1 : 0) }));
   };
 
   const onNext = () => {
@@ -266,8 +258,7 @@ function AiSession({ track }: { track: Track }) {
     <PageShell
       footer={
         <p className="text-xs text-stone-500 serif italic">
-          AI-generated · grounded in the Scrum Guide 2020 · drift can happen, flag anything that
-          looks wrong.
+          AI-generated · grounded in the Scrum Guide 2020 · drift can happen, flag anything that looks wrong.
         </p>
       }
     >
@@ -277,16 +268,11 @@ function AiSession({ track }: { track: Track }) {
             onClick={() => navigate('/')}
             className="group flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-stone-600 hover:text-stone-900 transition-colors py-2 -ml-1"
           >
-            <ArrowLeft
-              className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"
-              strokeWidth={2}
-            />
+            <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" strokeWidth={2} />
             Back to start
           </button>
           <div className="flex items-center gap-2.5 md:gap-4 text-xs">
-            <span className="hidden md:inline text-[10px] uppercase tracking-[0.2em] text-stone-500">
-              {track.title} · AI
-            </span>
+            <span className="hidden md:inline text-[10px] uppercase tracking-[0.2em] text-stone-500">{track.title} · AI</span>
             <span className="hidden md:inline text-stone-300">·</span>
             <span className="flex items-center gap-1 text-emerald-800">
               <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
@@ -316,10 +302,7 @@ function AiSession({ track }: { track: Track }) {
       {isLoadingFirst && (
         <div className="bg-white/70 backdrop-blur-sm border border-stone-300 p-12 md:p-16 paper text-center">
           <Spinner className="w-10 h-10 mx-auto mb-5 text-stone-700" strokeWidth={1.8} />
-          <p
-            className="serif italic text-2xl md:text-3xl text-stone-700 mb-2"
-            style={{ fontWeight: 400 }}
-          >
+          <p className="serif italic text-2xl md:text-3xl text-stone-700 mb-2" style={{ fontWeight: 400 }}>
             Composing a question…
           </p>
           <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
@@ -347,19 +330,12 @@ function AiSession({ track }: { track: Track }) {
         <>
           <div className="mb-3 flex items-baseline justify-between gap-3">
             <div>
-              <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500">
-                Style ·{' '}
-              </span>
-              <span
-                className="serif italic text-base md:text-lg text-stone-800"
-                style={{ fontWeight: 500 }}
-              >
+              <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500">Style · </span>
+              <span className="serif italic text-base md:text-lg text-stone-800" style={{ fontWeight: 500 }}>
                 {STYLE_LABELS[current.style] || current.style}
               </span>
             </div>
-            <span className="text-xs text-stone-500 italic hidden sm:inline">
-              {STYLE_BLURBS[current.style]}
-            </span>
+            <span className="text-xs text-stone-500 italic hidden sm:inline">{STYLE_BLURBS[current.style]}</span>
           </div>
           <QuizCard
             track={track}
@@ -374,7 +350,6 @@ function AiSession({ track }: { track: Track }) {
             onNext={onNext}
             onPrev={() => {}}
           />
-
           {locked && (
             <div className="mt-5 border border-stone-300 bg-white/40 p-5 md:p-6">
               <p className="text-[10px] uppercase tracking-[0.25em] text-stone-500 mb-2">

@@ -14,8 +14,17 @@ export default function UserMenu() {
     function onClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     }
-    if (open) document.addEventListener('mousedown', onClickOutside);
-    return () => document.removeEventListener('mousedown', onClickOutside);
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    if (open) {
+      document.addEventListener('mousedown', onClickOutside);
+      document.addEventListener('keydown', onKeyDown);
+    }
+    return () => {
+      document.removeEventListener('mousedown', onClickOutside);
+      document.removeEventListener('keydown', onKeyDown);
+    };
   }, [open]);
 
   if (loading) {
@@ -36,7 +45,6 @@ export default function UserMenu() {
   const email = profile?.email ?? user?.email ?? '';
   const initial = email[0]?.toUpperCase() ?? '?';
   const tierLabel = isAdmin ? 'Admin' : isPro ? 'Pro' : 'Free';
-  // Only "real Pro" subscribers (not admins) get a Manage subscription link
   const showManageSub = isPro && !isAdmin && !!profile?.stripe_customer_id;
 
   const handleManageSubscription = async () => {
@@ -78,10 +86,7 @@ export default function UserMenu() {
           <button
             type="button"
             className="w-full text-left px-4 py-2 text-sm hover:bg-stone-100"
-            onClick={() => {
-              setOpen(false);
-              navigate('/stats');
-            }}
+            onClick={() => { setOpen(false); navigate('/stats'); }}
           >
             My stats
           </button>
@@ -89,10 +94,7 @@ export default function UserMenu() {
             <button
               type="button"
               className="w-full text-left px-4 py-2 text-sm hover:bg-stone-100"
-              onClick={() => {
-                setOpen(false);
-                navigate('/admin');
-              }}
+              onClick={() => { setOpen(false); navigate('/admin'); }}
             >
               Admin
             </button>
