@@ -302,7 +302,9 @@ async function generateOnce(
   topicSeed: string
 ): Promise<GeneratedQuestion | null> {
   const response = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    // Haiku 4.5 — ~80% cheaper, ~2-3x faster than Sonnet 4.6.
+    // If rejection rate climbs too high or quality drops, swap back to 'claude-sonnet-4-6'.
+    model: 'claude-haiku-4-5-20251001',
     max_tokens: 1200,
     messages: [{ role: 'user', content: buildPrompt(cert, style, topicSeed) }],
   });
@@ -391,6 +393,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } catch (e) {
       lastError = e instanceof Error ? e.message : String(e);
       console.error(`AI gen attempt ${attempt} failed:`, lastError);
+    }
+  }
+  res.status(502).json({
+    error: 'Could not generate a valid question after 5 attempts',
+    detail: lastError,
+  });
+}
+${attempt} failed:`, lastError);
     }
   }
   res.status(502).json({
