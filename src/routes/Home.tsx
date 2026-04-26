@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import PageShell from '../components/PageShell';
@@ -6,12 +6,42 @@ import { Check, ChevronRight } from '../components/Icons';
 import { MODES } from '../lib/modes';
 import { TRACKS, type TrackId } from '../lib/tracks';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
+import { countReviewQueue } from '../lib/review-queue';
+import type { AttemptRow } from '../lib/stats';
 
 export default function Home() {
   const [trackId, setTrackId] = useState<TrackId>('PSM1');
   const navigate = useNavigate();
   const track = TRACKS[trackId];
-  const { isPro } = useAuth();
+  const { isPro, isLoggedIn, user } = useAuth();
+  const [attempts, setAttempts] = useState<AttemptRow[] | null>(null);
+
+  // Fetch user's attempts (small; one query per home visit) so we can show review counts
+  useEffect(() => {
+    if (!isLoggedIn || !user) {
+      setAttempts(null);
+      return;
+    }
+    let cancelled = false;
+    supabase
+      .from('attempts')
+      .select('id, user_id, track_id, question_id, source, selected, correct, topic, question_type, answered_at')
+      .order('answered_at', { ascending: false })
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (error) return;
+        setAttempts((data ?? []) as AttemptRow[]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isLoggedIn, user]);
+
+  const reviewCount = useMemo(() => {
+    if (!attempts) return 0;
+    return countReviewQueue(attempts, trackId, track.questions);
+  }, [attempts, trackId, track.questions]);
 
   return (
     <PageShell>
@@ -83,6 +113,32 @@ export default function Home() {
               );
             })}
           </div>
+
+          {isLoggedIn && reviewCount > 0 && (
+            <button
+              onClick={() => navigate(`/review/${trackId}`)}
+              className="group mt-3 md:mt-4 w-full text-left border border-amber-700 bg-amber-50/70 hover:border-amber-900 hover:bg-amber-50 transition-all duration-200 p-5 md:p-6 relative"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="flex items-baseline gap-3 mb-1">
+                    <span className="serif text-2xl md:text-3xl leading-tight text-stone-900" style={{ fontWeight: 500 }}>
+                      Review
+                    </span>
+                    <span className="serif italic text-sm md:text-base text-stone-700" style={{ fontWeight: 400 }}>
+                      your weak spots
+                    </span>
+                  </div>
+                  <p className="text-sm text-stone-700 leading-relaxed">
+                    <span className="serif text-stone-900 tabular-nums">{reviewCount}</span>{' '}
+                    {reviewCount === 1 ? 'question' : 'questions'} you&rsquo;ve missed in {track.title}. Recently-missed
+                    first. A question leaves this queue once you get it right twice in a row.
+                  </p>
+                </div>
+                <ChevronRight className="w-4 h-4 text-stone-500 transition-transform group-hover:translate-x-1 mt-2" strokeWidth={2} />
+              </div>
+            </button>
+          )}
         </div>
         <div className="border-t border-stone-300 pt-8">
           <p className="serif text-sm uppercase tracking-[0.25em] text-stone-600 mb-5">How it works</p>
@@ -91,7 +147,7 @@ export default function Home() {
             <li className="flex gap-4"><span className="serif text-stone-400 italic">ii.</span><span>In Practice and Infinite you get an explanation after each answer — the why matters more than the score.</span></li>
             <li className="flex gap-4"><span className="serif text-stone-400 italic">iii.</span><span>Mock exam mirrors the real thing: timer, no feedback mid-exam, flag and review before submitting.</span></li>
             <li className="flex gap-4"><span className="serif text-stone-400 italic">iv.</span><span>Multi-select is scored all-or-nothing, same as Scrum.org.</span></li>
-            <li className="flex gap-4"><span className="serif text-stone-400 italic">v.</span><span>Sign in to get statistics, weak-area tracking, and AI mode (Pro). Anonymous practice is free, no account needed.</span></li>
+            <li className="flex gap-4"><span className="serif text-stone-400 italic">v.</span><span>Sign in to track stats and surface your weak questions for review. Anonymous practice is free, no account needed.</span></li>
           </ol>
         </div>
       </div>
