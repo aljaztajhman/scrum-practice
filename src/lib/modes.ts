@@ -9,6 +9,7 @@ export interface ModeDef {
   desc: string;
   path: (trackId: TrackId) => string;
   proOnly?: boolean;
+  group: 'bank' | 'ai';
 }
 
 export const MODES: ModeDef[] = [
@@ -16,38 +17,43 @@ export const MODES: ModeDef[] = [
     id: 'practice',
     title: 'Practice',
     italic: 'learn as you go',
-    desc: 'Answer at your own pace. See the why after every question. Pick 10, 30, or the full 80.',
+    desc: 'Answer at your own pace. See the why after each question.',
     path: (t) => `/practice/${t}`,
+    group: 'bank',
   },
   {
     id: 'mock',
     title: 'Mock exam',
     italic: 'the real thing',
-    desc: 'Exam-faithful: 80 questions · 60 minutes · 85% to pass · no feedback until the end. Flag and review before submitting.',
+    desc: '80 questions · 60 minutes · 85% to pass. Exam-faithful.',
     path: (t) => `/mock/${t}`,
+    group: 'bank',
   },
   {
     id: 'infinite',
     title: 'Infinite',
     italic: 'until you stop',
-    desc: 'Endless shuffled stream from the question bank. Running accuracy counter. Walk away whenever you want.',
+    desc: 'Endless shuffled stream. Walk away whenever.',
     path: (t) => `/infinite/${t}`,
+    group: 'bank',
   },
   {
     id: 'ai',
     title: 'AI mode',
     italic: 'a different angle',
-    desc: 'Live-generated questions that flip the test on its head — first-principles, find-the-flaw, steel-manning, counterfactuals. Not exam-style. Designed to harden understanding by attacking it from angles practice never does.',
+    desc: 'Live AI-generated questions from unusual angles. Hardens understanding.',
     path: (t) => `/ai/${t}`,
     proOnly: true,
+    group: 'ai',
   },
   {
     id: 'open',
     title: 'Open response',
     italic: 'free-form recall',
-    desc: 'No options. Type your answer in your own words. AI grades it against the Scrum Guide. Active recall — the hardest and most effective way to study.',
+    desc: 'Free-text answers, AI-graded against the Scrum Guide. Active recall.',
     path: (t) => `/open/${t}`,
     proOnly: true,
+    group: 'ai',
   },
 ];
 
