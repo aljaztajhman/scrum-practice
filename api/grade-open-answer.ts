@@ -31,30 +31,95 @@ function parseDifficulty(s: unknown): Difficulty {
 function leniencyDirective(d: Difficulty): string {
   switch (d) {
     case 'easy':
-      return `LENIENCY: maximum.
-- The learner is at recall level. Give credit generously for any correct fact, in any phrasing.
-- The rubric only contains points that DIRECTLY answer the question. There are no "bonus" or "context" points at easy.
-- If the learner hits ALL rubric points (in any phrasing), mark "correct" with score 9-10. A one-word answer like "Product Owner" or "15 minutes" can be a complete, full-credit answer if that is what the question asked.
-- Do NOT mark anything as "missed" that the question did not literally ask for. If the rubric has only 1 point and the learner hit it, missedKeyPoints MUST be empty and verdict is "correct".
-- Brevity is not a defect at easy. The shortest correct answer wins.
-- Mark "partial" only if they got the answer partially wrong (e.g., wrong number, wrong role). Mark "incorrect" only if the core fact is wrong.`;
+      return `LENIENCY: maximum (recall-level grading)
+
+The rubric on easy ONLY contains points that DIRECTLY answer the question. There are no "bonus" or "context" points at easy. If the learner hits all rubric points (in any phrasing), they are correct.
+
+EXAMPLE of CORRECT grading on easy:
+- Question: "Who can cancel a Sprint?"
+- Rubric: ["The Product Owner has sole authority to cancel a Sprint"]
+- Learner answer: "the product owner"
+- Correct grade: { "verdict": "correct", "score": 9, "feedback": "Correctly identifies the Product Owner as the sole authority. Concise and accurate.", "hitKeyPoints": ["The Product Owner has sole authority to cancel a Sprint"], "missedKeyPoints": [] }
+- Why correct: They named the Product Owner, which is what the question asked. Brevity is fine on easy.
+
+EXAMPLE of WRONG grading on easy (do NOT do this):
+- Same question, same answer ("the product owner")
+- WRONG: { "verdict": "partial", "score": 6, "missedKeyPoints": ["Cancellation is rare", "Sprint Goal must be obsolete"] }
+- Why wrong: The question asked WHO. The learner correctly said WHO. They are correct. Do not invent missed points that the question did not ask about. Do not deduct for brevity.
+
+EXAMPLE of CORRECT grading on a list-style easy:
+- Question: "Name the five Scrum Values"
+- Rubric: ["Commitment", "Focus", "Openness", "Respect", "Courage"]
+- Learner answer: "commitment, focus, openness, respect, and courage"
+- Correct grade: { "verdict": "correct", "score": 10, "hitKeyPoints": [all 5], "missedKeyPoints": [] }
+
+EXAMPLE of partial grading on easy (legitimate):
+- Question: "What is the timebox of the Daily Scrum?"
+- Rubric: ["15 minutes maximum"]
+- Learner answer: "30 minutes"
+- Grade: { "verdict": "incorrect", "score": 1, "missedKeyPoints": ["15 minutes maximum"], "feedback": "The Daily Scrum is timeboxed to 15 minutes, not 30." }
+- Why: They got the fact wrong. That is "incorrect" — not because they were brief, but because the answer is wrong.
+
+Easy-grading rules:
+- Hit all rubric points (in any phrasing) → "correct" with score 9-10. missedKeyPoints MUST be empty.
+- Got the answer factually WRONG → "incorrect" with score 0-3.
+- Hit some but not all → "partial" with score 4-7.
+- Brevity is NEVER a defect. The shortest correct answer wins.
+- Do NOT add tangential "context" or "best practice" notes to missedKeyPoints. The rubric is the entire scoring surface.`;
     case 'medium':
-      return `LENIENCY: high.
-- Give credit for any reasonable demonstration of the concept, in the learner's own words.
-- Synonyms, paraphrases, and good examples count. Don't require exact rubric phrasing.
-- Mark "correct" if they hit most rubric points and the spirit of the answer is right.
-- Penalize only clearly wrong claims, not gaps in completeness.`;
+      return `LENIENCY: high (application-level grading)
+
+The rubric on medium contains conceptual points the learner should demonstrate, in any wording.
+
+EXAMPLE of CORRECT grading on medium:
+- Question: "Why is the Daily Scrum exactly 15 minutes?"
+- Rubric: ["Forces focus on synchronization rather than detailed problem-solving", "Aligns with the Developers' need to plan only the next 24 hours of work", "Consistency reduces complexity and supports transparency"]
+- Learner answer: "It's short to keep the team focused on planning the next day, not getting bogged down in problem-solving. Detailed work happens in separate conversations."
+- Correct grade: { "verdict": "correct", "score": 9, "feedback": "Hits both the focus-not-problem-solving point and the next-24-hours framing. Doesn't explicitly mention transparency but the spirit is right.", "hitKeyPoints": ["Forces focus on synchronization rather than detailed problem-solving", "Aligns with the Developers' need to plan only the next 24 hours of work"], "missedKeyPoints": ["Consistency reduces complexity and supports transparency"] }
+- Notice: 2 of 3 rubric points hit, learner got the spirit. Mark "correct" anyway because it's medium (not strict mastery) and the answer demonstrates real understanding.
+
+PARAPHRASE RULES (any difficulty):
+A rubric point is HIT if the learner's answer demonstrates the same CONCEPT, in any wording. Examples:
+- Rubric "The Product Owner is accountable" matches: "the PO", "Product Owner role", "the person who owns the backlog", "PO is responsible".
+- Rubric "Empiricism: transparency, inspection, adaptation" matches: "transparency, inspection, adaptation" (any order), "you make work visible, inspect it, and adapt", "the three pillars are visibility, checking, adjusting".
+- Rubric "Cross-functional team has all skills needed" matches: "the team has every skill it needs", "no external dependencies for the team's work", "Developers cover all the disciplines".
+
+If the learner names the concept in their own words, mark it HIT. Do not require word-level matching with the rubric.
+
+Medium-grading rules:
+- Hit most rubric points (e.g., 2 of 3 or 3 of 4) AND the spirit is right → "correct" with score 8-10.
+- Hit half OR has minor errors → "partial" with score 5-7.
+- Mostly missed OR has wrong claims → "incorrect" with score 0-4.
+- Penalize wrong claims about Scrum (wrong roles, wrong timeboxes) regardless of how much else they got right.`;
     case 'scrum-master':
-      return `LENIENCY: balanced.
-- This is mastery level. Expect the learner to articulate diagnosis AND resolution, but still credit good thinking.
-- Reward depth, but don't punish a different valid framing if it's Scrum-Guide-defensible.
-- Mark "correct" if their reasoning lands on a Scrum-Guide-grounded conclusion, even by a different path than the reference.
-- Be strict ONLY on factual errors about Scrum (wrong accountabilities, wrong events, wrong timeboxes).`;
+      return `LENIENCY: balanced (mastery-level grading)
+
+The rubric on scrum-master covers diagnosis AND resolution. The learner must demonstrate both, but their reasoning may take a different valid path than the reference.
+
+EXAMPLE of CORRECT grading on scrum-master:
+- Question: "A Scrum Team has a Product Owner who is a committee of three managers..."
+- Rubric: ["The PO accountability requires a single person — root structural cause", "Without a single PO, ordering and accountability break down", "Resolution: surface to org, advocate single PO, coach leadership", "Until resolved, value maximization is impossible"]
+- Learner answer: "The root issue is that Scrum requires a single Product Owner, not a committee. With three people voting, no one can authoritatively order the backlog. As Scrum Master I would coach leadership on this, surface the impediment, and advocate that they pick one of the three to be the PO. Until that happens, the team can deliver but won't maximize value."
+- Correct grade: { "verdict": "correct", "score": 9, "hitKeyPoints": [all 4], "missedKeyPoints": [] }
+
+PARAPHRASE RULES (apply at all difficulties — see medium directive above for examples).
+
+Scrum-master grading rules:
+- Hit most diagnosis + resolution points AND reasoning is Scrum-Guide-defensible → "correct" with score 8-10.
+- Got diagnosis right but resolution weak (or vice versa) → "partial" with score 5-7.
+- Missed diagnosis OR has wrong claims about Scrum → "incorrect" with score 0-4.
+- A different valid framing is fine. Strict only on factual errors (wrong accountabilities, wrong events, wrong timeboxes).
+- The learner can take a different path to a Scrum-Guide-grounded conclusion. Reward the thinking.`;
   }
 }
 
 function buildGradePrompt(g: GradeRequest): string {
   return `You are grading a learner's open-response answer to a Scrum question. Be fair, generous on phrasing, strict on factual correctness about Scrum.
+
+Before outputting JSON, think through these questions internally:
+1. What CONCEPT does each rubric point represent (not just its words)?
+2. Did the learner demonstrate that concept, in any wording?
+3. Did they make any factually wrong claim about Scrum?
 
 QUESTION (difficulty: ${g.difficulty}):
 ${g.q}
@@ -64,7 +129,7 @@ SCRUM GUIDE SECTION: ${g.scrumGuideSection}
 REFERENCE ANSWER:
 ${g.referenceAnswer}
 
-RUBRIC KEY POINTS (the learner should demonstrate these):
+RUBRIC KEY POINTS (the learner should demonstrate these CONCEPTS, in any wording):
 ${g.rubricKeyPoints.map((kp, i) => `${i + 1}. ${kp}`).join('\n')}
 
 LEARNER'S ANSWER:
@@ -75,21 +140,24 @@ ${g.userAnswer}
 ${leniencyDirective(g.difficulty)}
 
 Universal rules:
-- Match the learner's answer to each rubric key point. Mark it "hit" if the concept is clearly present, even paraphrased. Mark "missed" if absent.
-- Synonyms, examples, and "in their own words" all count for hits.
-- Be strict on conceptual correctness — wrong claims about Scrum (e.g. "the SM assigns work to Devs", "the PO can be a committee", wrong timeboxes) should be penalized regardless of difficulty.
-- Verdict thresholds:
-  - "correct" = hit most rubric points (per the leniency directive above) AND no significant wrong claims (score 8-10)
-  - "partial" = hit some key points OR has minor errors (score 4-7)
-  - "incorrect" = missed most key points OR has significant wrong claims (score 0-3)
-- Feedback: 1-3 sentences. Specific. State what they got right, what they missed, and any wrong claim.
+- Match the learner's answer to each rubric key point at the CONCEPT level. Mark "hit" if the concept is clearly present, even paraphrased or by example. Mark "missed" if the concept is absent or wrong.
+- Synonyms, examples, and answers in the learner's own words all count for hits.
+- Penalize wrong claims about Scrum regardless of difficulty (e.g. "the SM assigns work", "the PO is a committee", wrong timeboxes).
+- Do NOT add to missedKeyPoints anything that is not literally in the rubric. The rubric is the entire scoring surface.
 
-Output strict JSON only - no markdown:
+Verdict thresholds:
+- "correct" = all/most rubric points hit AND no significant wrong claims (score 8-10)
+- "partial" = some rubric points hit OR has minor errors (score 4-7)
+- "incorrect" = most rubric points missed OR has significant wrong claims about Scrum (score 0-3)
+
+Feedback: 1-3 sentences. Specific. State what they got right, what they missed (if anything), and any wrong claim. No filler.
+
+Output strict JSON only - no markdown, no commentary:
 {
   "verdict": "correct" | "partial" | "incorrect",
   "score": <integer 0-10>,
   "feedback": "<1-3 sentences>",
-  "hitKeyPoints": [<rubric points hit, copied exactly>],
+  "hitKeyPoints": [<rubric points hit, copied exactly from the rubric above>],
   "missedKeyPoints": [<rubric points missed, copied exactly>]
 }`;
 }
@@ -188,7 +256,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
       const response = await client.messages.create({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 800,
+        max_tokens: 1000,
         messages: [{ role: 'user', content: buildGradePrompt(gradeReq) }],
       });
       const block = response.content[0];

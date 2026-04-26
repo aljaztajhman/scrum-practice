@@ -12,10 +12,6 @@ const CERT_DESCRIPTIONS = {
 type CertId = keyof typeof CERT_DESCRIPTIONS;
 type Difficulty = 'easy' | 'medium' | 'scrum-master';
 
-// Seeds split by difficulty.
-// EASY: direct recall — definitions, timeboxes, accountabilities, who-owns-what.
-// MEDIUM: application — why does X exist, when to apply X, how X and Y interact.
-// SCRUM-MASTER: multi-step scenarios with edge cases, organizational friction.
 const SEEDS: Record<CertId, Record<Difficulty, string[]>> = {
   PSM1: {
     easy: [
@@ -116,7 +112,6 @@ const SEEDS: Record<CertId, Record<Difficulty, string[]>> = {
 function pickTopic(cert: CertId, difficulty: Difficulty, exclude: string[]): string {
   const list = SEEDS[cert][difficulty];
   const lower = exclude.map((s) => s.toLowerCase());
-  // Filter out any seed whose text overlaps with a recent topic.
   const filtered = list.filter((seed) => {
     const s = seed.toLowerCase();
     return !lower.some((ex) => ex.length > 4 && (s.includes(ex) || ex.includes(s)));
@@ -132,45 +127,65 @@ function difficultyDirective(d: Difficulty): string {
 
 The question MUST be a direct factual recall question that can be answered in one or two short sentences.
 
-Examples of acceptable easy questions:
-- "What is the maximum length of a Sprint per the Scrum Guide?"
-- "Who is accountable for the Product Backlog?"
-- "Define the Sprint Goal."
-- "Name the five Scrum Values."
+GOOD example for easy:
+- Question: "What is the maximum length of the Daily Scrum?"
+- Rubric: ["15 minutes maximum"]
+- Reference: "The Daily Scrum is timeboxed to 15 minutes maximum, per the Scrum Guide 2020. The Developers hold it each working day to inspect Sprint progress and adapt their plan for the next 24 hours."
+- Notice: rubric has EXACTLY ONE point — the answer to the question. Nothing else.
 
-DO NOT generate:
-- Scenarios ("A team has..." → forbidden)
-- Multi-step problems
-- "Explain why..." questions (those are MEDIUM)
-- "Describe how a team should handle..." questions (those are SCRUM-MASTER)
+BAD example (DO NOT generate this on easy):
+- Question: "A team consistently misses Daily Scrums. How should the Scrum Master handle this?"
+- Why bad: This is a scenario question asking for diagnosis + resolution. That is scrum-master level. Easy must be direct factual recall, not problem-solving.
 
-The question should be SHORT — under 25 words. The answer should be 30-50 words. The reference answer is a plain factual definition or fact statement, 40-80 words.
+ANOTHER BAD example for easy:
+- Question: "What is the timebox of the Daily Scrum, and why is it 15 minutes?"
+- Why bad: The "and why" makes this a recall + explanation hybrid. That is medium level. Easy is recall ONLY.
 
 CRITICAL RUBRIC RULE for easy:
 - Each rubric point must be a fact that DIRECTLY answers the question. Nothing else.
-- "Who can cancel a Sprint?" → rubric: ["The Product Owner has sole authority to cancel a Sprint."]. ONE point. Don't add "when" or "how often."
-- "What is the timebox of the Daily Scrum?" → rubric: ["15 minutes maximum."]. ONE point. Don't add "team size" or "same time each day."
+- "Who can cancel a Sprint?" → rubric: ["The Product Owner has sole authority to cancel a Sprint."]. ONE point.
 - "Name the 5 Scrum Values" → rubric: ["Commitment", "Focus", "Openness", "Respect", "Courage"]. FIVE points (one per item asked).
-- "Define the Sprint Goal" → rubric: ["The Sprint Goal is the single objective for the Sprint."]. ONE point. Don't elaborate beyond the definition.
+- "State the timebox of the Daily Scrum" → rubric: ["15 minutes maximum"]. ONE point.
+- "Define the Sprint Goal" → rubric: ["The Sprint Goal is the single objective for the Sprint."]. ONE point.
 
-DO NOT include "context", "best practice notes", "when this applies", "why this exists", or any fact the question did not literally ask for. Those belong to MEDIUM and SCRUM-MASTER difficulties.`;
+DO NOT include: "context", "best practice notes", "when this applies", "why this exists", or any fact the question did not literally ask for. Those belong to MEDIUM and SCRUM-MASTER.
+
+Length: question ≤ 25 words. Reference ≤ 100 words.`;
     case 'medium':
       return `DIFFICULTY: medium (application-level)
 
-The question asks the learner to explain WHY a Scrum rule exists, when to apply it, how concepts interact, or to contrast two ideas. Requires understanding, not just memorization. NOT a multi-step scenario — that's scrum-master.
+The question asks the learner to explain WHY a Scrum rule exists, when to apply it, how concepts interact, or to contrast two ideas. Requires understanding, not just memorization. NOT a multi-step scenario.
 
-Examples:
-- "Why is the Daily Scrum exactly 15 minutes?"
-- "How do Sprint Goal and Sprint Backlog interact?"
-- "Contrast the Scrum Master role with a project manager role."
+GOOD example for medium:
+- Question: "Why is the Daily Scrum exactly 15 minutes and held at the same time and place?"
+- Rubric: ["Forces focus on synchronization rather than detailed problem-solving", "Aligns with the Developers' need to plan only the next 24 hours of work", "Consistency reduces complexity and supports transparency"]
+- Reference: "The 15-minute timebox forces the Developers to focus on planning the next 24 hours rather than turning the meeting into a status report or problem-solving session. Detailed discussions happen separately. The same time/place each day reduces cognitive load and makes attendance and consistency easier — supporting transparency and inspection without adding overhead. Per the Scrum Guide, the event is for the Developers to inspect progress toward the Sprint Goal and adapt the Sprint Backlog as needed."
+- Notice: rubric has 3 conceptual points the learner must demonstrate understanding of.
 
-Question: 25-50 words. Reference answer: 80-160 words. Rubric: 3-4 conceptual points.`;
+BAD example (DO NOT generate this on medium):
+- Question: "What is the maximum length of the Daily Scrum?"
+- Why bad: This is recall — asks "what" not "why/how/when". That belongs on easy.
+
+ANOTHER BAD example for medium:
+- Question: "A team holds Daily Scrums but they run 30 minutes. What should the Scrum Master do?"
+- Why bad: This is a scenario asking for diagnosis + resolution. That belongs on scrum-master.
+
+Length: question 25-50 words. Reference 80-160 words. Rubric 3-4 conceptual points.`;
     case 'scrum-master':
       return `DIFFICULTY: scrum-master (mastery scenario)
 
-A multi-step scenario with edge cases, contradictions, or organizational friction. The kind of situation a working Scrum Master actually faces. The learner must diagnose the problem AND propose a Scrum-Guide-grounded resolution.
+A multi-step scenario with edge cases, contradictions, or organizational friction — the kind of situation a working Scrum Master actually faces. The learner must diagnose the problem AND propose a Scrum-Guide-grounded resolution.
 
-Question: 50-90 words, sets up the scenario clearly. Reference answer: 140-220 words, walking through diagnosis + resolution. Rubric: 4-5 points covering both.`;
+GOOD example for scrum-master:
+- Question: "A Scrum Team has a Product Owner who is a committee of three managers who vote weekly on backlog ordering. The team is delivering Increments but stakeholders complain the product feels directionless. Diagnose the root cause and outline how you would address it as Scrum Master."
+- Rubric: ["The Product Owner accountability requires a single person, not a committee — this is the root structural cause", "Without a single PO, no one can authoritatively order the Product Backlog and stakeholders cannot rely on the ordering", "Resolution: surface this conflict to the organization, advocate for naming a single PO, coach leadership on why the framework requires it", "Until a single PO is named, the team will struggle to maximize value because there is no coherent product direction"]
+- Reference: "The root cause is structural: the Scrum Guide is unambiguous that the Product Owner is one person, not a committee. With three managers voting, no single accountability exists for ordering the Product Backlog or maximizing value, which explains the directionless feeling. As Scrum Master, my job is to coach leadership on why the Guide requires a single PO and surface this as a impediment to the framework working. Until a single accountable PO is named, the team can deliver Increments but cannot reliably maximize value because there is no consistent product direction. I would advocate for naming one of the committee members as PO (with the others as stakeholders), with the explicit understanding that decisions rest with that single person."
+
+BAD example (DO NOT generate this on scrum-master):
+- Question: "Why must the Product Owner be a single person?"
+- Why bad: This is a "why" question — that's medium level (application). Scrum-master needs a SCENARIO with concrete circumstances.
+
+Length: question 50-90 words, sets up scenario clearly. Reference 140-220 words. Rubric 4-5 points covering both diagnosis and resolution.`;
   }
 }
 
@@ -193,18 +208,18 @@ FOCUS ON: ${topicSeed}
 
 ${difficultyDirective(difficulty)}
 
-Hard rules (apply at every difficulty):
-- Reference answer must be grounded in Scrum Guide 2020 (and EBM Guide for PSPO1 if relevant). Cite the specific section.
-- Rubric key points are concrete and checkable. Each is a Scrum-Guide-grounded fact a grader can verify against an answer.
-- Confidence 5 ONLY if the Scrum Guide is unambiguous on the topic AND your rubric points are concrete AND the question matches the difficulty level above. Otherwise reject.
+UNIVERSAL RULES (every difficulty):
+- Reference answer must be grounded in Scrum Guide 2020 (and EBM Guide for PSPO1 if relevant). Cite the section name only — do NOT include page numbers (the Scrum Guide does not have stable pagination).
+- Rubric points are concrete and checkable. Each is a fact a grader can verify against an answer.
+- Confidence 5 ONLY if the Scrum Guide is unambiguous on the topic AND your rubric is correctly scoped to what the question asks.
 
 Output strict JSON only - no markdown, no commentary:
 {
   "topic": "<short label>",
-  "scrumGuideSection": "<specific Scrum Guide 2020 section, no fake page numbers>",
+  "scrumGuideSection": "<Scrum Guide 2020 section name, no page numbers>",
   "q": "<the open question>",
   "referenceAnswer": "<ideal answer in plain prose>",
-  "rubricKeyPoints": ["<point 1>", "<point 2>", "<point 3>"],
+  "rubricKeyPoints": ["<point 1>", "<point 2>", "..."],
   "difficulty": "${difficulty}",
   "confidence": <integer 1-5>
 }
@@ -224,14 +239,15 @@ function validate(parsed: unknown, difficulty: Difficulty): OpenQuestion | null 
   if (!Array.isArray(p.rubricKeyPoints) || p.rubricKeyPoints.length < 1 || p.rubricKeyPoints.length > 6) return null;
   if (p.rubricKeyPoints.some((kp) => typeof kp !== 'string' || kp.length < 5)) return null;
 
-  const wc = (s: string) => s.trim().split(/\s+/).length;
+  // Reject hallucinated page numbers in citations.
+  if (/p\.?\s*\d+|pp\.?\s*\d+|page\s+\d+/i.test(p.scrumGuideSection as string)) return null;
 
-  // Strict length caps per difficulty — rejects scenario-style questions at easy.
+  const wc = (s: string) => s.trim().split(/\s+/).length;
   const qWordCount = wc(p.q as string);
   const refWordCount = wc(p.referenceAnswer as string);
   if (difficulty === 'easy') {
     if (qWordCount > 30) return null;
-    if (refWordCount > 100) return null;
+    if (refWordCount > 110) return null;
   } else if (difficulty === 'medium') {
     if (qWordCount > 60) return null;
     if (refWordCount > 200) return null;
@@ -240,13 +256,13 @@ function validate(parsed: unknown, difficulty: Difficulty): OpenQuestion | null 
     if (refWordCount > 260) return null;
   }
 
-  // Heuristic: easy questions must NOT contain scenario language
+  // Easy must NOT contain scenario language
   if (difficulty === 'easy') {
     const text = (p.q as string).toLowerCase();
     const scenarioMarkers = [
       'a team', 'a scrum team', 'the team has', 'a developer', 'the po wants', 'a stakeholder',
       'mid-sprint', 'how should', 'walk through', 'describe how', 'what would you', 'imagine',
-      'consider this', 'situation', 'scenario', 'explain why',
+      'consider this', 'situation', 'scenario',
     ];
     if (scenarioMarkers.some((m) => text.includes(m))) return null;
   }
@@ -311,7 +327,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const cert = certParam as CertId;
   const difficulty = parseDifficulty(req.query.difficulty as string | undefined);
 
-  // Optional ?recent=topic1|topic2|topic3 — last few topics the user just saw.
   const recentRaw = (req.query.recent as string | undefined) || '';
   const recentTopics = recentRaw.split('|').map((s) => s.trim()).filter(Boolean).slice(0, 5);
 
