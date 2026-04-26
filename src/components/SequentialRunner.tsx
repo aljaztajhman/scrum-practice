@@ -48,7 +48,6 @@ export default function SequentialRunner({
     scrollTop();
   }, [engine.idx, engine.stage]);
 
-  // Keyboard shortcuts
   useEffect(() => {
     if (engine.stage !== 'quiz') return;
     const handler = (e: KeyboardEvent) => {
@@ -93,6 +92,7 @@ export default function SequentialRunner({
         answers={engine.answers}
         onRestart={onChangeConfig}
         onRetrySame={onRestart}
+        variant={source === 'review' ? 'review' : 'practice'}
       />
     );
   }
