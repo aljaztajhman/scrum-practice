@@ -31,21 +31,76 @@ const STYLE_BLURBS: Record<string, string> = {
   'devils-advocate': 'Where the apparent exception is not actually one.',
 };
 
-const BUFFER_TARGET = 3; // 1 displayed + 2 prefetched
+const BUFFER_TARGET = 3;
 
 export default function Ai() {
   const { cert } = useParams<{ cert: string }>();
   const trackId = parseTrackId(cert);
-  const { isLoggedIn, loading } = useAuth();
+  const { isLoggedIn, isPro, loading } = useAuth();
   if (!trackId) return <Navigate to="/" replace />;
-  // While auth state is loading, show nothing (avoid a redirect flash)
   if (loading) return null;
-  // AI mode requires login. Redirect with `from` so user lands back here after sign-in.
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{ from: `/ai/${trackId}` }} replace />;
   }
+  if (!isPro) {
+    return <AiUpgradePrompt trackId={trackId} />;
+  }
   const track = TRACKS[trackId];
   return <AiSession track={track} />;
+}
+
+function AiUpgradePrompt({ trackId }: { trackId: string }) {
+  const navigate = useNavigate();
+  return (
+    <PageShell>
+      <div className="mb-8 md:mb-10">
+        <button
+          onClick={() => navigate('/')}
+          className="group flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-stone-600 hover:text-stone-900 transition-colors py-2 -ml-1 mb-5"
+        >
+          <ArrowLeft
+            className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"
+            strokeWidth={2}
+          />
+          Back to start
+        </button>
+        <div className="flex items-center gap-2">
+          <div className="h-px w-10 bg-stone-700"></div>
+          <span className="text-xs tracking-[0.3em] uppercase text-stone-700 font-medium">
+            AI mode · {trackId}
+          </span>
+        </div>
+      </div>
+      <div className="border border-stone-300 bg-white/60 p-8 md:p-12 max-w-2xl">
+        <div className="inline-block text-[10px] uppercase tracking-[0.25em] px-2.5 py-1 bg-stone-900 text-stone-50 serif mb-5">
+          Pro feature
+        </div>
+        <h1
+          className="serif text-3xl md:text-4xl text-stone-900 mb-3 leading-tight"
+          style={{ fontWeight: 500 }}
+        >
+          AI mode is <em className="italic">Pro only</em>
+        </h1>
+        <p className="text-stone-700 leading-relaxed mb-5">
+          Live-generated questions that flip the test on its head — first-principles, find-the-flaw,
+          steel-manning, counterfactuals. Designed to harden understanding by attacking it from
+          angles the static bank never does.
+        </p>
+        <p className="text-sm text-stone-600 italic serif mb-7">
+          Free tier covers Practice, Mock, Infinite, and full statistics. AI mode is the one Pro
+          feature.
+        </p>
+        <button
+          type="button"
+          disabled
+          className="inline-block bg-stone-900 text-stone-50 px-6 py-3 text-xs uppercase tracking-widest opacity-60 cursor-not-allowed serif"
+          title="Stripe billing wiring up next"
+        >
+          Upgrade to Pro · coming soon
+        </button>
+      </div>
+    </PageShell>
+  );
 }
 
 function AiSession({ track }: { track: Track }) {
@@ -61,7 +116,6 @@ function AiSession({ track }: { track: Track }) {
   const consecutiveErrors = useRef(0);
   const isMounted = useRef(true);
 
-  // Keep queueRef in sync with state
   useEffect(() => {
     queueRef.current = queue;
   }, [queue]);
@@ -109,7 +163,6 @@ function AiSession({ track }: { track: Track }) {
       }
     } finally {
       inFlight.current--;
-      // Recursive top-up to keep buffer full
       if (isMounted.current && !error) {
         topUp();
       }
@@ -119,14 +172,12 @@ function AiSession({ track }: { track: Track }) {
 
   const topUp = useCallback(() => {
     if (error) return;
-    const need =
-      BUFFER_TARGET - queueRef.current.length - inFlight.current;
+    const need = BUFFER_TARGET - queueRef.current.length - inFlight.current;
     for (let i = 0; i < need; i++) {
       void fetchOne();
     }
   }, [error, fetchOne]);
 
-  // Initial load + when error clears
   useEffect(() => {
     if (!error) topUp();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,7 +185,7 @@ function AiSession({ track }: { track: Track }) {
 
   const current = queue[0] ?? null;
   const isLoadingFirst = !current && !error;
-  const isPrefetching = queue.length > 1; // at least one buffered
+  const isPrefetching = queue.length > 1;
 
   const onToggle = (i: number) => {
     if (locked || !current) return;
