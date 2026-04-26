@@ -17,16 +17,16 @@ const STYLE_INSTRUCTIONS: Record<Style, string> = {
   'find-the-flaw':
     'Describe a 1-2 sentence team scenario containing one Scrum violation. Ask what is wrong (single) or which violations are present (multi). Distractors are reasonable practices that are NOT violations.',
   'steel-manning':
-    'Present a contrarian Scrum take in its strongest 1-sentence form (≤25 words quoted). Ask which counterargument best engages the concern without dismissing it. Distractors are dogmatic or beside-the-point.',
+    'Present a contrarian Scrum take in its strongest 1-sentence form (<=25 words quoted). Ask which counterargument best engages the concern without dismissing it. Distractors are dogmatic or beside-the-point.',
   counterfactual:
-    'Ask "if X did not exist in Scrum, what would degrade?" — X is a rule, accountability, event, or commitment. Tests why the rule matters by imagining its absence.',
+    'Ask "if X did not exist in Scrum, what would degrade?" - X is a rule, accountability, event, or commitment. Tests why the rule matters by imagining its absence.',
   'devils-advocate':
     'Construct a brief scenario where it seems acceptable to violate a Scrum rule. Ask why the apparent exception is not actually valid.',
 };
 
 const CERT_DESCRIPTIONS = {
-  PSM1: 'Professional Scrum Master I — Scrum framework, three accountabilities (SM, PO, Developers), five events, three artifacts and commitments, the Scrum Values, empiricism (transparency / inspection / adaptation), self-management.',
-  PSPO1: 'Professional Scrum Product Owner I — PO accountability, Product Goal, Product Backlog ordering and refinement, value maximization, stakeholder collaboration, Evidence-Based Management (Current Value, Unrealized Value, Time-to-Market, Ability to Innovate).',
+  PSM1: 'Professional Scrum Master I - Scrum framework, three accountabilities (SM, PO, Developers), five events, three artifacts and commitments, the Scrum Values, empiricism (transparency / inspection / adaptation), self-management.',
+  PSPO1: 'Professional Scrum Product Owner I - PO accountability, Product Goal, Product Backlog ordering and refinement, value maximization, stakeholder collaboration, Evidence-Based Management (Current Value, Unrealized Value, Time-to-Market, Ability to Innovate).',
 } as const;
 
 type CertId = keyof typeof CERT_DESCRIPTIONS;
@@ -43,7 +43,6 @@ interface GeneratedQuestion {
   selfCritique: string;
   confidence: number;
 }
-
 
 const TOPIC_SEEDS: Record<CertId, string[]> = {
   PSM1: [
@@ -84,7 +83,7 @@ const TOPIC_SEEDS: Record<CertId, string[]> = {
     'Product Goal: long-term objective',
     'Product Backlog ordering by value',
     'Product Backlog refinement',
-    'Releasing Increments — the Product Owner decides timing',
+    'Releasing Increments - the Product Owner decides timing',
     'Multiple Increments may be created within a Sprint',
     'Stakeholder collaboration outside the Sprint Review',
     'Value vs output measurement',
@@ -94,8 +93,8 @@ const TOPIC_SEEDS: Record<CertId, string[]> = {
     'EBM Ability to Innovate (A2I)',
     'MVP as a learning instrument, not a small product',
     'Empirical forecasting under uncertainty',
-    'Sprint Goal — Product Owner proposes value',
-    'Sprint cancellation — only the PO',
+    'Sprint Goal - Product Owner proposes value',
+    'Sprint cancellation - only the PO',
     'One PO at scale on one product',
     'For the PO to succeed, the organization must respect their decisions',
     'Communicating the Product Goal',
@@ -129,25 +128,25 @@ Goal: a different angle from the standard exam. Style: ${style}.
 Style guide: ${STYLE_INSTRUCTIONS[style]}
 
 FOCUS THIS QUESTION ON: ${topicSeed}.
-Make this the actual subject — not a generic question. If the style does not naturally fit this topic, pick a related angle on it rather than drifting to a more comfortable topic.
+Make this the actual subject - not a generic question. If the style does not naturally fit this topic, pick a related angle on it rather than drifting to a more comfortable topic.
 
-LENGTH BUDGETS (hard limits — count words):
-- Question text: ≤ 30 words for direct styles (first-principles, counterfactual, cross-framework). ≤ 60 words for scenario styles (find-the-flaw, steel-manning, devils-advocate).
-- Each option: ≤ 18 words. No padding, no parentheticals unless essential.
-- "why": ≤ 50 words.
-- "selfCritique": ≤ 40 words.
+LENGTH BUDGETS (hard limits - count words):
+- Question text: <= 30 words for direct styles (first-principles, counterfactual). <= 60 words for scenario styles (find-the-flaw, steel-manning, devils-advocate).
+- Each option: <= 18 words. No padding, no parentheticals unless essential.
+- "why": <= 50 words.
+- "selfCritique": <= 40 words.
 
-Brevity discipline: cut every word that does not add information. No throat-clearing, no "this question tests…", no restating the question in options.
+Brevity discipline: cut every word that does not add information. No throat-clearing, no "this question tests...", no restating the question in options.
 
 Hard rules:
-- Marked-correct answer must align with Scrum Guide 2020 (and EBM Guide for PSPO1 if relevant). Cite the section.
-- Self-critique: state the strongest argument against your marked answer.
-- After self-critique, rate confidence 1–5. If < 4, output {"reject": true, "reason": "..."} — do not generate a question you are unsure about.
+- Marked-correct answer must align with Scrum Guide 2020 (and EBM Guide for PSPO1 if relevant). Cite the specific section. The marked answer must be the ONLY answer defensible from the Guide - no "best of" judgment calls.
+- selfCritique: a real counter-argument. State the strongest case for a DIFFERENT answer being correct, or for the question being ambiguous. Reference one of the wrong options or a competing Scrum interpretation. Do NOT affirm the marked answer; do NOT write "this question is sound" or "no concerns" - that is a self-rejection. If you cannot construct a real counter-argument, the question is too easy or too obvious - reject it.
+- After selfCritique, rate confidence 1-5. Use 5 ONLY if (a) the Scrum Guide passage you cited is unambiguous on this point AND (b) you generated a real counter-argument and still consider it weaker than the marked answer. If < 5, output {"reject": true, "reason": "..."} - do not generate a question you are not bulletproof on.
 - All distractors plausible. No strawmen.
 - Length-balance: correct option must NOT be conspicuously longest or shortest. All options similar in length.
-- Type rules: "single" = exactly 4 options + 1 correct. "tf" = exactly 2 options ["True","False"] + 1 correct. "multi" = 5–7 options + 2–4 correct.
+- Type rules: "single" = exactly 4 options + 1 correct. "tf" = exactly 2 options ["True","False"] + 1 correct. "multi" = 5-7 options + 2-4 correct.
 
-Output strict JSON only — no markdown, no commentary:
+Output strict JSON only - no markdown, no commentary:
 {
   "style": "${style}",
   "topic": "<short label, e.g. 'Sprint Goal'>",
@@ -156,17 +155,65 @@ Output strict JSON only — no markdown, no commentary:
   "q": "<question text>",
   "options": ["..."],
   "correct": [<0-indexed integers>],
-  "why": "<≤50 words explanation grounded in the Guide>",
-  "selfCritique": "<≤40 words counter-argument>",
+  "why": "<<=50 words explanation grounded in the Guide>",
+  "selfCritique": "<<=40 words counter-argument>",
   "confidence": <integer 1-5>
 }`;
+}
+
+// selfCritique must contain at least one counter-argument signal. Catches "this question is sound, no concerns" affirmations.
+const SELF_CRITIQUE_SIGNALS = [
+  'could',
+  'might',
+  'however',
+  'but ',
+  'though',
+  'although',
+  'alternative',
+  'argue',
+  'argument',
+  'objection',
+  'weak',
+  'challenge',
+  'contest',
+  'interpret',
+  'ambiguous',
+  'reasonable',
+  'defensible',
+  'one might',
+  'one could',
+  'a learner',
+  'someone',
+  'unless',
+  'if ',
+  'against',
+  'counter',
+  'depending',
+  'arguable',
+];
+
+const SELF_CRITIQUE_AFFIRMATIONS = [
+  /^\s*(this|the)\s+(question|answer|item)\s+is\s+(sound|solid|clean|clear|unambiguous|well[- ]formed|good|fine)/i,
+  /^\s*no\s+(real\s+)?(concerns?|issues?|objections?|weakness)/i,
+  /^\s*the\s+marked\s+answer\s+is\s+(clearly|obviously|undeniably)/i,
+  /^\s*solid\b/i,
+  /^\s*clean\b/i,
+];
+
+function isCounterArgument(critique: string): boolean {
+  const lc = critique.toLowerCase();
+  for (const re of SELF_CRITIQUE_AFFIRMATIONS) {
+    if (re.test(critique)) return false;
+  }
+  return SELF_CRITIQUE_SIGNALS.some((sig) => lc.includes(sig));
 }
 
 function validate(parsed: unknown): GeneratedQuestion | null {
   if (!parsed || typeof parsed !== 'object') return null;
   const p = parsed as Record<string, unknown>;
   if ((p as { reject?: boolean }).reject === true) return null;
-  if (typeof p.confidence !== 'number' || p.confidence < 4) return null;
+  // Bulletproof-only: confidence must be 5
+  if (typeof p.confidence !== 'number' || p.confidence < 5) return null;
   if (typeof p.style !== 'string' || !STYLES.includes(p.style as Style)) return null;
   if (typeof p.topic !== 'string' || p.topic.length < 2) return null;
   if (typeof p.scrumGuideSection !== 'string' || p.scrumGuideSection.length < 4) return null;
@@ -182,7 +229,9 @@ function validate(parsed: unknown): GeneratedQuestion | null {
   )
     return null;
   if (typeof p.why !== 'string' || p.why.length < 20) return null;
-  if (typeof p.selfCritique !== 'string' || p.selfCritique.length < 20) return null;
+  if (typeof p.selfCritique !== 'string' || p.selfCritique.length < 30) return null;
+  // Reject affirming critiques - must be a real counter-argument
+  if (!isCounterArgument(p.selfCritique as string)) return null;
   if (p.type === 'single' && (p.options.length !== 4 || p.correct.length !== 1)) return null;
   if (p.type === 'tf' && (p.options.length !== 2 || p.correct.length !== 1)) return null;
   if (p.type === 'multi' && (p.options.length < 5 || p.options.length > 7)) return null;
@@ -201,7 +250,6 @@ function validate(parsed: unknown): GeneratedQuestion | null {
 
   return p as unknown as GeneratedQuestion;
 }
-
 
 function shuffleOptions(q: GeneratedQuestion): GeneratedQuestion {
   // T/F questions stay in fixed True/False order
@@ -234,7 +282,7 @@ function originAllowed(origin: string | undefined, referer: string | undefined):
   if (process.env.VERCEL_URL) allowedExact.push(`https://${process.env.VERCEL_URL}`);
 
   const candidates = [origin, referer].filter((v): v is string => typeof v === 'string' && v.length > 0);
-  if (candidates.length === 0) return false; // no Origin AND no Referer => not a browser
+  if (candidates.length === 0) return false;
 
   for (const candidate of candidates) {
     let url: URL;
@@ -267,7 +315,6 @@ function checkRateLimit(ip: string): { ok: boolean; retryAfterSec: number } {
   recent.push(now);
   ipHits.set(ip, recent);
 
-  // Opportunistic GC so the map can't grow without bound on a hot instance
   if (ipHits.size > 500) {
     for (const [k, v] of ipHits.entries()) {
       const r = v.filter((t) => now - t < RATE_WINDOW_MS);
@@ -322,7 +369,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  // Origin / Referer allowlist — block curl, cross-origin embeds, and bots
   const pickHeader = (h: string | string[] | undefined): string | undefined =>
     Array.isArray(h) ? h[0] : h;
   const origin = pickHeader(req.headers.origin);
@@ -332,7 +378,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  // Per-IP rate limit (best-effort, in-memory)
   const ip = getClientIp(req);
   const limit = checkRateLimit(ip);
   if (!limit.ok) {
@@ -361,7 +406,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const client = new Anthropic({ apiKey });
 
   let lastError: string | null = null;
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < 5; attempt++) {
     const tryStyle = attempt === 0 ? style : pickStyle();
     try {
       const tryTopic = pickTopic(cert);
@@ -377,7 +422,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   }
   res.status(502).json({
-    error: 'Could not generate a valid question after 3 attempts',
+    error: 'Could not generate a valid question after 5 attempts',
     detail: lastError,
   });
 }
