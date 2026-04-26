@@ -25,6 +25,54 @@ const STYLE_INSTRUCTIONS: Record<Style, string> = {
     'Construct a brief scenario where it seems acceptable to violate a Scrum rule. Ask why the apparent exception is not actually valid.',
 };
 
+const STYLE_EXAMPLES: Record<Style, string> = {
+  'first-principles': `STYLE EXAMPLES - first-principles:
+
+GOOD: "Why does the Scrum Guide make Developers — not the Scrum Master or PO — own the Sprint Backlog?"
+- Reasons from the self-management principle, not from rule-recall.
+- Correct option grounds in: "Self-management requires the team to plan and adjust its own work to genuinely own delivery."
+- Distractors are surface practices: "Because Developers know the technical details", "Because the SM is not technical", "Because the PO is busy with stakeholders".
+
+BAD (do NOT generate as first-principles): "Who is accountable for the Sprint Backlog?"
+- That is recall (a fact lookup), not first-principles reasoning. First-principles asks WHY a rule exists from underlying goals.`,
+  'find-the-flaw': `STYLE EXAMPLES - find-the-flaw:
+
+GOOD: "Mid-Sprint, the Product Owner adds three high-priority items to the Sprint Backlog and tells the Developers to start them today. What is wrong with this?"
+- Concrete 1-2 sentence scenario containing one Scrum violation.
+- Correct option names the actual violation: "The Sprint Backlog is owned by the Developers — only they can adjust it within the Sprint Goal."
+- Distractors are reasonable practices that are NOT the flaw: "The items should be refined first", "The Sprint Goal should be revised", "A new Sprint should be planned".
+
+BAD (do NOT generate as find-the-flaw): "What is the Sprint Backlog?"
+- Definitional MC, not a flaw-finding scenario. find-the-flaw must present a CONCRETE situation containing a Scrum violation.`,
+  'steel-manning': `STYLE EXAMPLES - steel-manning:
+
+GOOD: 'A senior engineer says: "Daily Scrums waste time. Skilled adults sync on Slack and meet only when something is actually blocked." What is the strongest Scrum-grounded counterargument that engages this concern rather than dismissing it?'
+- Contrarian view stated in its strongest form (≤25 words quoted).
+- Correct option engages the concern (acknowledges async sync works for some signals) but defends the inspect-and-adapt purpose: "Daily Scrums are not status reports — they are inspection points for adapting the Sprint plan against the Sprint Goal, which Slack threads do not naturally produce."
+- Distractors are dogmatic or beside-the-point: "Daily Scrums are required by the Guide", "Engineers must follow framework rules".
+
+BAD (do NOT generate as steel-manning): "Why are Daily Scrums important?"
+- That asks for the standard rationale, not for engaging a specific contrarian concern.`,
+  counterfactual: `STYLE EXAMPLES - counterfactual:
+
+GOOD: "If Scrum had no Definition of Done, what would degrade most?"
+- Imagines the rule absent to test why it matters.
+- Correct option: "Transparency of the Increment — without a shared standard, no one can tell if work is actually complete."
+- Distractors are weaker degradations: "Sprint Planning would take longer", "The Product Owner could not order the backlog", "The Daily Scrum would lose focus".
+
+BAD (do NOT generate as counterfactual): "What is the Definition of Done?"
+- That is recall. Counterfactual must imagine the rule's ABSENCE to expose its function.`,
+  'devils-advocate': `STYLE EXAMPLES - devils-advocate:
+
+GOOD: "A Scrum Team's Sprint Goal is to ship feature X. On day 3, the PO learns from data that feature Y would deliver 10x more value. The PO wants to swap Sprint Goals mid-Sprint. Why is this not a valid exception?"
+- Scenario where violating a rule SEEMS justified.
+- Correct option: "The Sprint Goal is the Sprint commitment — changing it mid-Sprint defeats empiricism by hiding the failed assumption. Cancel the Sprint instead."
+- Distractors miss the structural answer: "The PO should consult Developers first", "The team should finish X then start Y", "Stakeholders must approve the change".
+
+BAD (do NOT generate as devils-advocate): "Can the Product Owner change the Sprint Goal mid-Sprint?"
+- Yes/no recall. devils-advocate must present a SCENARIO where the violation looks reasonable, then explain why it isn't.`,
+};
+
 const CERT_DESCRIPTIONS = {
   PSM1: 'Professional Scrum Master I - Scrum framework, three accountabilities (SM, PO, Developers), five events, three artifacts and commitments, the Scrum Values, empiricism (transparency / inspection / adaptation), self-management.',
   PSPO1: 'Professional Scrum Product Owner I - PO accountability, Product Goal, Product Backlog ordering and refinement, value maximization, stakeholder collaboration, Evidence-Based Management (Current Value, Unrealized Value, Time-to-Market, Ability to Innovate).',
@@ -134,6 +182,8 @@ Goal: a different angle from the standard exam. Style: ${style}.
 
 Style guide: ${STYLE_INSTRUCTIONS[style]}
 
+${STYLE_EXAMPLES[style]}
+
 FOCUS THIS QUESTION ON: ${topicSeed}.
 Make this the actual subject - not a generic question. If the style does not naturally fit this topic, pick a related angle on it rather than drifting to a more comfortable topic.
 
@@ -146,8 +196,8 @@ LENGTH BUDGETS (hard limits - count words):
 Brevity discipline: cut every word that does not add information. No throat-clearing, no "this question tests...", no restating the question in options.
 
 Hard rules:
-- Marked-correct answer must align with Scrum Guide 2020 (and EBM Guide for PSPO1 if relevant). Cite the specific section. The marked answer must be the ONLY answer defensible from the Guide - no "best of" judgment calls.
-- selfCritique: a real counter-argument. State the strongest case for a DIFFERENT answer being correct, or for the question being ambiguous. Reference one of the wrong options or a competing Scrum interpretation. Do NOT affirm the marked answer; do NOT write "this question is sound" or "no concerns" - that is a self-rejection. If you cannot construct a real counter-argument, the question is too easy or too obvious - reject it.
+- Marked-correct answer must align with Scrum Guide 2020 (and EBM Guide for PSPO1 if relevant). Cite the section NAME only — do NOT include page numbers (the Scrum Guide does not have stable pagination). The marked answer must be the ONLY answer defensible from the Guide - no "best of" judgment calls.
+- Before writing selfCritique, internally ask: "If I were arguing for a different option, which one would I pick and why?" Then write that argument as the selfCritique. It MUST reference a specific wrong option from your options list (by paraphrasing it) or cite a competing Scrum interpretation. Do NOT affirm the marked answer; do NOT write "this question is sound" or "no concerns" - that is a self-rejection. If you cannot construct a real counter-argument from one of YOUR OWN distractors, the question is too easy or the distractors are too weak - reject it.
 - After selfCritique, rate confidence 1-5. Use 5 ONLY if (a) the Scrum Guide passage you cited is unambiguous on this point AND (b) you generated a real counter-argument and still consider it weaker than the marked answer. If < 5, output {"reject": true, "reason": "..."} - do not generate a question you are not bulletproof on.
 - All distractors plausible. No strawmen.
 - Length-balance: correct option must NOT be conspicuously longest or shortest. All options similar in length.
@@ -157,13 +207,13 @@ Output strict JSON only - no markdown, no commentary:
 {
   "style": "${style}",
   "topic": "<short label, e.g. 'Sprint Goal'>",
-  "scrumGuideSection": "<specific Scrum Guide 2020 section>",
+  "scrumGuideSection": "<Scrum Guide 2020 section name, no page numbers>",
   "type": "single" | "multi" | "tf",
   "q": "<question text>",
   "options": ["..."],
   "correct": [<0-indexed integers>],
   "why": "<<=50 words explanation grounded in the Guide>",
-  "selfCritique": "<<=40 words counter-argument>",
+  "selfCritique": "<<=40 words counter-argument referencing one of the wrong options>",
   "confidence": <integer 1-5>
 }`;
 }
@@ -196,6 +246,8 @@ function validate(parsed: unknown): GeneratedQuestion | null {
   if (typeof p.style !== 'string' || !STYLES.includes(p.style as Style)) return null;
   if (typeof p.topic !== 'string' || p.topic.length < 2) return null;
   if (typeof p.scrumGuideSection !== 'string' || p.scrumGuideSection.length < 4) return null;
+  // Reject hallucinated page numbers
+  if (/p\.?\s*\d+|pp\.?\s*\d+|page\s+\d+/i.test(p.scrumGuideSection as string)) return null;
   if (p.type !== 'single' && p.type !== 'multi' && p.type !== 'tf') return null;
   if (typeof p.q !== 'string' || p.q.length < 10) return null;
   if (!Array.isArray(p.options) || p.options.length < 2) return null;
@@ -308,10 +360,8 @@ async function generateOnce(
   topicSeed: string
 ): Promise<GeneratedQuestion | null> {
   const response = await client.messages.create({
-    // Haiku 4.5 — ~80% cheaper, ~2-3x faster than Sonnet 4.6.
-    // If rejection rate climbs too high or quality drops, swap back to 'claude-sonnet-4-6'.
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 1200,
+    max_tokens: 1500,
     messages: [{ role: 'user', content: buildPrompt(cert, style, topicSeed) }],
   });
   const block = response.content[0];
@@ -325,6 +375,8 @@ async function generateOnce(
   if (!validated) return null;
   return shuffleOptions(validated);
 }
+
+export const maxDuration = 60;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {
@@ -349,7 +401,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  // Require authenticated Pro/Admin user — AI mode is a Pro feature
   const auth = await authenticateRequest(req);
   if (!auth) {
     res.status(401).json({ error: 'Unauthorized' });
@@ -383,13 +434,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ? (styleParam as Style)
       : pickStyle();
 
+  const recentRaw = (req.query.recent as string | undefined) || '';
+  const recentTopics = recentRaw.split('|').map((s) => s.trim()).filter(Boolean).slice(0, 5);
+
   const client = new Anthropic({ apiKey });
 
   let lastError: string | null = null;
   for (let attempt = 0; attempt < 5; attempt++) {
     const tryStyle = attempt === 0 ? style : pickStyle();
     try {
-      const tryTopic = pickTopic(cert);
+      const tryTopic = pickTopic(cert, recentTopics);
       const result = await generateOnce(client, cert, tryStyle, tryTopic);
       if (result) {
         res.status(200).json(result);
