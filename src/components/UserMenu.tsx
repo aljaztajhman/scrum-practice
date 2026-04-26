@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 
 export default function UserMenu() {
-  const { isLoggedIn, profile, user, signOut, isPro, isAdmin, loading } = useAuth();
+  const { isLoggedIn, profile, user, session, signOut, isPro, isAdmin, loading } = useAuth();
   const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
   const navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -17,7 +19,6 @@ export default function UserMenu() {
   }, [open]);
 
   if (loading) {
-    // Reserve space so the layout doesn't jump when auth state resolves
     return <div className="w-20 h-8" />;
   }
 
@@ -35,12 +36,34 @@ export default function UserMenu() {
   const email = profile?.email ?? user?.email ?? '';
   const initial = email[0]?.toUpperCase() ?? '?';
   const tierLabel = isAdmin ? 'Admin' : isPro ? 'Pro' : 'Free';
+  // Only "real Pro" subscribers (not admins) get a Manage subscription link
+  const showManageSub = isPro && !isAdmin && !!profile?.stripe_customer_id;
+
+  const handleManageSubscription = async () => {
+    setBusy(true);
+    setOpen(false);
+    try {
+      const { data: { session: s } } = await supabase.auth.getSession();
+      const token = s?.access_token ?? session?.access_token;
+      const res = await fetch('/api/create-portal-session', {
+        method: 'POST',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      const body = await res.json();
+      if (!res.ok || !body.url) throw new Error(body.error || 'Failed to open portal');
+      window.location.href = body.url;
+    } catch (e) {
+      alert(e instanceof Error ? e.message : 'Could not open subscription portal');
+      setBusy(false);
+    }
+  };
 
   return (
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-9 h-9 rounded-full bg-stone-900 text-stone-50 flex items-center justify-center serif text-sm hover:bg-stone-800 ring-1 ring-stone-300"
+        disabled={busy}
+        className="w-9 h-9 rounded-full bg-stone-900 text-stone-50 flex items-center justify-center serif text-sm hover:bg-stone-800 ring-1 ring-stone-300 disabled:opacity-60"
         aria-label="Account menu"
       >
         {initial}
@@ -72,6 +95,15 @@ export default function UserMenu() {
               }}
             >
               Admin
+            </button>
+          )}
+          {showManageSub && (
+            <button
+              type="button"
+              className="w-full text-left px-4 py-2 text-sm hover:bg-stone-100"
+              onClick={handleManageSubscription}
+            >
+              Manage subscription
             </button>
           )}
           <button

@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { authenticateRequest, getProfile } from './_lib/auth.js';
 
 const STYLES = [
   'first-principles',
@@ -161,35 +162,10 @@ Output strict JSON only - no markdown, no commentary:
 }`;
 }
 
-// selfCritique must contain at least one counter-argument signal. Catches "this question is sound, no concerns" affirmations.
 const SELF_CRITIQUE_SIGNALS = [
-  'could',
-  'might',
-  'however',
-  'but ',
-  'though',
-  'although',
-  'alternative',
-  'argue',
-  'argument',
-  'objection',
-  'weak',
-  'challenge',
-  'contest',
-  'interpret',
-  'ambiguous',
-  'reasonable',
-  'defensible',
-  'one might',
-  'one could',
-  'a learner',
-  'someone',
-  'unless',
-  'if ',
-  'against',
-  'counter',
-  'depending',
-  'arguable',
+  'could','might','however','but ','though','although','alternative','argue','argument',
+  'objection','weak','challenge','contest','interpret','ambiguous','reasonable','defensible',
+  'one might','one could','a learner','someone','unless','if ','against','counter','depending','arguable',
 ];
 
 const SELF_CRITIQUE_AFFIRMATIONS = [
@@ -202,9 +178,7 @@ const SELF_CRITIQUE_AFFIRMATIONS = [
 
 function isCounterArgument(critique: string): boolean {
   const lc = critique.toLowerCase();
-  for (const re of SELF_CRITIQUE_AFFIRMATIONS) {
-    if (re.test(critique)) return false;
-  }
+  for (const re of SELF_CRITIQUE_AFFIRMATIONS) if (re.test(critique)) return false;
   return SELF_CRITIQUE_SIGNALS.some((sig) => lc.includes(sig));
 }
 
@@ -212,7 +186,6 @@ function validate(parsed: unknown): GeneratedQuestion | null {
   if (!parsed || typeof parsed !== 'object') return null;
   const p = parsed as Record<string, unknown>;
   if ((p as { reject?: boolean }).reject === true) return null;
-  // Bulletproof-only: confidence must be 5
   if (typeof p.confidence !== 'number' || p.confidence < 5) return null;
   if (typeof p.style !== 'string' || !STYLES.includes(p.style as Style)) return null;
   if (typeof p.topic !== 'string' || p.topic.length < 2) return null;
@@ -230,14 +203,12 @@ function validate(parsed: unknown): GeneratedQuestion | null {
     return null;
   if (typeof p.why !== 'string' || p.why.length < 20) return null;
   if (typeof p.selfCritique !== 'string' || p.selfCritique.length < 30) return null;
-  // Reject affirming critiques - must be a real counter-argument
   if (!isCounterArgument(p.selfCritique as string)) return null;
   if (p.type === 'single' && (p.options.length !== 4 || p.correct.length !== 1)) return null;
   if (p.type === 'tf' && (p.options.length !== 2 || p.correct.length !== 1)) return null;
   if (p.type === 'multi' && (p.options.length < 5 || p.options.length > 7)) return null;
   if (p.type === 'multi' && (p.correct.length < 2 || p.correct.length > 4)) return null;
 
-  // Word-count check on length budgets
   const wc = (s: string) => s.trim().split(/\s+/).length;
   const isScenario = ['find-the-flaw', 'steel-manning', 'devils-advocate'].includes(p.style as string);
   const qLimit = isScenario ? 70 : 35;
@@ -252,7 +223,6 @@ function validate(parsed: unknown): GeneratedQuestion | null {
 }
 
 function shuffleOptions(q: GeneratedQuestion): GeneratedQuestion {
-  // T/F questions stay in fixed True/False order
   if (q.type === 'tf') return q;
   const indexed = q.options.map((opt, i) => ({ opt, original: i }));
   for (let i = indexed.length - 1; i > 0; i--) {
@@ -269,8 +239,6 @@ function shuffleOptions(q: GeneratedQuestion): GeneratedQuestion {
   return { ...q, options: newOptions, correct: newCorrect };
 }
 
-// ---------- Abuse protection ----------
-
 const PROD_URL = 'https://scrum-practice.vercel.app';
 const ORIGIN_PATTERNS: RegExp[] = [
   /^https?:\/\/localhost(:\d+)?$/,
@@ -280,17 +248,11 @@ const ORIGIN_PATTERNS: RegExp[] = [
 function originAllowed(origin: string | undefined, referer: string | undefined): boolean {
   const allowedExact: string[] = [PROD_URL];
   if (process.env.VERCEL_URL) allowedExact.push(`https://${process.env.VERCEL_URL}`);
-
   const candidates = [origin, referer].filter((v): v is string => typeof v === 'string' && v.length > 0);
   if (candidates.length === 0) return false;
-
   for (const candidate of candidates) {
     let url: URL;
-    try {
-      url = new URL(candidate);
-    } catch {
-      continue;
-    }
+    try { url = new URL(candidate); } catch { continue; }
     const clean = `${url.protocol}//${url.host}`;
     if (allowedExact.includes(clean)) return true;
     if (ORIGIN_PATTERNS.some((p) => p.test(clean))) return true;
@@ -314,7 +276,6 @@ function checkRateLimit(ip: string): { ok: boolean; retryAfterSec: number } {
   }
   recent.push(now);
   ipHits.set(ip, recent);
-
   if (ipHits.size > 500) {
     for (const [k, v] of ipHits.entries()) {
       const r = v.filter((t) => now - t < RATE_WINDOW_MS);
@@ -334,8 +295,6 @@ function getClientIp(req: VercelRequest): string {
   return 'unknown';
 }
 
-// ---------- Generation ----------
-
 async function generateOnce(
   client: Anthropic,
   cert: CertId,
@@ -353,11 +312,7 @@ async function generateOnce(
   const match = text.match(/\{[\s\S]*\}/);
   if (!match) return null;
   let parsed: unknown;
-  try {
-    parsed = JSON.parse(match[0]);
-  } catch {
-    return null;
-  }
+  try { parsed = JSON.parse(match[0]); } catch { return null; }
   const validated = validate(parsed);
   if (!validated) return null;
   return shuffleOptions(validated);
@@ -383,6 +338,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!limit.ok) {
     res.setHeader('Retry-After', String(limit.retryAfterSec));
     res.status(429).json({ error: 'Rate limit exceeded', retryAfterSec: limit.retryAfterSec });
+    return;
+  }
+
+  // Require authenticated Pro/Admin user — AI mode is a Pro feature
+  const auth = await authenticateRequest(req);
+  if (!auth) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+  }
+  const profile = await getProfile(auth.supabaseAdmin, auth.user.id);
+  if (!profile) {
+    res.status(403).json({ error: 'Profile not found' });
+    return;
+  }
+  const allowed = profile.tier === 'pro' || profile.tier === 'admin' || profile.is_admin === true;
+  if (!allowed) {
+    res.status(403).json({ error: 'Pro tier required' });
     return;
   }
 

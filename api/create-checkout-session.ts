@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { authenticateRequest, getProfile, requestOrigin } from './_lib/auth';
+import { authenticateRequest, getProfile, requestOrigin } from './_lib/auth.js';
 
 const PROD_URL = 'https://scrum-practice.vercel.app';
 

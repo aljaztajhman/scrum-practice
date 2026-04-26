@@ -6,6 +6,7 @@ import QuizCard from '../components/QuizCard';
 import type { Question } from '../lib/schema';
 import { TRACKS, parseTrackId, type Track } from '../lib/tracks';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 import { arraysEqualAsSets } from '../lib/utils';
 
 interface AiQuestion extends Question {
@@ -51,6 +52,29 @@ export default function Ai() {
 
 function AiUpgradePrompt({ trackId }: { trackId: string }) {
   const navigate = useNavigate();
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleUpgrade = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (!token) throw new Error('Not signed in');
+      const res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const body = await res.json();
+      if (!res.ok || !body.url) throw new Error(body.error || 'Could not start checkout');
+      window.location.href = body.url;
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Upgrade failed');
+      setBusy(false);
+    }
+  };
+
   return (
     <PageShell>
       <div className="mb-8 md:mb-10">
@@ -90,13 +114,24 @@ function AiUpgradePrompt({ trackId }: { trackId: string }) {
           Free tier covers Practice, Mock, Infinite, and full statistics. AI mode is the one Pro
           feature.
         </p>
+        <div className="text-stone-900 mb-5">
+          <span className="serif text-3xl tabular-nums" style={{ fontWeight: 500 }}>€9.99</span>
+          <span className="serif italic text-stone-600 ml-2">/ month</span>
+          <span className="text-xs text-stone-500 ml-3 uppercase tracking-widest">cancel anytime</span>
+        </div>
+        {error && (
+          <div className="text-sm text-rose-700 bg-rose-50 border border-rose-300 px-3 py-2 mb-4">
+            {error}
+          </div>
+        )}
         <button
           type="button"
-          disabled
-          className="inline-block bg-stone-900 text-stone-50 px-6 py-3 text-xs uppercase tracking-widest opacity-60 cursor-not-allowed serif"
-          title="Stripe billing wiring up next"
+          onClick={handleUpgrade}
+          disabled={busy}
+          className="inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-6 py-3 text-xs uppercase tracking-widest hover:bg-stone-800 disabled:opacity-60 serif"
         >
-          Upgrade to Pro · coming soon
+          {busy && <Spinner className="w-4 h-4" />}
+          {busy ? 'Opening checkout…' : 'Upgrade to Pro'}
         </button>
       </div>
     </PageShell>
@@ -129,7 +164,12 @@ function AiSession({ track }: { track: Track }) {
   const fetchOne = useCallback(async () => {
     inFlight.current++;
     try {
-      const res = await fetch(`/api/generate-question?cert=${track.id}`);
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (!token) throw new Error('Not signed in');
+      const res = await fetch(`/api/generate-question?cert=${track.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         throw new Error(body.error || `Server returned ${res.status}`);
