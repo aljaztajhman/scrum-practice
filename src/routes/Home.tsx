@@ -19,8 +19,7 @@ export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [showUpgradedBanner, setShowUpgradedBanner] = useState(false);
 
-  // Handle Stripe success redirect (?upgraded=true): poll the profile until the
-  // webhook flips tier, show a thank-you banner, clean the URL.
+  // Stripe success: poll the profile until webhook flips tier, show banner, clean URL.
   useEffect(() => {
     if (searchParams.get('upgraded') !== 'true') return;
     if (!isLoggedIn) return;
@@ -44,7 +43,7 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
 
-  // Fetch user's attempts so we can show a Review tile with a count.
+  // Fetch attempts so the Review tile can show a count.
   useEffect(() => {
     if (!isLoggedIn || !user) {
       setAttempts(null);
@@ -76,7 +75,7 @@ export default function Home() {
       {showUpgradedBanner && (
         <div className="mb-6 border border-emerald-300 bg-emerald-50/80 px-5 py-4">
           <p className="serif italic text-emerald-900 text-base" style={{ fontWeight: 400 }}>
-            Welcome to Pro. AI mode is unlocked. The page will refresh tier status automatically — give it a moment.
+            Welcome to Pro. AI mode and Open response are unlocked. Tier status will refresh automatically.
           </p>
         </div>
       )}
@@ -103,19 +102,19 @@ export default function Home() {
           <p className="serif text-sm uppercase tracking-[0.25em] text-stone-600 mb-5">Pick your mode</p>
           <div className="grid sm:grid-cols-2 gap-3 md:gap-4">
             {MODES.map((m) => {
-              const isAi = m.id === 'ai';
-              const aiLocked = isAi && !isPro;
+              const isProMode = m.proOnly === true;
+              const proLocked = isProMode && !isPro;
               return (
                 <button
                   key={m.id}
                   onClick={() => navigate(m.path(trackId))}
                   className={`group text-left border transition-all duration-200 p-5 md:p-6 relative ${
-                    aiLocked
+                    proLocked
                       ? 'border-stone-300 bg-stone-100/30 hover:border-stone-500'
                       : 'border-stone-400 bg-white/50 hover:border-stone-900 hover:bg-white/80'
                   }`}
                 >
-                  {isAi && (
+                  {isProMode && (
                     <span className="absolute top-3 right-3 text-[9px] uppercase tracking-[0.2em] px-2 py-0.5 bg-stone-900 text-stone-50 serif">
                       Pro
                     </span>
@@ -123,26 +122,26 @@ export default function Home() {
                   <div className="flex items-start justify-between mb-3 gap-3">
                     <div>
                       <div
-                        className={`serif text-2xl md:text-3xl leading-tight ${aiLocked ? 'text-stone-500' : 'text-stone-900'}`}
+                        className={`serif text-2xl md:text-3xl leading-tight ${proLocked ? 'text-stone-500' : 'text-stone-900'}`}
                         style={{ fontWeight: 500 }}
                       >
                         {m.title}
                       </div>
                       <div
-                        className={`serif italic text-sm md:text-base mt-0.5 ${aiLocked ? 'text-stone-400' : 'text-stone-600'}`}
+                        className={`serif italic text-sm md:text-base mt-0.5 ${proLocked ? 'text-stone-400' : 'text-stone-600'}`}
                         style={{ fontWeight: 400 }}
                       >
                         {m.italic}
                       </div>
                     </div>
-                    {!isAi && (
+                    {!isProMode && (
                       <ChevronRight
                         className="w-4 h-4 text-stone-500 transition-transform group-hover:translate-x-1 mt-2"
                         strokeWidth={2}
                       />
                     )}
                   </div>
-                  <p className={`text-sm leading-relaxed ${aiLocked ? 'text-stone-500' : 'text-stone-700'}`}>{m.desc}</p>
+                  <p className={`text-sm leading-relaxed ${proLocked ? 'text-stone-500' : 'text-stone-700'}`}>{m.desc}</p>
                 </button>
               );
             })}

@@ -1,6 +1,6 @@
 import type { TrackId } from './tracks';
 
-export type ModeId = 'practice' | 'mock' | 'infinite' | 'ai';
+export type ModeId = 'practice' | 'mock' | 'infinite' | 'ai' | 'open';
 
 export interface ModeDef {
   id: ModeId;
@@ -8,6 +8,7 @@ export interface ModeDef {
   italic: string;
   desc: string;
   path: (trackId: TrackId) => string;
+  proOnly?: boolean;
 }
 
 export const MODES: ModeDef[] = [
@@ -38,6 +39,15 @@ export const MODES: ModeDef[] = [
     italic: 'a different angle',
     desc: 'Live-generated questions that flip the test on its head — first-principles, find-the-flaw, steel-manning, counterfactuals. Not exam-style. Designed to harden understanding by attacking it from angles practice never does.',
     path: (t) => `/ai/${t}`,
+    proOnly: true,
+  },
+  {
+    id: 'open',
+    title: 'Open response',
+    italic: 'free-form recall',
+    desc: 'No options. Type your answer in your own words. AI grades it against the Scrum Guide. Active recall — the hardest and most effective way to study.',
+    path: (t) => `/open/${t}`,
+    proOnly: true,
   },
 ];
 
