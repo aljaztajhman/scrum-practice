@@ -1,6 +1,10 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { authenticateRequest, getProfile } from './_lib/auth.js';
+import { extractJsonObject } from './_lib/parse-json.js';
+import { reportError } from './_lib/events.js';
+import { tryServeFromCache, cacheQuestion } from './_lib/cache.js';
+import { checkUserCap, recordGeneration } from './_lib/usage.js';
 
 const STYLES = [
   'first-principles',
@@ -366,11 +370,8 @@ async function generateOnce(
   });
   const block = response.content[0];
   if (!block || block.type !== 'text') return null;
-  const text = block.text.trim();
-  const match = text.match(/\{[\s\S]*\}/);
-  if (!match) return null;
-  let parsed: unknown;
-  try { parsed = JSON.parse(match[0]); } catch { return null; }
+  const parsed = extractJsonObject(block.text);
+  if (!parsed) return null;
   const validated = validate(parsed);
   if (!validated) return null;
   return shuffleOptions(validated);
@@ -437,6 +438,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const recentRaw = (req.query.recent as string | undefined) || '';
   const recentTopics = recentRaw.split('|').map((s) => s.trim()).filter(Boolean).slice(0, 5);
 
+  // Per-user cap check (admins exempt).
+  const cap = await checkUserCap(auth.supabaseAdmin, auth.user.id, profile.is_admin === true);
+  if (!cap.allowed) {
+    res.status(402).json({
+      error: 'Monthly generation cap reached',
+      used: cap.used,
+      limit: cap.limit,
+      resetInDays: cap.resetInDays,
+    });
+    return;
+  }
+
+  // Try cache first.
+  const cacheHit = await tryServeFromCache(auth.supabaseAdmin, {
+    mode: 'mc',
+    cert,
+    excludeTopics: recentTopics,
+  });
+  if (cacheHit) {
+    void recordGeneration(auth.supabaseAdmin, {
+      userId: auth.user.id,
+      endpoint: 'generate-question',
+      cached: true,
+      cert,
+    });
+    res.status(200).json(cacheHit.payload);
+    return;
+  }
+
   const client = new Anthropic({ apiKey });
 
   let lastError: string | null = null;
@@ -446,13 +476,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const tryTopic = pickTopic(cert, recentTopics);
       const result = await generateOnce(client, cert, tryStyle, tryTopic);
       if (result) {
+        // Fire-and-forget cache write + usage record.
+        void cacheQuestion(auth.supabaseAdmin, {
+          mode: 'mc',
+          cert,
+          style: tryStyle,
+          topicSeed: tryTopic,
+          topic: result.topic ?? null,
+          payload: result,
+          userId: auth.user.id,
+        });
+        void recordGeneration(auth.supabaseAdmin, {
+          userId: auth.user.id,
+          endpoint: 'generate-question',
+          cached: false,
+          cert,
+          style: tryStyle,
+        });
         res.status(200).json(result);
         return;
       }
       lastError = 'Validation failed (length, confidence, or shape)';
     } catch (e) {
       lastError = e instanceof Error ? e.message : String(e);
-      console.error(`AI gen attempt ${attempt} failed:`, lastError);
+      reportError(e, { endpoint: 'generate-question', attempt, reason: lastError ?? 'unknown' });
     }
   }
   res.status(502).json({

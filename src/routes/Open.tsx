@@ -121,6 +121,14 @@ function OpenSession({ track }: { track: Track }) {
       );
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
+        if (res.status === 402) {
+          const used = typeof body.used === 'number' ? body.used : 0;
+          const limit = typeof body.limit === 'number' ? body.limit : 200;
+          const days = typeof body.resetInDays === 'number' ? body.resetInDays : 30;
+          throw new Error(
+            `You've reached your monthly AI generation limit (${used}/${limit}). It resets in ${days} days.`
+          );
+        }
         throw new Error(body.error || `Server returned ${res.status}`);
       }
       const data = (await res.json()) as OpenQuestion;
@@ -189,6 +197,14 @@ function OpenSession({ track }: { track: Track }) {
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
+        if (res.status === 402) {
+          const used = typeof body.used === 'number' ? body.used : 0;
+          const limit = typeof body.limit === 'number' ? body.limit : 200;
+          const days = typeof body.resetInDays === 'number' ? body.resetInDays : 30;
+          throw new Error(
+            `You've reached your monthly AI generation limit (${used}/${limit}). It resets in ${days} days.`
+          );
+        }
         throw new Error(body.error || `Server returned ${res.status}`);
       }
       const data = (await res.json()) as GradeResult;

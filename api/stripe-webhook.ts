@@ -1,6 +1,7 @@
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { reportError } from './_lib/events.js';
 
 // Stripe needs the raw body to verify the webhook signature.
 export const config = {
@@ -26,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!stripeKey || !webhookSecret || !supabaseUrl || !serviceRoleKey) {
-    console.error('Stripe webhook misconfigured');
+    reportError(new Error('Stripe webhook misconfigured'), { endpoint: 'stripe-webhook', reason: 'missing_env' });
     res.status(500).json({ error: 'Server not configured' });
     return;
   }
@@ -45,7 +46,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const raw = await readRawBody(req);
     event = stripe.webhooks.constructEvent(raw, sig, webhookSecret);
   } catch (e) {
-    console.error('Stripe signature verification failed:', e);
+    reportError(e, { endpoint: 'stripe-webhook', reason: 'signature_failed' });
     res.status(400).json({ error: 'Invalid signature' });
     return;
   }
@@ -105,7 +106,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
     res.status(200).json({ received: true });
   } catch (e) {
-    console.error('Webhook handler error:', e);
+    reportError(e, { endpoint: 'stripe-webhook', reason: 'handler_failed' });
     res.status(500).json({ error: 'Handler failed' });
   }
 }

@@ -1,6 +1,9 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { authenticateRequest, getProfile } from './_lib/auth.js';
+import { extractJsonObject } from './_lib/parse-json.js';
+import { reportError } from './_lib/events.js';
+import { checkUserCap, recordGeneration } from './_lib/usage.js';
 
 export const maxDuration = 30;
 
@@ -222,6 +225,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const allowed = profile.tier === 'pro' || profile.tier === 'admin' || profile.is_admin === true;
   if (!allowed) { res.status(403).json({ error: 'Pro tier required' }); return; }
 
+  const cap = await checkUserCap(auth.supabaseAdmin, auth.user.id, profile.is_admin === true);
+  if (!cap.allowed) {
+    res.status(402).json({
+      error: 'Monthly generation cap reached',
+      used: cap.used,
+      limit: cap.limit,
+      resetInDays: cap.resetInDays,
+    });
+    return;
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) { res.status(500).json({ error: 'Server not configured' }); return; }
 
@@ -261,17 +275,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
       const block = response.content[0];
       if (!block || block.type !== 'text') { lastError = 'Empty response'; continue; }
-      const match = block.text.trim().match(/\{[\s\S]*\}/);
-      if (!match) { lastError = 'No JSON in response'; continue; }
-      let parsed: unknown;
-      try { parsed = JSON.parse(match[0]); } catch { lastError = 'Bad JSON'; continue; }
+      const parsed = extractJsonObject(block.text);
+      if (!parsed) { lastError = 'No JSON in response'; continue; }
       const validated = validate(parsed, gradeReq.rubricKeyPoints);
       if (!validated) { lastError = 'Validation failed'; continue; }
+      void recordGeneration(auth.supabaseAdmin, {
+        userId: auth.user.id,
+        endpoint: 'grade-open-answer',
+        cached: false,
+        difficulty: gradeReq.difficulty,
+      });
       res.status(200).json(validated);
       return;
     } catch (e) {
       lastError = e instanceof Error ? e.message : String(e);
-      console.error(`Grade attempt ${attempt} failed:`, lastError);
+      reportError(e, { endpoint: 'grade-open-answer', attempt, reason: lastError ?? 'unknown' });
     }
   }
   res.status(502).json({ error: 'Could not grade after 3 attempts', detail: lastError });
