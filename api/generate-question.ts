@@ -179,7 +179,49 @@ function pickStyle(): Style {
   return STYLES[Math.floor(Math.random() * STYLES.length)] as Style;
 }
 
-function buildPrompt(cert: CertId, style: Style, topicSeed: string): string {
+type Difficulty = 'easy' | 'medium' | 'scrum-master';
+
+const CERT_MASTERY_LABEL: Record<CertId, string> = {
+  PSM1: 'Professional Scrum Master',
+  PSPO1: 'Professional Scrum Product Owner',
+};
+
+function difficultyDirective(d: Difficulty, cert: CertId): string {
+  switch (d) {
+    case 'easy':
+      return `DIFFICULTY: easy (entry-level)
+
+Frame the chosen STYLE around a STRAIGHTFORWARD recall or recognition challenge.
+- Scenarios (if any) are 1 short sentence, no edge cases, no contradictions.
+- The marked-correct answer follows directly from a basic Scrum Guide concept.
+- Distractors are PLAUSIBLE-LOOKING but clearly wrong on inspection — the kind of mistake a beginner makes when they have not actually read the Guide.
+- Avoid niche or rarely-tested clauses (e.g. PSM I exam blueprint level basics only).
+- Question text: <= 25 words. Each option <= 14 words.
+- A learner with one careful read of the Scrum Guide should answer correctly with reasonable confidence.`;
+    case 'medium':
+      return `DIFFICULTY: medium (standard practice)
+
+Use the chosen STYLE at standard exam depth.
+- Scenarios (if any) are 1-2 sentences with one clear hook or wrinkle.
+- The correct answer requires applied understanding, not just recall.
+- Distractors are PLAUSIBLE — they reflect partial truths or surface practices that a learner with shallow understanding would pick.
+- Standard length budgets apply (see UNIVERSAL LENGTH BUDGETS below).
+- A learner who passes a typical practice test should answer correctly, but only after thinking.`;
+    case 'scrum-master':
+      return `DIFFICULTY: mastery — ${CERT_MASTERY_LABEL[cert]} level
+
+This question is calibrated for someone preparing to PASS the live ${CERT_MASTERY_LABEL[cert]} I exam at a comfortable margin (>90%).
+
+- Scenarios are NUANCED and multi-clause (find-the-flaw / steel-manning / devils-advocate styles preferred but all 5 styles allowed).
+- Build at least ONE distractor that is a "common misinterpretation" — a thing many practitioners with surface understanding would actively defend. The marked answer must beat it on a strict reading of the Scrum Guide.
+- The correct answer is defensible from the Guide WORD FOR WORD; do not rely on community lore or popular blog interpretations.
+- selfCritique must surface the strongest community-held competing interpretation (the one a smart practitioner would argue) and explain why the Guide-strict reading still wins.
+- Question text may run up to ${cert === 'PSM1' ? '70' : '70'} words for scenario styles. Each option <= 22 words.
+- A learner who studied the Scrum Guide casually should be UNSURE; a learner who studied it carefully should be confident.`;
+  }
+}
+
+function buildPrompt(cert: CertId, style: Style, topicSeed: string, difficulty: Difficulty): string {
   return `Generate ONE original practice question for ${cert} (${CERT_DESCRIPTIONS[cert]}).
 
 Goal: a different angle from the standard exam. Style: ${style}.
@@ -188,10 +230,12 @@ Style guide: ${STYLE_INSTRUCTIONS[style]}
 
 ${STYLE_EXAMPLES[style]}
 
+${difficultyDirective(difficulty, cert)}
+
 FOCUS THIS QUESTION ON: ${topicSeed}.
 Make this the actual subject - not a generic question. If the style does not naturally fit this topic, pick a related angle on it rather than drifting to a more comfortable topic.
 
-LENGTH BUDGETS (hard limits - count words):
+UNIVERSAL LENGTH BUDGETS (hard limits - count words; the difficulty directive above may TIGHTEN these):
 - Question text: <= 30 words for direct styles (first-principles, counterfactual). <= 60 words for scenario styles (find-the-flaw, steel-manning, devils-advocate).
 - Each option: <= 18 words. No padding, no parentheticals unless essential.
 - "why": <= 50 words.
@@ -361,12 +405,13 @@ async function generateOnce(
   client: Anthropic,
   cert: CertId,
   style: Style,
-  topicSeed: string
+  topicSeed: string,
+  difficulty: Difficulty
 ): Promise<GeneratedQuestion | null> {
   const response = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
     max_tokens: 1500,
-    messages: [{ role: 'user', content: buildPrompt(cert, style, topicSeed) }],
+    messages: [{ role: 'user', content: buildPrompt(cert, style, topicSeed, difficulty) }],
   });
   const block = response.content[0];
   if (!block || block.type !== 'text') return null;
@@ -435,6 +480,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ? (styleParam as Style)
       : pickStyle();
 
+  const difficultyParam = (req.query.difficulty as string | undefined)?.toLowerCase();
+  const difficulty: Difficulty =
+    difficultyParam === 'easy' || difficultyParam === 'medium' || difficultyParam === 'scrum-master'
+      ? difficultyParam
+      : 'medium';
+
   const recentRaw = (req.query.recent as string | undefined) || '';
   const recentTopics = recentRaw.split('|').map((s) => s.trim()).filter(Boolean).slice(0, 5);
 
@@ -450,10 +501,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  // Try cache first.
+  // Try cache first (keyed on difficulty so easy/medium/mastery don't bleed).
   const cacheHit = await tryServeFromCache(auth.supabaseAdmin, {
     mode: 'mc',
     cert,
+    difficulty,
     excludeTopics: recentTopics,
   });
   if (cacheHit) {
@@ -462,6 +514,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       endpoint: 'generate-question',
       cached: true,
       cert,
+      difficulty,
     });
     res.status(200).json(cacheHit.payload);
     return;
@@ -474,12 +527,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const tryStyle = attempt === 0 ? style : pickStyle();
     try {
       const tryTopic = pickTopic(cert, recentTopics);
-      const result = await generateOnce(client, cert, tryStyle, tryTopic);
+      const result = await generateOnce(client, cert, tryStyle, tryTopic, difficulty);
       if (result) {
         // Fire-and-forget cache write + usage record.
         void cacheQuestion(auth.supabaseAdmin, {
           mode: 'mc',
           cert,
+          difficulty,
           style: tryStyle,
           topicSeed: tryTopic,
           topic: result.topic ?? null,
@@ -491,9 +545,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           endpoint: 'generate-question',
           cached: false,
           cert,
+          difficulty,
           style: tryStyle,
         });
-        res.status(200).json(result);
+        res.status(200).json({ ...result, difficulty });
         return;
       }
       lastError = 'Validation failed (length, confidence, or shape)';

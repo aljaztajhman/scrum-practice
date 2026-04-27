@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, Navigate } from 'react-router-dom';
-import { ArrowLeft, Check, X, RotateCcw, Spinner } from '../components/Icons';
+import { ArrowLeft, Check, ChevronRight, X, RotateCcw, Spinner } from '../components/Icons';
 import PageShell from '../components/PageShell';
+import PageHeader from '../components/PageHeader';
 import ProUpgradePrompt from '../components/ProUpgradePrompt';
 import QuizCard from '../components/QuizCard';
 import type { Question } from '../lib/schema';
-import { TRACKS, parseTrackId, type Track } from '../lib/tracks';
+import { TRACKS, parseTrackId, type Track, type TrackId } from '../lib/tracks';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { arraysEqualAsSets } from '../lib/utils';
@@ -15,7 +16,33 @@ interface AiQuestion extends Question {
   scrumGuideSection: string;
   selfCritique: string;
   confidence: number;
+  difficulty?: Difficulty;
 }
+
+type Difficulty = 'easy' | 'medium' | 'scrum-master';
+
+const CERT_MASTERY_LABEL: Record<TrackId, string> = {
+  PSM1: 'Professional Scrum Master',
+  PSPO1: 'Professional Scrum Product Owner',
+};
+
+function difficultyLabel(d: Difficulty, cert: TrackId): string {
+  if (d === 'easy') return 'Easy';
+  if (d === 'medium') return 'Medium';
+  return CERT_MASTERY_LABEL[cert];
+}
+
+const DIFFICULTY_BLURBS: Record<Difficulty, string> = {
+  easy: 'Recognition-level. Plausible-but-clearly-wrong distractors.',
+  medium: 'Standard exam depth. Plausible distractors, real applied thinking.',
+  'scrum-master': 'Calibrated to pass the live exam at >90%. Mastery-level distractors.',
+};
+
+const DIFFICULTY_DETAILS: Record<Difficulty, string> = {
+  easy: 'A learner with one careful read of the Scrum Guide should answer correctly. Short scenarios, no edge cases.',
+  medium: 'Requires applied understanding, not just recall. Distractors reflect partial truths a shallow learner would pick.',
+  'scrum-master': 'Nuanced multi-clause scenarios. At least one distractor is a "common misinterpretation" — what many practitioners would defend. The correct answer is Scrum-Guide-strict.',
+};
 
 const STYLE_LABELS: Record<string, string> = {
   'first-principles': 'First principles',
@@ -61,6 +88,7 @@ export default function Ai() {
 
 function AiSession({ track }: { track: Track }) {
   const navigate = useNavigate();
+  const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
   const [queue, setQueue] = useState<AiQuestion[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<number[]>([]);
@@ -72,6 +100,7 @@ function AiSession({ track }: { track: Track }) {
   const consecutiveErrors = useRef(0);
   const isMounted = useRef(true);
   const abortControllers = useRef<Set<AbortController>>(new Set());
+  const recentTopics = useRef<string[]>([]);
 
   useEffect(() => {
     queueRef.current = queue;
@@ -87,7 +116,7 @@ function AiSession({ track }: { track: Track }) {
     };
   }, []);
 
-  const fetchOne = useCallback(async () => {
+  const fetchOne = useCallback(async (forDifficulty: Difficulty) => {
     inFlight.current++;
     const ctrl = new AbortController();
     abortControllers.current.add(ctrl);
@@ -95,10 +124,16 @@ function AiSession({ track }: { track: Track }) {
       const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
       if (!token) throw new Error('Not signed in');
-      const res = await fetch(`/api/generate-question?cert=${track.id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        signal: ctrl.signal,
-      });
+      const recentParam = recentTopics.current.length
+        ? `&recent=${encodeURIComponent(recentTopics.current.join('|'))}`
+        : '';
+      const res = await fetch(
+        `/api/generate-question?cert=${track.id}&difficulty=${forDifficulty}${recentParam}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          signal: ctrl.signal,
+        }
+      );
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         if (res.status === 402) {
@@ -113,6 +148,8 @@ function AiSession({ track }: { track: Track }) {
       }
       const data = await res.json();
       if (!isMounted.current) return;
+      // Skip if difficulty has changed since this request was started.
+      if (forDifficulty !== difficulty) return;
       const q: AiQuestion = {
         id: Math.floor(Math.random() * 1e9),
         type: data.type,
@@ -125,7 +162,12 @@ function AiSession({ track }: { track: Track }) {
         scrumGuideSection: data.scrumGuideSection,
         selfCritique: data.selfCritique,
         confidence: data.confidence,
+        difficulty: data.difficulty ?? forDifficulty,
       };
+      // Track recent topic labels (last 5) for the next request's exclude list.
+      if (data.topic) {
+        recentTopics.current = [data.topic, ...recentTopics.current].slice(0, 5);
+      }
       setQueue((prev) => [...prev, q]);
       consecutiveErrors.current = 0;
       setError(null);
@@ -138,26 +180,48 @@ function AiSession({ track }: { track: Track }) {
     } finally {
       abortControllers.current.delete(ctrl);
       inFlight.current--;
-      if (isMounted.current && !error) {
+      if (isMounted.current && !error && difficulty) {
         topUp();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [track.id]);
+  }, [track.id, difficulty]);
 
   const topUp = useCallback(() => {
-    if (error) return;
+    if (error || !difficulty) return;
     const need = BUFFER_TARGET - queueRef.current.length - inFlight.current;
-    for (let i = 0; i < need; i++) void fetchOne();
-  }, [error, fetchOne]);
+    for (let i = 0; i < need; i++) void fetchOne(difficulty);
+  }, [error, difficulty, fetchOne]);
 
   useEffect(() => {
-    if (!error) topUp();
+    if (!error && difficulty) topUp();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
+  }, [error, difficulty]);
+
+  const startWith = (d: Difficulty) => {
+    recentTopics.current = [];
+    setDifficulty(d);
+  };
+
+  const changeDifficulty = (next: Difficulty) => {
+    if (next === difficulty) return;
+    // Abort all in-flight, clear queue, reset stats-of-the-current-question only.
+    for (const ctrl of abortControllers.current) {
+      try { ctrl.abort(); } catch { /* noop */ }
+    }
+    abortControllers.current.clear();
+    inFlight.current = 0;
+    consecutiveErrors.current = 0;
+    setQueue([]);
+    setSelected([]);
+    setLocked(false);
+    setError(null);
+    recentTopics.current = [];
+    setDifficulty(next);
+  };
 
   const current = queue[0] ?? null;
-  const isLoadingFirst = !current && !error;
+  const isLoadingFirst = !!difficulty && !current && !error;
   const isPrefetching = queue.length > 1;
 
   const onToggle = (i: number) => {
@@ -187,6 +251,46 @@ function AiSession({ track }: { track: Track }) {
     consecutiveErrors.current = 0;
     setError(null);
   };
+
+  // ===== INTRO SCREEN — pick difficulty before generating =====
+  if (!difficulty) {
+    return (
+      <PageShell>
+        <PageHeader
+          eyebrow={`${track.title} · AI mode`}
+          title="AI"
+          italic="mode"
+          tagline="Live-generated multiple-choice questions. Five reflective styles. Pick a difficulty to begin."
+          backTo="/"
+        />
+        <div className="space-y-4">
+          {(['easy', 'medium', 'scrum-master'] as const).map((d) => (
+            <button
+              key={d}
+              onClick={() => startWith(d)}
+              className="group w-full text-left border border-stone-400 bg-white/50 hover:border-stone-900 hover:bg-white/80 transition-all duration-200 p-5 md:p-6"
+            >
+              <div className="flex items-start justify-between mb-2 gap-3">
+                <div>
+                  <div className="serif text-2xl md:text-3xl leading-tight text-stone-900" style={{ fontWeight: 500 }}>
+                    {difficultyLabel(d, track.id)}
+                  </div>
+                  <div className="serif italic text-sm md:text-base text-stone-600 mt-0.5" style={{ fontWeight: 400 }}>
+                    {DIFFICULTY_BLURBS[d]}
+                  </div>
+                </div>
+                <ChevronRight
+                  className="w-4 h-4 text-stone-500 transition-transform group-hover:translate-x-1 mt-2"
+                  strokeWidth={2}
+                />
+              </div>
+              <p className="text-sm text-stone-700 leading-relaxed">{DIFFICULTY_DETAILS[d]}</p>
+            </button>
+          ))}
+        </div>
+      </PageShell>
+    );
+  }
 
   const incorrect = stats.answered - stats.correct;
 
@@ -233,13 +337,38 @@ function AiSession({ track }: { track: Track }) {
             )}
           </div>
         </div>
+
+        {/* Difficulty tabs — visible during quiz */}
+        <div className="border-b border-stone-300">
+          <div className="flex items-end gap-0">
+            {(['easy', 'medium', 'scrum-master'] as const).map((d) => (
+              <button
+                key={d}
+                type="button"
+                onClick={() => changeDifficulty(d)}
+                disabled={isLoadingFirst}
+                className={`px-4 md:px-5 py-2.5 serif text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed ${
+                  difficulty === d
+                    ? 'text-stone-900 border-b-2 border-stone-900 -mb-px'
+                    : 'text-stone-500 hover:text-stone-700'
+                }`}
+                title={DIFFICULTY_BLURBS[d]}
+              >
+                {difficultyLabel(d, track.id)}
+              </button>
+            ))}
+            <div className="ml-auto text-[10px] uppercase tracking-[0.2em] text-stone-500 italic serif pb-3 hidden sm:block">
+              {DIFFICULTY_BLURBS[difficulty]}
+            </div>
+          </div>
+        </div>
       </div>
 
       {isLoadingFirst && (
         <div className="bg-white/70 backdrop-blur-sm border border-stone-300 p-12 md:p-16 paper text-center">
           <Spinner className="w-10 h-10 mx-auto mb-5 text-stone-700" strokeWidth={1.8} />
           <p className="serif italic text-2xl md:text-3xl text-stone-700 mb-2" style={{ fontWeight: 400 }}>
-            Composing a question…
+            Composing a {difficultyLabel(difficulty, track.id).toLowerCase()} question…
           </p>
           <p className="text-xs uppercase tracking-[0.25em] text-stone-500">One moment, the model is thinking</p>
         </div>

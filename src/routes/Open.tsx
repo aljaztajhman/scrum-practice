@@ -10,11 +10,16 @@ import { TRACKS, parseTrackId, type Track } from '../lib/tracks';
 
 type Difficulty = 'easy' | 'medium' | 'scrum-master';
 
-const DIFFICULTY_LABELS: Record<Difficulty, string> = {
-  easy: 'Easy',
-  medium: 'Medium',
-  'scrum-master': 'Scrum Master',
+const CERT_MASTERY_LABEL: Record<'PSM1' | 'PSPO1', string> = {
+  PSM1: 'Professional Scrum Master',
+  PSPO1: 'Professional Scrum Product Owner',
 };
+
+function difficultyLabel(d: Difficulty, cert: 'PSM1' | 'PSPO1'): string {
+  if (d === 'easy') return 'Easy';
+  if (d === 'medium') return 'Medium';
+  return CERT_MASTERY_LABEL[cert];
+}
 
 const DIFFICULTY_BLURBS: Record<Difficulty, string> = {
   easy: 'Recall-level facts. Generous grading.',
@@ -251,7 +256,7 @@ function OpenSession({ track }: { track: Track }) {
               <div className="flex items-start justify-between mb-2 gap-3">
                 <div>
                   <div className="serif text-2xl md:text-3xl leading-tight text-stone-900" style={{ fontWeight: 500 }}>
-                    {DIFFICULTY_LABELS[d]}
+                    {difficultyLabel(d, track.id)}
                   </div>
                   <div className="serif italic text-sm md:text-base text-stone-600 mt-0.5" style={{ fontWeight: 400 }}>
                     {DIFFICULTY_BLURBS[d]}
@@ -337,7 +342,7 @@ function OpenSession({ track }: { track: Track }) {
                 }`}
                 title={DIFFICULTY_BLURBS[d]}
               >
-                {DIFFICULTY_LABELS[d]}
+                {difficultyLabel(d, track.id)}
               </button>
             ))}
             <div className="ml-auto text-[10px] uppercase tracking-[0.2em] text-stone-500 italic serif pb-3 hidden sm:block">
@@ -351,7 +356,7 @@ function OpenSession({ track }: { track: Track }) {
         <div className="bg-white/70 backdrop-blur-sm border border-stone-300 p-12 md:p-16 paper text-center">
           <Spinner className="w-10 h-10 mx-auto mb-5 text-stone-700" strokeWidth={1.8} />
           <p className="serif italic text-2xl md:text-3xl text-stone-700 mb-2" style={{ fontWeight: 400 }}>
-            Composing a {difficulty ? DIFFICULTY_LABELS[difficulty].toLowerCase() : ''} question…
+            Composing a {difficulty ? difficultyLabel(difficulty, track.id).toLowerCase() : ''} question…
           </p>
           <p className="text-xs uppercase tracking-[0.25em] text-stone-500">One moment, the model is thinking</p>
         </div>

@@ -16,7 +16,9 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { reportError } from './events.js';
 
-export const PROMPT_VERSION = 1;
+// Bump this any time the generation prompt changes. Older cached rows are
+// silently ignored so we don't serve outdated questions.
+export const PROMPT_VERSION = 2;
 
 // Probability of attempting a cache read on a generation request.
 // Higher = lower cost, more repeats. Tune over time.
