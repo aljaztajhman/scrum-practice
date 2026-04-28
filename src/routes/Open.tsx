@@ -5,7 +5,6 @@ import PageShell from '../components/PageShell';
 import PageHeader from '../components/PageHeader';
 import ProUpgradePrompt from '../components/ProUpgradePrompt';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../lib/supabase';
 import { TRACKS, parseTrackId, type Track } from '../lib/tracks';
 
 type Difficulty = 'easy' | 'medium' | 'scrum-master';
@@ -80,6 +79,7 @@ type Stage = 'intro' | 'loading' | 'answering' | 'grading' | 'graded' | 'error';
 
 function OpenSession({ track }: { track: Track }) {
   const navigate = useNavigate();
+  const { session: authSession } = useAuth();
   const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
   const [stage, setStage] = useState<Stage>('intro');
   const [question, setQuestion] = useState<OpenQuestion | null>(null);
@@ -114,9 +114,8 @@ function OpenSession({ track }: { track: Track }) {
       try { ctrl.abort(); } catch { /* noop */ }
     }, FETCH_TIMEOUT_MS);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const token = session?.access_token;
-      if (!token) throw new Error('Not signed in');
+      const token = authSession?.access_token;
+      if (!token) throw new Error('Not signed in — please sign in again.');
       const recentParam = recentTopics.current.length > 0
         ? `&recent=${encodeURIComponent(recentTopics.current.slice(-5).join('|'))}`
         : '';
@@ -184,9 +183,8 @@ function OpenSession({ track }: { track: Track }) {
       try { ctrl.abort(); } catch { /* noop */ }
     }, FETCH_TIMEOUT_MS);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const token = session?.access_token;
-      if (!token) throw new Error('Not signed in');
+      const token = authSession?.access_token;
+      if (!token) throw new Error('Not signed in — please sign in again.');
       const res = await fetch('/api/grade-open-answer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },

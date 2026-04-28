@@ -8,7 +8,6 @@ import QuizCard from '../components/QuizCard';
 import type { Question } from '../lib/schema';
 import { TRACKS, parseTrackId, type Track, type TrackId } from '../lib/tracks';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../lib/supabase';
 import { arraysEqualAsSets } from '../lib/utils';
 
 interface AiQuestion extends Question {
@@ -61,6 +60,7 @@ const STYLE_BLURBS: Record<string, string> = {
 };
 
 const BUFFER_TARGET = 3;
+const FETCH_TIMEOUT_MS = 45000;
 
 export default function Ai() {
   const { cert } = useParams<{ cert: string }>();
@@ -88,6 +88,7 @@ export default function Ai() {
 
 function AiSession({ track }: { track: Track }) {
   const navigate = useNavigate();
+  const { session: authSession } = useAuth();
   const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
   const [queue, setQueue] = useState<AiQuestion[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -120,10 +121,12 @@ function AiSession({ track }: { track: Track }) {
     inFlight.current++;
     const ctrl = new AbortController();
     abortControllers.current.add(ctrl);
+    const timeoutId = setTimeout(() => {
+      try { ctrl.abort(); } catch { /* noop */ }
+    }, FETCH_TIMEOUT_MS);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const token = session?.access_token;
-      if (!token) throw new Error('Not signed in');
+      const token = authSession?.access_token;
+      if (!token) throw new Error('Not signed in — please sign in again.');
       const recentParam = recentTopics.current.length
         ? `&recent=${encodeURIComponent(recentTopics.current.join('|'))}`
         : '';
@@ -178,6 +181,7 @@ function AiSession({ track }: { track: Track }) {
         setError(e instanceof Error ? e.message : 'Generation failed');
       }
     } finally {
+      clearTimeout(timeoutId);
       abortControllers.current.delete(ctrl);
       inFlight.current--;
       if (isMounted.current && !error && difficulty) {
@@ -185,7 +189,7 @@ function AiSession({ track }: { track: Track }) {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [track.id, difficulty]);
+  }, [track.id, difficulty, authSession]);
 
   const topUp = useCallback(() => {
     if (error || !difficulty) return;
@@ -197,6 +201,22 @@ function AiSession({ track }: { track: Track }) {
     if (!error && difficulty) topUp();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error, difficulty]);
+
+  // Tab-resume recovery: if the user was on another tab and the browser
+  // throttled or killed our in-flight requests, top-up again on visibility
+  // change so the queue refills cleanly without requiring a manual refresh.
+  useEffect(() => {
+    function onVisible() {
+      if (document.visibilityState !== 'visible') return;
+      if (!isMounted.current || !difficulty || error) return;
+      // If we have nothing queued and nothing in-flight, kick the queue.
+      if (queueRef.current.length === 0 && inFlight.current === 0) {
+        topUp();
+      }
+    }
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, [difficulty, error, topUp]);
 
   const startWith = (d: Difficulty) => {
     recentTopics.current = [];
