@@ -102,8 +102,9 @@ export default function Home() {
   return (
     <PageShell>
       <PageHeader
+        size="compact"
         eyebrow="Scrum.org · Practice"
-        title="The"
+        title="The ultimate SCRUM certification"
         italic="practice"
         tagline={track.tagline}
       />

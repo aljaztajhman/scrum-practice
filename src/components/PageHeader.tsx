@@ -8,9 +8,23 @@ interface Props {
   tagline?: string;
   backTo?: string;
   backLabel?: string;
+  /** "default" = giant display headline, "compact" = scaled down for longer copy. */
+  size?: 'default' | 'compact';
 }
 
-export default function PageHeader({ eyebrow, title, italic, tagline, backTo, backLabel = 'Back to start' }: Props) {
+export default function PageHeader({
+  eyebrow,
+  title,
+  italic,
+  tagline,
+  backTo,
+  backLabel = 'Back to start',
+  size = 'default',
+}: Props) {
+  const titleClass =
+    size === 'compact'
+      ? 'serif text-3xl md:text-5xl text-stone-900 leading-[1.05] tracking-tight'
+      : 'serif text-5xl md:text-7xl text-stone-900 leading-[0.95] tracking-tight';
   return (
     <header className="mb-10 md:mb-14">
       {backTo && (
@@ -23,7 +37,7 @@ export default function PageHeader({ eyebrow, title, italic, tagline, backTo, ba
         <div className="h-px w-10 bg-stone-700"></div>
         <span className="text-xs tracking-[0.3em] uppercase text-stone-700 font-medium">{eyebrow}</span>
       </div>
-      <h1 className="serif text-5xl md:text-7xl text-stone-900 leading-[0.95] tracking-tight" style={{ fontWeight: 500 }}>
+      <h1 className={titleClass} style={{ fontWeight: 500 }}>
         {title}
         {italic && (<> <span style={{ fontStyle: 'italic', fontWeight: 400 }}>{italic}</span></>)}
       </h1>

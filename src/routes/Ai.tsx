@@ -388,7 +388,7 @@ function AiSession({ track }: { track: Track }) {
         <div className="bg-white/70 backdrop-blur-sm border border-stone-300 p-12 md:p-16 paper text-center">
           <Spinner className="w-10 h-10 mx-auto mb-5 text-stone-700" strokeWidth={1.8} />
           <p className="serif italic text-2xl md:text-3xl text-stone-700 mb-2" style={{ fontWeight: 400 }}>
-            Composing a {difficultyLabel(difficulty, track.id).toLowerCase()} question…
+            Composing {/^[aeiou]/i.test(difficultyLabel(difficulty, track.id)) ? 'an' : 'a'} {difficultyLabel(difficulty, track.id).toLowerCase()} question…
           </p>
           <p className="text-xs uppercase tracking-[0.25em] text-stone-500">One moment, the model is thinking</p>
         </div>
